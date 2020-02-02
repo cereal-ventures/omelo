@@ -27,6 +27,18 @@ export function getCurrentUser() {
   return firebase.auth().currentUser;
 }
 
+export function signOut() {
+  return firebase
+    .auth()
+    .signOut()
+    .then(function() {
+      alert("signed out");
+    })
+    .catch(function(error) {
+      // An error happened.
+    });
+}
+
 export function signIn(
   email: string,
   password: string,

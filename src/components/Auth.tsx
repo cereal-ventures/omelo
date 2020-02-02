@@ -3,7 +3,7 @@ import { getAuthState, getCurrentUser } from "../services";
 
 export const useAuth = () => {
   const [state, setState] = useState(() => {
-    const user = getCurrentUser;
+    const user = getCurrentUser();
     return { loading: !user, user };
   });
 
