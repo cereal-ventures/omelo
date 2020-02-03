@@ -44,8 +44,5 @@ export function signIn(
   password: string,
   errorHandler: any = () => {}
 ) {
-  return firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .catch(errorHandler);
+  return firebase.auth().signInWithEmailAndPassword(email, password);
 }

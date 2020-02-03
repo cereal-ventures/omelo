@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -6,34 +6,28 @@ import {
   Input,
   FormLabel,
   FormControl,
-  FormErrorMessage,
   Heading,
   Link
 } from "@chakra-ui/core";
-import { signIn } from "../services";
+import { createUser } from "../services";
 
-export default function LoginForm({ loading }: { loading: boolean }) {
+export default function SignupForm({ loading }: { loading: boolean }) {
   const { handleSubmit, register } = useForm();
   const history = useHistory();
-  const [error, setError] = useState(null);
 
   return (
     <form
       onSubmit={handleSubmit(({ email, password }) => {
-        signIn(email, password)
-          .then(() => {
-            history.push("/app");
-          })
-          .catch(({ message }) => {
-            setError(message);
-          });
+        createUser(email, password).then(() => {
+          history.push("/app");
+        });
       })}
     >
       <Heading as="h2" size="lg" fontWeight="light" textAlign="center">
-        Welcome Back
+        Let's get you powered up
       </Heading>
       <Heading as="h6" size="sm" fontWeight="light" textAlign="center" my="2">
-        It's nice to see you again
+        Unlimited project timelines, for $9/month
       </Heading>
       <FormControl my={8}>
         <FormLabel htmlFor="email">Email:</FormLabel>
@@ -44,7 +38,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
           ref={register}
         />
       </FormControl>
-      <FormControl mb={8} isInvalid={Boolean(error)}>
+      <FormControl mb={8}>
         <FormLabel htmlFor="password">Password:</FormLabel>
         <Input
           variant="flushed"
@@ -53,24 +47,23 @@ export default function LoginForm({ loading }: { loading: boolean }) {
           placeholder="Password"
           ref={register}
         />
-        <FormErrorMessage>{error}</FormErrorMessage>
       </FormControl>
       <FormControl textAlign="center" my={4}>
-        <Button variantColor="teal" type="submit" isLoading={loading}>
-          Login
+        <Button  variantColor="teal" type="submit" isLoading={loading}>
+          Sign Up
         </Button>
       </FormControl>
       <Link
         color="teal.500"
         textAlign="center"
-        display="inline-block"
-        width="100%"
+        display='inline-block'
+        width='100%'
         onClick={(e: any) => {
           e.preventDefault();
-          history.push("/");
+          history.push("/login");
         }}
       >
-        Create Account
+        Already have an account?
       </Link>
     </form>
   );
