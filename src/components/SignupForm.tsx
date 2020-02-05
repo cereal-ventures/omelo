@@ -49,19 +49,17 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         />
       </FormControl>
       <FormControl textAlign="center" my={4}>
-        <Button  variantColor="teal" type="submit" isLoading={loading}>
+        <Button variantColor="teal" type="submit" isLoading={loading}>
           Sign Up
         </Button>
       </FormControl>
       <Link
+        as="button"
         color="teal.500"
         textAlign="center"
-        display='inline-block'
-        width='100%'
-        onClick={(e: any) => {
-          e.preventDefault();
-          history.push("/login");
-        }}
+        display="inline-block"
+        width="100%"
+        onClick={() => history.push("/login")}
       >
         Already have an account?
       </Link>

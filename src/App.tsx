@@ -6,21 +6,34 @@ import {
   CSSReset,
   Grid,
   Box,
-  Button
+  Button,
+  Spinner
 } from "@chakra-ui/core";
 import { useAuth } from "./components/Auth";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
-import { signOut, getCurrentUser } from "./services";
+import { signOut } from "./services";
 import { logo } from "./components/icons";
 
 function PrivateRoute({ children, ...rest }: any) {
-  const user = getCurrentUser();
+  const { user, loading } = useAuth();
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        user ? (
+      render={({ location }) => {
+        if (loading) {
+          return (
+            <Grid
+              templateColumns="1fr"
+              height="100vh"
+              justifyItems="center"
+              alignItems="center"
+            >
+              <Spinner color="purple.400" />
+            </Grid>
+          );
+        }
+        return user ? (
           children
         ) : (
           <Redirect
@@ -29,43 +42,54 @@ function PrivateRoute({ children, ...rest }: any) {
               state: { from: location }
             }}
           />
-        )
-      }
+        );
+      }}
     />
+  );
+}
+
+function Layout({ children }: any) {
+  return (
+    <>
+      <Box position="absolute" top={5} left={5}>
+        {logo}
+      </Box>
+      <Grid templateColumns={["6fr 4fr"]} height="100vh">
+        {children}
+      </Grid>
+    </>
   );
 }
 
 function SignupPage({ loading }: { loading: boolean }) {
   return (
-    <Grid templateColumns={["6fr 4fr"]} height="100vh">
+    <Layout>
       <Box mx="auto" alignSelf="center" width="320px">
         <SignupForm loading={loading} />
       </Box>
       <Box bg="purple.300" width="100%" height="100%" />
-    </Grid>
+    </Layout>
   );
 }
 
 function LoginPage({ loading }: { loading: boolean }) {
   return (
-    <Grid templateColumns={["6fr 4fr"]} height="100vh">
+    <Layout>
       <Box mx="auto" alignSelf="center" width="320px">
         <LoginForm loading={loading} />
       </Box>
       <Box bg="purple.300" width="100%" height="100%" />
-    </Grid>
+    </Layout>
   );
 }
 
 function App() {
   const { user, loading } = useAuth();
+
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
       <BrowserRouter>
-        <Box position="absolute" top={5} left={5}>
-          {logo}
-        </Box>
         <Switch>
           <Route exact path="/">
             <SignupPage loading={loading} />

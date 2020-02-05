@@ -61,16 +61,14 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         </Button>
       </FormControl>
       <Link
+        as="button"
         color="teal.500"
         textAlign="center"
         display="inline-block"
         width="100%"
-        onClick={(e: any) => {
-          e.preventDefault();
-          history.push("/");
-        }}
+        onClick={() => history.push("/")}
       >
-        Create Account
+        Need to create an account?
       </Link>
     </form>
   );
