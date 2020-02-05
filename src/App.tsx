@@ -35,6 +35,28 @@ function PrivateRoute({ children, ...rest }: any) {
   );
 }
 
+function SignupPage({ loading }: { loading: boolean }) {
+  return (
+    <Grid templateColumns={["6fr 4fr"]} height="100vh">
+      <Box mx="auto" alignSelf="center" width="320px">
+        <SignupForm loading={loading} />
+      </Box>
+      <Box bg="purple.300" width="100%" height="100%" />
+    </Grid>
+  );
+}
+
+function LoginPage({ loading }: { loading: boolean }) {
+  return (
+    <Grid templateColumns={["6fr 4fr"]} height="100vh">
+      <Box mx="auto" alignSelf="center" width="320px">
+        <LoginForm loading={loading} />
+      </Box>
+      <Box bg="purple.300" width="100%" height="100%" />
+    </Grid>
+  );
+}
+
 function App() {
   const { user, loading } = useAuth();
   return (
@@ -46,22 +68,11 @@ function App() {
         </Box>
         <Switch>
           <Route exact path="/">
-            <Grid templateColumns={["6fr 4fr"]} height="100vh">
-              <Box mx="auto" alignSelf="center" width="320px">
-                <SignupForm loading={loading} />
-              </Box>
-              <Box bg="purple.300" width="100%" height="100%" />
-            </Grid>
+            <SignupPage loading={loading} />
           </Route>
           <Route exact path="/login">
-            <Grid templateColumns={["6fr 4fr"]} height="100vh">
-              <Box mx="auto" alignSelf="center" width="320px">
-                <LoginForm loading={loading} />
-              </Box>
-              <Box bg="purple.500" width="100%" height="100%" />
-            </Grid>
+            <LoginPage loading={loading} />
           </Route>
-
           <PrivateRoute path="/app">
             {user && `Logged in as ${user.email}`}
             <Button onClick={signOut}>Sign Out</Button>
