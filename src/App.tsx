@@ -91,13 +91,13 @@ function App() {
       <CSSReset />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/signup">
             <SignupPage loading={loading} />
           </Route>
           <Route exact path="/login">
             <LoginPage loading={loading} />
           </Route>
-          <PrivateRoute path="/app">
+          <PrivateRoute path="/">
             {user && `Logged in as ${user.email}`}
             <Button onClick={signOut}>Sign Out</Button>
           </PrivateRoute>

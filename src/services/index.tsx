@@ -31,9 +31,6 @@ export function signOut() {
   return firebase
     .auth()
     .signOut()
-    .then(function() {
-      alert("signed out");
-    })
     .catch(function(error) {
       // An error happened.
     });

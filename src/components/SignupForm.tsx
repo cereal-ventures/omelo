@@ -19,7 +19,7 @@ export default function SignupForm({ loading }: { loading: boolean }) {
     <form
       onSubmit={handleSubmit(({ email, password }) => {
         createUser(email, password).then(() => {
-          history.push("/app");
+          history.push("/");
         });
       })}
     >

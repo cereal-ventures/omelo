@@ -22,7 +22,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
       onSubmit={handleSubmit(({ email, password }) => {
         signIn(email, password)
           .then(() => {
-            history.push("/app");
+            history.push("/");
           })
           .catch(({ message }) => {
             setError(message);
@@ -66,7 +66,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         textAlign="center"
         display="inline-block"
         width="100%"
-        onClick={() => history.push("/")}
+        onClick={() => history.push("/signup")}
       >
         Need to create an account?
       </Link>
