@@ -3,13 +3,11 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   Button,
-  Input,
-  FormLabel,
   FormControl,
-  FormErrorMessage,
   Heading,
   Link
 } from "@chakra-ui/core";
+import FloatingLabelInput from "./FloatLabelInput";
 import { signIn } from "../services";
 
 export default function LoginForm({ loading }: { loading: boolean }) {
@@ -35,26 +33,22 @@ export default function LoginForm({ loading }: { loading: boolean }) {
       <Heading as="h6" size="sm" fontWeight="light" textAlign="center" my="2">
         It's nice to see you again
       </Heading>
-      <FormControl my={8}>
-        <FormLabel htmlFor="email">Email:</FormLabel>
-        <Input
-          variant="flushed"
-          name="email"
-          placeholder="Email"
-          ref={register}
-        />
-      </FormControl>
-      <FormControl mb={8} isInvalid={Boolean(error)}>
-        <FormLabel htmlFor="password">Password:</FormLabel>
-        <Input
-          variant="flushed"
-          type="password"
-          name="password"
-          placeholder="Password"
-          ref={register}
-        />
-        <FormErrorMessage>{error}</FormErrorMessage>
-      </FormControl>
+      <FloatingLabelInput
+        name="email"
+        type="email"
+        label='Email:'
+        my={8}
+        register={register}
+        error={error}
+      />
+      <FloatingLabelInput
+        name="password"
+        type="password"
+        label='Password:'
+        my={8}
+        register={register}
+        error={error}
+      />
       <FormControl textAlign="center" my={4}>
         <Button variantColor="teal" type="submit" isLoading={loading}>
           Login

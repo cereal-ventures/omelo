@@ -1,14 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {
-  Button,
-  Input,
-  FormLabel,
-  FormControl,
-  Heading,
-  Link
-} from "@chakra-ui/core";
+import { Button, FormControl, Heading, Link } from "@chakra-ui/core";
+import FloatingLabelInput from "./FloatLabelInput";
 import { createUser } from "../services";
 
 export default function SignupForm({ loading }: { loading: boolean }) {
@@ -29,25 +23,22 @@ export default function SignupForm({ loading }: { loading: boolean }) {
       <Heading as="h6" size="sm" fontWeight="light" textAlign="center" my="2">
         Unlimited project timelines, for $9/month
       </Heading>
-      <FormControl my={8}>
-        <FormLabel htmlFor="email">Email:</FormLabel>
-        <Input
-          variant="flushed"
-          name="email"
-          placeholder="Email"
-          ref={register}
-        />
-      </FormControl>
-      <FormControl mb={8}>
-        <FormLabel htmlFor="password">Password:</FormLabel>
-        <Input
-          variant="flushed"
-          type="password"
-          name="password"
-          placeholder="Password"
-          ref={register}
-        />
-      </FormControl>
+      <FloatingLabelInput
+        name="email"
+        type="email"
+        label="Email:"
+        my={8}
+        error={null}
+        register={register}
+      />
+      <FloatingLabelInput
+        name="password"
+        type="password"
+        label="Password:"
+        mb={8}
+        error={null}
+        register={register}
+      />
       <FormControl textAlign="center" my={4}>
         <Button variantColor="teal" type="submit" isLoading={loading}>
           Sign Up
