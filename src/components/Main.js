@@ -309,7 +309,7 @@ function ProjectsPanel({ user }) {
         <PopoverContent zIndex={4} width="240px">
           <PopoverArrow />
           <PopoverBody>
-            <Button onClick={() => signOut()}>Log out</Button>
+            <Link as='button' onClick={() => signOut()}>Log out</Link>
           </PopoverBody>
         </PopoverContent>
       </Popover>
