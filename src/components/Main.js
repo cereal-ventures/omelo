@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import uuid from "uuid";
 import { Route, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { logo } from "./icons";
 import {
   Popover,
   PopoverArrow,
@@ -229,6 +230,7 @@ function Timeline({ events }) {
         textAlign={["center", "left"]}
         position={"absolute"}
         left="0px"
+        top='0px'
       >
         <Heading size="sm">Websites Project</Heading>
       </Box>
@@ -286,6 +288,7 @@ function ProjectsPanel({ user }) {
       padding={8}
       borderRight="1px solid lightgrey"
       height="100vh"
+      position='relative'
     >
       <Popover>
         <PopoverTrigger>
@@ -293,7 +296,7 @@ function ProjectsPanel({ user }) {
             <Box
               as="span"
               display='inline-block'
-              fontSize="sm"
+              fontSize="md"
               overflow="hidden"
               maxWidth='200px'
               textOverflow="ellipsis"
@@ -310,6 +313,9 @@ function ProjectsPanel({ user }) {
           </PopoverBody>
         </PopoverContent>
       </Popover>
+      <Box position="absolute" bottom={8} left='50%' transform='translateX(-50%)'>
+        {logo}
+      </Box>
     </Box>
   );
 }
