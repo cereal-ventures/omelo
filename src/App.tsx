@@ -6,14 +6,13 @@ import {
   CSSReset,
   Grid,
   Box,
-  Button,
   Spinner
 } from "@chakra-ui/core";
 import { useAuth } from "./components/Auth";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
-import { signOut } from "./services";
 import { logo } from "./components/icons";
+import Main from './components/Main'
 
 function PrivateRoute({ children, ...rest }: any) {
   const { user, loading } = useAuth();
@@ -98,8 +97,7 @@ function App() {
             <LoginPage loading={loading} />
           </Route>
           <PrivateRoute path="/">
-            {user && `Logged in as ${user.email}`}
-            <Button onClick={signOut}>Sign Out</Button>
+            <Main user={user} />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
