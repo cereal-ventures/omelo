@@ -298,7 +298,7 @@ function ProjectsPanel({ user }) {
               maxWidth='200px'
               textOverflow="ellipsis"
             >
-              {user && user.email}
+              {user && (user.displayName || user.email)}
             </Box>
             <Icon name="chevron-down" />
           </Button>

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button, FormControl, Heading, Link } from "@chakra-ui/core";
 import FloatingLabelInput from "./FloatLabelInput";
-import { createUser } from "../services";
+import { createUser, getCurrentUser } from "../services";
 
 export default function SignupForm({ loading }: { loading: boolean }) {
   const { handleSubmit, register } = useForm();
@@ -11,10 +11,16 @@ export default function SignupForm({ loading }: { loading: boolean }) {
 
   return (
     <form
-      onSubmit={handleSubmit(({ email, password }) => {
-        createUser(email, password).then(() => {
-          history.push("/");
-        });
+      onSubmit={handleSubmit(({ email, password, name }) => {
+        createUser(email, password)
+          .then(() => {
+            return getCurrentUser()?.updateProfile({
+              displayName: name
+            });
+          })
+          .then(() => {
+            history.push("/");
+          });
       })}
     >
       <Heading as="h2" size="lg" fontWeight="light" textAlign="center">
@@ -23,6 +29,14 @@ export default function SignupForm({ loading }: { loading: boolean }) {
       <Heading as="h6" size="sm" fontWeight="light" textAlign="center" my="2">
         Unlimited project timelines, for $9/month
       </Heading>
+      <FloatingLabelInput
+        name="name"
+        type="text"
+        label="Name:"
+        my={8}
+        error={null}
+        register={register}
+      />
       <FloatingLabelInput
         name="email"
         type="email"
