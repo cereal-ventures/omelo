@@ -292,7 +292,7 @@ function ProjectsPanel({ user }) {
     >
       <Popover>
         <PopoverTrigger>
-          <Button variant="unstyled" display='inline-flex'>
+          <Button variant="unstyled" display='inline-flex' height='auto'>
             <Box
               as="span"
               display='inline-block'
