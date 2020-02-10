@@ -24,7 +24,8 @@ import {
   Input,
   Button,
   FormControl,
-  Checkbox
+  Checkbox,
+  Link
 } from "@chakra-ui/core";
 import { signOut } from "../services";
 
