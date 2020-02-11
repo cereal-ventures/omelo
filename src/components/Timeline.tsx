@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { Grid, Heading, Box } from "@chakra-ui/core";
+import { Grid, Heading, Box, Input } from "@chakra-ui/core";
 import Event from "./Event";
+import AddButton from "./AddButton";
+import { useEvents } from "./useEvents";
+import { updateProjectName } from "../services/data";
 
-type Event = {
+export type Event = {
   id: string;
   date: Date;
   title: string;
@@ -14,16 +18,59 @@ type Event = {
 export type Events = Event[];
 
 type TimelineProps = {
-  events: Events;
+  projectId: string;
+  projectName: string;
 };
 
 const sortByDate = ({ date: d1 }: Event, { date: d2 }: Event) => {
   return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
 };
 
-export default function Timeline({ events }: TimelineProps) {
+function ProjectName({
+  projectName,
+  projectId
+}: {
+  projectName: string;
+  projectId: string;
+}) {
+  const { register, handleSubmit } = useForm();
+  const [isEditing, setIsEditing] = useState(false);
+
+  const submit = handleSubmit(({ projectTitle }) => {
+    updateProjectName({ projectId, name: projectTitle }).then(() => {
+      setIsEditing(false);
+    });
+  });
+  return (
+    <Box
+      p={8}
+      textAlign={["center", "left"]}
+      position={"absolute"}
+      left="0px"
+      top="0px"
+    >
+      {!isEditing ? (
+        <Heading size="sm" onClick={() => setIsEditing(true)}>
+          {projectName}
+        </Heading>
+      ) : (
+        <form onBlur={submit} onSubmit={submit}>
+          <Input
+            ref={register}
+            name="projectTitle"
+            variant="flushed"
+            placeholder={projectName}
+          />
+        </form>
+      )}
+    </Box>
+  );
+}
+
+export default function Timeline({ projectId, projectName }: TimelineProps) {
   const [height, setHeight] = useState<string | number>("100vh");
   const history = useHistory();
+  const { events } = useEvents(projectId);
 
   const lastCompletedIndex = events
     .map(({ completed }) => completed)
@@ -54,19 +101,11 @@ export default function Timeline({ events }: TimelineProps) {
       width="100%"
       justifyItems="center"
     >
-      <Box
-        p={8}
-        textAlign={["center", "left"]}
-        position={"absolute"}
-        left="0px"
-        top="0px"
-      >
-        <Heading size="sm">Websites Project</Heading>
-      </Box>
+      <ProjectName projectId={projectId} projectName={projectName} />
       <svg overflow="visible" width={20} height={height}>
         <rect
           className="timeline"
-          onClick={() => history.push("/add-event")}
+          onClick={() => history.push(`/${projectId}/add-event`)}
           fill="#F5F6FC"
           width="100%"
           rx="10"
@@ -83,11 +122,14 @@ export default function Timeline({ events }: TimelineProps) {
               title={title}
               isOverdue={lastCompletedIndex > i && !completed && !isDisabled}
               handleClick={
-                !isDisabled ? () => history.push(`/event/${id}`) : () => {}
+                !isDisabled
+                  ? () => history.push(`/${projectId}/event/${id}`)
+                  : () => {}
               }
             />
           ))}
       </svg>
+      <AddButton onClick={() => history.push(`/${projectId}/add-event`)} />
     </Grid>
   );
 }

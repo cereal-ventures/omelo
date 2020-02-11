@@ -1,9 +1,7 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { Icon, Box, Button } from "@chakra-ui/core";
 
-export default function AddButton() {
-  const history = useHistory();
+export default function AddButton({ onClick }: { onClick: () => void }) {
   return (
     <Box position="absolute" bottom="40px" right="40px">
       <Button
@@ -12,7 +10,7 @@ export default function AddButton() {
         width="40px"
         height="40px"
         borderRadius={100}
-        onClick={() => history.push("/add-event")}
+        onClick={onClick}
       >
         <Icon name="add" />
       </Button>

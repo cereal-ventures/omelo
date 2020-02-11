@@ -10,7 +10,7 @@ import {
   DrawerCloseButton,
   Checkbox
 } from "@chakra-ui/core";
-import { Events } from "./Timeline";
+import { Event } from "./Timeline";
 import { formatDate } from '../utils'
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
   date: Date;
   isOpen: boolean;
   completed: boolean;
-  updateEvents: Dispatch<SetStateAction<Events>>;
+  updateEvent: (event:Event) => void;
 }
 
 export default function EventDetailPanel({
@@ -28,17 +28,17 @@ export default function EventDetailPanel({
   date,
   isOpen,
   completed,
-  updateEvents
+  updateEvent
 }: Props) {
   const history = useHistory();
 
   const handleChange = () => {
-    updateEvents((prev: Events) => {
-      const item = prev.find(({ id: prevId }) => id === prevId);
-      if (item) {
-        item.completed = !completed;
-      }
-      return prev;
+    updateEvent({
+      id,
+      title,
+      date,
+      completed: !completed,
+      isDisabled: false
     });
   };
 

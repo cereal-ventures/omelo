@@ -10,7 +10,7 @@ interface Props {
   name: string;
   type: "email" | "password" | "text";
   label: string;
-  error: any;
+  error?: any;
   register: () => void;
   [x: string]: any;
 }

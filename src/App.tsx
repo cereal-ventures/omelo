@@ -8,12 +8,23 @@ import {
   Box,
   Spinner
 } from "@chakra-ui/core";
-import { useAuth } from "./components/Auth";
+import { useAuth } from "./components/useAuth";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import { logo } from "./components/icons";
 
 const Main = React.lazy(() => import("./components/Main"));
+
+const loadingScreen = (
+  <Grid
+    templateColumns="1fr"
+    height="100vh"
+    justifyItems="center"
+    alignItems="center"
+  >
+    <Spinner color="purple.400" />
+  </Grid>
+);
 
 function PrivateRoute({ children, ...rest }: any) {
   const { user, loading } = useAuth();
@@ -22,16 +33,7 @@ function PrivateRoute({ children, ...rest }: any) {
       {...rest}
       render={({ location }) => {
         if (loading) {
-          return (
-            <Grid
-              templateColumns="1fr"
-              height="100vh"
-              justifyItems="center"
-              alignItems="center"
-            >
-              <Spinner color="purple.400" />
-            </Grid>
-          );
+          return loadingScreen;
         }
         return user ? (
           children
@@ -98,7 +100,7 @@ function App() {
             <LoginPage loading={loading} />
           </Route>
           <PrivateRoute path="/">
-            <Suspense fallback={<Spinner />}>
+            <Suspense fallback={loadingScreen}>
               <Main user={user} />
             </Suspense>
           </PrivateRoute>

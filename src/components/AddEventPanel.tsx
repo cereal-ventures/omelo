@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import uuid from "uuid";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -15,19 +15,19 @@ import {
   Button,
   FormControl
 } from "@chakra-ui/core";
-import { Events } from "./Timeline";
+import { addEvent } from '../services/data';
 
 interface Props {
   isOpen: boolean;
-  addEvent: Dispatch<SetStateAction<Events>>;
+  projectId: string;
 }
 
-export default function AddEventPanel({ isOpen, addEvent }: Props) {
+export default function AddEventPanel({ isOpen, projectId }: Props) {
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
 
   const onClose = () => {
-    history.push("/");
+    history.push(`/${projectId}`);
   };
   const hasErrors = Boolean(Object.keys(errors).length);
   const onSubmit = ({
@@ -38,15 +38,13 @@ export default function AddEventPanel({ isOpen, addEvent }: Props) {
     [x: string]: any;
   }) => {
     if (!hasErrors) {
-      addEvent((events: Events) =>
-        events.concat({
-          id: uuid(),
-          title,
-          date: new Date(date),
-          completed: completed,
-          isDisabled: false
-        })
-      );
+      addEvent({
+        projectId,
+        title,
+        date,
+        completed: completed,
+        isDisabled: false
+      });
       onClose();
     }
   };
