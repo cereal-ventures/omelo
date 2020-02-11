@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import {
   ThemeProvider,
@@ -12,7 +12,8 @@ import { useAuth } from "./components/Auth";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import { logo } from "./components/icons";
-import Main from './components/Main'
+
+const Main = React.lazy(() => import("./components/Main"));
 
 function PrivateRoute({ children, ...rest }: any) {
   const { user, loading } = useAuth();
@@ -97,7 +98,9 @@ function App() {
             <LoginPage loading={loading} />
           </Route>
           <PrivateRoute path="/">
-            <Main user={user} />
+            <Suspense fallback={<Spinner />}>
+              <Main user={user} />
+            </Suspense>
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
