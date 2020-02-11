@@ -6,7 +6,7 @@ import FloatingLabelInput from "./FloatLabelInput";
 import { createUser, getCurrentUser } from "../services";
 
 export default function SignupForm({ loading }: { loading: boolean }) {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, errors, setError } = useForm();
   const history = useHistory();
 
   return (
@@ -20,6 +20,8 @@ export default function SignupForm({ loading }: { loading: boolean }) {
           })
           .then(() => {
             history.push("/");
+          }).catch(e => {
+            setError('network','', e)
           });
       })}
     >
@@ -57,6 +59,9 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         <Button variantColor="teal" type="submit" isLoading={loading}>
           Sign Up
         </Button>
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors)}>
+        {errors && errors.network}
       </FormControl>
       <Link
         as="button"

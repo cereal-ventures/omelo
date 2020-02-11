@@ -8,15 +8,8 @@ export function getAuthState(cb: any) {
   return firebase.auth().onAuthStateChanged(cb);
 }
 
-export function createUser(
-  email: string,
-  password: string,
-  errorHandler: any = () => {}
-) {
-  return firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch(errorHandler);
+export function createUser(email: string, password: string) {
+  return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
 export function resetPassword(email: string) {
