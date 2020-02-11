@@ -6,6 +6,15 @@ import {
   FormErrorMessage
 } from "@chakra-ui/core";
 
+interface Props {
+  name: string;
+  type: "email" | "password" | "text";
+  label: string;
+  error: any;
+  register: () => void;
+  [x: string]: any;
+}
+
 export default function FloatLabelInput({
   name = "email",
   type = "email",
@@ -13,7 +22,7 @@ export default function FloatLabelInput({
   error,
   register,
   ...props
-}) {
+}: Props) {
   const [hasFocus, setHasFocus] = useState(false);
   return (
     <FormControl position="relative" isInvalid={Boolean(error)} {...props}>
@@ -25,14 +34,13 @@ export default function FloatLabelInput({
         opacity={hasFocus ? 1 : 0.5}
         transition="all .3s ease-in-out"
         transformOrigin="top left"
-        zIndex="-1"
         htmlFor={name}
       >
         {label}
       </FormLabel>
       <Input
         onFocus={() => setHasFocus(true)}
-        onBlur={({ target }) => {
+        onBlur={({ target }: React.FocusEvent<HTMLInputElement>) => {
           if (!target.value) setHasFocus(false);
         }}
         variant="flushed"
