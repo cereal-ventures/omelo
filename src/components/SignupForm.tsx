@@ -13,6 +13,9 @@ export default function SignupForm({ loading }: { loading: boolean }) {
     <form
       onSubmit={handleSubmit(({ email, password, name }) => {
         createUser(email, password)
+          .catch(e => {
+            setError("network", "", e);
+          })
           .then(() => {
             return getCurrentUser()?.updateProfile({
               displayName: name
@@ -20,8 +23,6 @@ export default function SignupForm({ loading }: { loading: boolean }) {
           })
           .then(() => {
             history.push("/");
-          }).catch(e => {
-            setError('network','', e)
           });
       })}
     >
