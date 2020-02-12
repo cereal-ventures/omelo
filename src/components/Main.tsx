@@ -8,7 +8,6 @@ import Timeline from "./Timeline";
 import AddEventPanel from "./AddEventPanel";
 import EventDetailPanel from "./EventDetailPanel";
 import ProjectsPanel from "./ProjectsPanel";
-import AddButton from "./AddButton";
 import { useProjects } from "./useProjects";
 // Types
 import { User } from "firebase";
@@ -47,7 +46,7 @@ export default function Main({ user }: Props) {
   const {
     loading,
     projects
-  }: { loading: boolean; projects: any } = useProjects();
+  }: { loading: boolean; projects: any } = useProjects(user?.uid);
 
   if (loading) return null;
 

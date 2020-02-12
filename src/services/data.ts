@@ -3,20 +3,23 @@ import "firebase/firestore";
 
 const db = firebase.firestore();
 
-export function getProjects(cb: any) {
-  return db.collection("projects").onSnapshot(snapshot => {
-    const data = snapshot.docs.map(doc => {
-      return {
-        id: doc.id,
-        ...doc.data()
-      };
+export function getProjects(userId: string | undefined, cb: any) {
+  return db
+    .collection("projects")
+    .where("users", "array-contains", userId)
+    .onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data()
+        };
+      });
+      cb(data);
     });
-    cb(data);
-  });
 }
 
-export function addProject({ name }: { name: string }) {
-  return db.collection("projects").add({ name });
+export function addProject({ name, userId }: { name: string; userId: string | undefined }) {
+  return db.collection("projects").add({ name, users: [userId] });
 }
 
 export function updateProjectName({

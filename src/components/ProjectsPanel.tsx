@@ -86,7 +86,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
             color="purple.800"
             textTransform="uppercase"
             size='xs'
-            onClick={()=>{addProject({ name: 'My Project'})}}
+            onClick={()=>{addProject({ name: 'My Project', userId: user?.uid})}}
           >
             Add
           </Button>
