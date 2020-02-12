@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import {
   Popover,
   PopoverArrow,
@@ -32,11 +32,16 @@ function UserPopover({ user }: { user: User | null }) {
   return (
     <Popover>
       <PopoverTrigger>
-        <Button variant="unstyled" display="inline-flex" height="auto">
+        <Button
+          color="purple.800"
+          variant="unstyled"
+          display="inline-flex"
+          height="auto"
+        >
           <Text
             as="span"
             display="inline-block"
-            fontSize="md"
+            fontSize="sm"
             overflow="hidden"
             maxWidth="200px"
           >
@@ -65,6 +70,8 @@ const logoEl = (
 
 export default function ProjectsPanel({ user, projects = [] }: Props) {
   const history = useHistory();
+  const projectId = useRouteMatch<{ id: string }>("/:id")?.params?.id;
+
   return (
     <Grid
       width="275px"
@@ -78,15 +85,22 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
       <UserPopover user={user} />
       <Box my={8} width="100%">
         <Flex justifyContent="space-between" alignItems="center" mb={4}>
-          <Heading as="h4" size="xs" textTransform="uppercase">
+          <Heading
+            color="purple.800"
+            as="h4"
+            size="xs"
+            textTransform="uppercase"
+          >
             Projects:
           </Heading>
           <Button
             variant="link"
             color="purple.800"
             textTransform="uppercase"
-            size='xs'
-            onClick={()=>{addProject({ name: 'My Project', userId: user?.uid})}}
+            size="xs"
+            onClick={() => {
+              addProject({ name: "My Project", userId: user?.uid });
+            }}
           >
             Add
           </Button>
@@ -94,14 +108,29 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
 
         <Box mb={4}>
           {projects.map(({ name, id }: any) => {
+            const isActive = id === projectId;
+
             return (
               <Link
                 key={id}
+                color="purple.800"
                 as="button"
-                display="block"
+                display="flex"
+                alignItems="center"
+                fontSize="sm"
                 mb={2}
                 onClick={() => history.push(`/${id}`)}
               >
+                <Box
+                  display="inline-block"
+                  width="24px"
+                  height="24px"
+                  borderRadius="50%"
+                  backgroundColor="purple.800"
+                  color="white"
+                  opacity={isActive ? 1 : 0.4}
+                  marginRight={2}
+                />
                 {name}
               </Link>
             );

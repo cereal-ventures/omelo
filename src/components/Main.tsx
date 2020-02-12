@@ -33,8 +33,7 @@ export default function Main({ user }: Props) {
           <Route path="/:id">
             {({ match }) => {
               const projectId = match?.params?.id || projects[0].id;
-              const name = projects.find(({ id }: any) => id === projectId)
-                ?.name;
+              const { name } = projects.find(({ id }: any) => id === projectId);
               return <Timeline projectName={name} projectId={projectId} />;
             }}
           </Route>
