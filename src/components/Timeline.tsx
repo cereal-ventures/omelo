@@ -28,11 +28,12 @@ export default function Timeline({
   projectName,
   setIsPanelOpen
 }: TimelineProps) {
-  const [height, setHeight] = useState<string | number>("100vh");
   const history = useHistory();
   const { events } = useEvents(projectId);
+  const [height, setHeight] = useState<string | number>('100vh');
 
   const lastCompletedIndex = events
+    .sort(sortByDate)
     .map(({ completed }) => completed)
     .lastIndexOf(true);
 
@@ -42,10 +43,14 @@ export default function Timeline({
   const { length } = events;
 
   const handleResize = useCallback(() => {
-    if (length * 100 > window.innerHeight) {
-      setHeight(length * 100 + 40);
+    if (length * 100 + 80 > window.innerHeight) {
+      setHeight(length * 100 + 80);
     }
   }, [length]);
+
+  useEffect(()=> {
+    handleResize();
+  }, [length, handleResize]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -61,6 +66,8 @@ export default function Timeline({
         position="relative"
         width="100%"
         justifyItems="center"
+        height='100vh'
+        overflow='auto'
       >
         <ProjectTitle
           setIsPanelOpen={setIsPanelOpen}
