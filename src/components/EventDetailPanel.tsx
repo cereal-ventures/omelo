@@ -10,35 +10,33 @@ import {
   DrawerCloseButton,
   Checkbox
 } from "@chakra-ui/core";
-import { Event } from "./Timeline";
-import { formatDate } from '../utils'
+import { formatDate } from "../utils";
+import { updateEvent } from "../services/data";
 
 interface Props {
+  projectId: string;
   id: string;
   title: string;
   date: Date;
   isOpen: boolean;
   completed: boolean;
-  updateEvent: (event:Event) => void;
 }
 
 export default function EventDetailPanel({
+  projectId,
   id,
   title,
   date,
   isOpen,
-  completed,
-  updateEvent
+  completed
 }: Props) {
   const history = useHistory();
 
   const handleChange = () => {
     updateEvent({
-      id,
-      title,
-      date,
-      completed: !completed,
-      isDisabled: false
+      projectId,
+      eventId: id,
+      completed: !completed
     });
   };
 

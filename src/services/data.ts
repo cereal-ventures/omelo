@@ -18,7 +18,13 @@ export function getProjects(userId: string | undefined, cb: any) {
     });
 }
 
-export function addProject({ name, userId }: { name: string; userId: string | undefined }) {
+export function addProject({
+  name,
+  userId
+}: {
+  name: string;
+  userId: string | undefined;
+}) {
   return db.collection("projects").add({ name, users: [userId] });
 }
 
@@ -74,4 +80,21 @@ export function addEvent({
       completed,
       isDisabled
     });
+}
+
+export function updateEvent({
+  projectId,
+  eventId,
+  completed
+}: {
+  projectId: string;
+  eventId: string;
+  completed: boolean;
+}) {
+  return db
+    .collection("projects")
+    .doc(projectId)
+    .collection("events")
+    .doc(eventId)
+    .update({ completed });
 }
