@@ -35,7 +35,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
       height="100vh"
     >
       <UserDropdown user={user} />
-      <Box my={8} width="100%">
+      <Box mt={8} width="100%">
         <Flex justifyContent="space-between" alignItems="center" mb={4}>
           <Heading
             color="purple.800"
@@ -58,32 +58,43 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
           </Button>
         </Flex>
 
-        <Box mb={4}>
+        <Box mt={8}>
           {projects.map(({ name, id }: any) => {
             const isActive = id === projectId;
             return (
-              <Link
-                key={id}
-                color="purple.800"
-                as="button"
-                display="flex"
-                alignItems="center"
-                fontSize="sm"
-                mb={2}
-                onClick={() => history.push(`/${id}`)}
-              >
-                <Box
-                  display="inline-block"
-                  width="24px"
-                  height="24px"
-                  borderRadius="50%"
-                  backgroundColor="purple.800"
-                  color="white"
-                  opacity={isActive ? 1 : 0.4}
-                  marginRight={2}
-                />
-                {name}
-              </Link>
+              <Flex mb={4} alignItems="center" justifyContent="space-between">
+                <Link
+                  key={id}
+                  color="purple.800"
+                  as="button"
+                  display="flex"
+                  alignItems="center"
+                  fontSize="sm"
+                  minHeight="auto"
+                  onClick={() => history.push(`/${id}`)}
+                >
+                  <Box
+                    display="inline-block"
+                    width="24px"
+                    height="24px"
+                    borderRadius="50%"
+                    backgroundColor="purple.800"
+                    color="white"
+                    opacity={isActive ? 1 : 0.4}
+                    marginRight={2}
+                  />
+                  {name}
+                </Link>
+                <Button
+                  position="relative"
+                  top="-4px"
+                  height="auto"
+                  minWidth="auto"
+                  variant="unstyled"
+                >
+                  &#8230;
+                </Button>
+              </Flex>
             );
           })}
         </Box>
