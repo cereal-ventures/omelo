@@ -14,6 +14,8 @@ type TimelineProps = {
   setIsPanelOpen: () => void;
 };
 
+const HEIGHT_OFFSET = 200;
+
 export default function Timeline({
   projectId,
   projectName,
@@ -33,8 +35,8 @@ export default function Timeline({
   const { length } = events;
 
   const handleResize = useCallback(() => {
-    if (length * 100 + 80 > window.innerHeight) {
-      setHeight(length * 100 + 80);
+    if (length * 100 + HEIGHT_OFFSET > window.innerHeight) {
+      setHeight(length * 100 + HEIGHT_OFFSET);
     }
   }, [length]);
 
@@ -84,7 +86,7 @@ export default function Timeline({
             return (
               <Event
                 key={id}
-                y={200 + 100 * i}
+                y={HEIGHT_OFFSET + 100 * i}
                 date={date}
                 title={title}
                 isOverdue={lastCompletedIndex > i && !completed}
