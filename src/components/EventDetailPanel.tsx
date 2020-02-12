@@ -79,7 +79,7 @@ export default function EventDetailPanel({
                       )
                     ) {
                       removeEvent({ projectId, eventId })?.then(() => {
-                        history.push(`"/${projectId}`);
+                        history.push(`/${projectId}`);
                       });
                     }
                   }}
