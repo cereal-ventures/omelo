@@ -95,8 +95,7 @@ export default function EventDetailPanel({
         </DrawerHeader>
 
         <DrawerBody>
-          <Flex alignItems="center" justifyContent="space-between" my={4}>
-            <Heading as="h6" size="sm" fontWeight="normal">
+            <Heading as="h6" size="sm" fontWeight="normal" mt={4}>
               <Icon
                 position="relative"
                 name="calendar"
@@ -106,13 +105,14 @@ export default function EventDetailPanel({
               {formatDate(date)}
             </Heading>
             <Checkbox
+              mt={6}
+              variantColor="purple"
               value={`${completed}`}
               onChange={handleChange}
               defaultIsChecked={completed}
             >
               Completed
             </Checkbox>
-          </Flex>
         </DrawerBody>
       </DrawerContent>
     </Drawer>

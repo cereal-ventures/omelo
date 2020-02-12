@@ -1,13 +1,14 @@
 import React from "react";
+import { Text } from "@chakra-ui/core";
 import { formatDate } from "../utils";
 
-interface EventProps{
+interface EventProps {
   y: number;
   date: Date;
   title: string;
   isOverdue: boolean;
   handleClick: () => void;
-};
+}
 
 export default function Event({
   y = 20,
@@ -21,6 +22,11 @@ export default function Event({
   return (
     <g className="event-wrapper" onClick={handleClick}>
       <text
+        style={{
+          fontSize: "12px",
+          fontWeight: "bold",
+          textTransform: "uppercase"
+        }}
         textAnchor="end"
         x="-8"
         y={y + 2}
