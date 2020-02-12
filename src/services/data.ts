@@ -55,6 +55,7 @@ export function getEventsById(id: string, cb: any) {
     .collection("projects")
     .doc(id)
     .collection("events")
+    .orderBy('date')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         return {

@@ -14,15 +14,6 @@ type TimelineProps = {
   setIsPanelOpen: () => void;
 };
 
-const sortByDate = (
-  { date: d1 }: { date: string | Date },
-  { date: d2 }: { date: string | Date }
-) => {
-  d1 = new Date(d1);
-  d2 = new Date(d2);
-  return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
-};
-
 export default function Timeline({
   projectId,
   projectName,
@@ -30,10 +21,9 @@ export default function Timeline({
 }: TimelineProps) {
   const history = useHistory();
   const { events } = useEvents(projectId);
-  const [height, setHeight] = useState<string | number>('100vh');
+  const [height, setHeight] = useState<string | number>("100vh");
 
   const lastCompletedIndex = events
-    .sort(sortByDate)
     .map(({ completed }) => completed)
     .lastIndexOf(true);
 
@@ -48,7 +38,7 @@ export default function Timeline({
     }
   }, [length]);
 
-  useEffect(()=> {
+  useEffect(() => {
     handleResize();
   }, [length, handleResize]);
 
@@ -66,8 +56,8 @@ export default function Timeline({
         position="relative"
         width="100%"
         justifyItems="center"
-        height='100vh'
-        overflow='auto'
+        height="100vh"
+        overflow="auto"
       >
         <ProjectTitle
           setIsPanelOpen={setIsPanelOpen}
@@ -90,26 +80,18 @@ export default function Timeline({
             width="100%"
             height={fillHeight}
           />
-          {events
-            .sort(sortByDate)
-            .map(({ date, title, id, completed, isDisabled }, i) => {
-              return (
-                <Event
-                  key={id}
-                  y={200 + 100 * i}
-                  date={date}
-                  title={title}
-                  isOverdue={
-                    lastCompletedIndex > i && !completed && !isDisabled
-                  }
-                  handleClick={
-                    !isDisabled
-                      ? () => history.push(`/${projectId}/event/${id}`)
-                      : () => {}
-                  }
-                />
-              );
-            })}
+          {events.map(({ date, title, id, completed }, i) => {
+            return (
+              <Event
+                key={id}
+                y={200 + 100 * i}
+                date={date}
+                title={title}
+                isOverdue={lastCompletedIndex > i && !completed}
+                handleClick={() => history.push(`/${projectId}/event/${id}`)}
+              />
+            );
+          })}
         </svg>
         <AddButton onClick={() => history.push(`/${projectId}/add-event`)} />
       </Grid>
