@@ -32,7 +32,7 @@ export function updateProjectName({
   return db
     .collection("projects")
     .doc(projectId)
-    .set({ name });
+    .update({ name });
 }
 
 export function getEventsById(id: string, cb: any) {
