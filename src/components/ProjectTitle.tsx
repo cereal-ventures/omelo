@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Heading, Box, Input, Avatar, Button } from "@chakra-ui/core";
+import { Heading, Box, Input, Button } from "@chakra-ui/core";
 
 import { updateProjectName } from "../services/data";
 
@@ -26,7 +26,7 @@ export default function ProjectTitle({
     }
   });
   return (
-    <Box display='flex' alignItems='center' p={8} position={"absolute"} left="0px" top="0px">
+    <Box display='flex' p={8} position="fixed" width='100%' top="0px">
       <Button
         size="xs"
         fontSize='md'
