@@ -12,9 +12,10 @@ import {
   FormErrorMessage,
   Input,
   Button,
-  FormControl
+  FormControl,
+  Heading
 } from "@chakra-ui/core";
-import { addEvent } from '../services/data';
+import { addEvent } from "../services/data";
 
 interface Props {
   isOpen: boolean;
@@ -53,11 +54,15 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       <DrawerOverlay />
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Add Event</DrawerHeader>
+          <DrawerHeader>
+            <Heading size="md" color="purple.800">
+              Add Event
+            </Heading>
+          </DrawerHeader>
           <DrawerBody>
             <FormControl mb={4} isInvalid={Boolean(errors.title)}>
               <Input
+                focusBorderColor='purple.800'
                 variant="flushed"
                 name="title"
                 placeholder="Add Event"
@@ -70,6 +75,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
             <FormControl mb={4} isInvalid={Boolean(errors.date)}>
               <Input
                 variant="flushed"
+                focusBorderColor='purple.800'
                 name="date"
                 type="date"
                 ref={register({ required: true })}
@@ -80,7 +86,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
             </FormControl>
           </DrawerBody>
           <DrawerFooter justifyContent="start">
-            <Button type="submit" color="blue">
+            <Button type="submit" backgroundColor="purple.800" color="white">
               Save
             </Button>
             <Button variant="outline" ml={3} onClick={onClose}>

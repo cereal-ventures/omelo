@@ -48,6 +48,7 @@ export default function ProjectTitle({
               if (el) el.focus();
             }}
             name="projectTitle"
+            focusBorderColor='purple.800'
             variant="flushed"
             placeholder={projectName}
           />

@@ -64,15 +64,11 @@ export default function EventDetailPanel({
           </Heading>
           <Popover>
             <PopoverTrigger>
-              <Button
-                position="relative"
-                height="auto"
-                minWidth="auto"
-              >
+              <Button position="relative" height="auto" minWidth="auto">
                 &#8942;
               </Button>
             </PopoverTrigger>
-            <PopoverContent fontSize='md' zIndex={4} width="200px">
+            <PopoverContent fontSize="md" zIndex={4} width="200px">
               <PopoverArrow top="24px" />
               <PopoverHeader>Event Settings</PopoverHeader>
               <PopoverBody>
@@ -99,8 +95,8 @@ export default function EventDetailPanel({
         </DrawerHeader>
 
         <DrawerBody>
-          <Flex alignItems="center" justifyContent="space-between" mb={4}>
-            <Heading as="h6" size="sm" color="purple.800">
+          <Flex alignItems="center" justifyContent="space-between" my={4}>
+            <Heading as="h6" size="sm" fontWeight="normal">
               <Icon
                 position="relative"
                 name="calendar"
@@ -109,14 +105,14 @@ export default function EventDetailPanel({
               />
               {formatDate(date)}
             </Heading>
+            <Checkbox
+              value={`${completed}`}
+              onChange={handleChange}
+              defaultIsChecked={completed}
+            >
+              Completed
+            </Checkbox>
           </Flex>
-          <Checkbox
-            value={`${completed}`}
-            onChange={handleChange}
-            defaultIsChecked={completed}
-          >
-            Completed
-          </Checkbox>
         </DrawerBody>
       </DrawerContent>
     </Drawer>
