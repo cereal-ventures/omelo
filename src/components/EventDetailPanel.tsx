@@ -8,10 +8,21 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Checkbox
+  Checkbox,
+  PopoverBody,
+  Popover,
+  PopoverTrigger,
+  Button,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  Link,
+  Flex,
+  DrawerFooter,
+  Icon
 } from "@chakra-ui/core";
 import { formatDate } from "../utils";
-import { updateEvent } from "../services/data";
+import { updateEvent, removeEvent } from "../services/data";
 
 interface Props {
   projectId: string;
@@ -24,7 +35,7 @@ interface Props {
 
 export default function EventDetailPanel({
   projectId,
-  id,
+  id: eventId,
   title,
   date,
   isOpen,
@@ -35,7 +46,7 @@ export default function EventDetailPanel({
   const handleChange = () => {
     updateEvent({
       projectId,
-      eventId: id,
+      eventId,
       completed: !completed
     });
   };
@@ -47,12 +58,58 @@ export default function EventDetailPanel({
     <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>{title}</DrawerHeader>
-        <DrawerBody>
-          <Heading as="h6" size="xs" mb={4}>
-            {formatDate(date)}
+        <DrawerHeader display="flex" justifyContent="space-between">
+          <Heading color="purple.800" size="md">
+            {title}
           </Heading>
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                position="relative"
+                height="auto"
+                minWidth="auto"
+              >
+                &#8942;
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent fontSize='md' zIndex={4} width="200px">
+              <PopoverArrow top="24px" />
+              <PopoverHeader>Event Settings</PopoverHeader>
+              <PopoverBody>
+                <Link
+                  as="button"
+                  color="red.400"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this project?"
+                      )
+                    ) {
+                      removeEvent({ projectId, eventId })?.then(() => {
+                        history.push(`"/${projectId}`);
+                      });
+                    }
+                  }}
+                >
+                  Delete Event
+                </Link>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        </DrawerHeader>
+
+        <DrawerBody>
+          <Flex alignItems="center" justifyContent="space-between" mb={4}>
+            <Heading as="h6" size="sm" color="purple.800">
+              <Icon
+                position="relative"
+                name="calendar"
+                marginRight={2}
+                top="-1px"
+              />
+              {formatDate(date)}
+            </Heading>
+          </Flex>
           <Checkbox
             value={`${completed}`}
             onChange={handleChange}

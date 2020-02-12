@@ -108,3 +108,18 @@ export function updateEvent({
     .doc(eventId)
     .update({ completed });
 }
+
+export function removeEvent({
+  projectId,
+  eventId,
+}: {
+  projectId: string;
+  eventId: string;
+}) {
+  return db
+    .collection("projects")
+    .doc(projectId)
+    .collection("events")
+    .doc(eventId)
+    .delete()
+}
