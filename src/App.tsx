@@ -56,7 +56,7 @@ function Layout({ children }: any) {
       <Box position="absolute" top={5} left={5}>
         {logo}
       </Box>
-      <Grid templateColumns={["6fr 4fr"]} height="100vh">
+      <Grid templateColumns={["1fr","1fr", "6fr 4fr"]} height="100vh">
         {children}
       </Grid>
     </>
@@ -69,7 +69,12 @@ function SignupPage({ loading }: { loading: boolean }) {
       <Box mx="auto" alignSelf="center" width="320px">
         <SignupForm loading={loading} />
       </Box>
-      <Box bg="purple.300" width="100%" height="100%" />
+      <Box
+        display={{ xs: "none", md: "block" }}
+        bg="purple.300"
+        width="100%"
+        height="100%"
+      />
     </Layout>
   );
 }
@@ -80,7 +85,12 @@ function LoginPage({ loading }: { loading: boolean }) {
       <Box mx="auto" alignSelf="center" width="320px">
         <LoginForm loading={loading} />
       </Box>
-      <Box bg="purple.300" width="100%" height="100%" />
+      <Box
+        display={{ xs: "none", md: "block" }}
+        bg="purple.300"
+        width="100%"
+        height="100%"
+      />
     </Layout>
   );
 }
