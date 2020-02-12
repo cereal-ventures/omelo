@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction} from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   Heading,
