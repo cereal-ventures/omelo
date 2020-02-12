@@ -124,7 +124,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                               "Are you sure you want to delete this project?"
                             )
                           ) {
-                            removeProject(projectId)?.then(()=> {
+                            removeProject(id)?.then(()=> {
                               history.push('/');
                             });
                           }
