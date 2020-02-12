@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useForm } from "react-hook-form";
 import { useHistory, Route } from "react-router-dom";
-import { Grid, Heading, Box, Input } from "@chakra-ui/core";
+import { Grid } from "@chakra-ui/core";
 import Event from "./Event";
 import AddButton from "./AddButton";
 import { useEvents } from "./useEvents";
-import { updateProjectName } from "../services/data";
 import AddEventPanel from "./AddEventPanel";
 import EventDetailPanel from "./EventDetailPanel";
+import ProjectTitle from "./ProjectTitle";
 
 type TimelineProps = {
   projectId: string;
   projectName: string;
+  setIsPanelOpen: () => void;
 };
 
 const sortByDate = (
@@ -23,55 +23,11 @@ const sortByDate = (
   return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
 };
 
-function ProjectName({
+export default function Timeline({
+  projectId,
   projectName,
-  projectId
-}: {
-  projectName: string;
-  projectId: string;
-}) {
-  const { register, handleSubmit } = useForm();
-  const [isEditing, setIsEditing] = useState(false);
-
-  const submit = handleSubmit(({ projectTitle }) => {
-    if (projectTitle) {
-      updateProjectName({ projectId, name: projectTitle }).then(() => {
-        setIsEditing(false);
-      });
-    } else {
-      setIsEditing(false);
-    }
-  });
-  return (
-    <Box
-      p={8}
-      textAlign={["center", "left"]}
-      position={"absolute"}
-      left="0px"
-      top="0px"
-    >
-      {!isEditing ? (
-        <Heading size="sm" onClick={() => setIsEditing(true)}>
-          {projectName}
-        </Heading>
-      ) : (
-        <form onBlur={submit} onSubmit={submit}>
-          <Input
-            ref={(el: any) => {
-              register(el);
-              if (el) el.focus();
-            }}
-            name="projectTitle"
-            variant="flushed"
-            placeholder={projectName}
-          />
-        </form>
-      )}
-    </Box>
-  );
-}
-
-export default function Timeline({ projectId, projectName }: TimelineProps) {
+  setIsPanelOpen
+}: TimelineProps) {
   const [height, setHeight] = useState<string | number>("100vh");
   const history = useHistory();
   const { events } = useEvents(projectId);
@@ -106,7 +62,11 @@ export default function Timeline({ projectId, projectName }: TimelineProps) {
         width="100%"
         justifyItems="center"
       >
-        <ProjectName projectId={projectId} projectName={projectName} />
+        <ProjectTitle
+          setIsPanelOpen={setIsPanelOpen}
+          projectId={projectId}
+          projectName={projectName}
+        />
         <svg overflow="visible" width={20} height={height}>
           <rect
             className="timeline"
