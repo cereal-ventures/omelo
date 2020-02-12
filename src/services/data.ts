@@ -41,6 +41,15 @@ export function updateProjectName({
     .update({ name });
 }
 
+export function removeProject(projectId: string | undefined) {
+  if (projectId) {
+    return db
+      .collection("projects")
+      .doc(projectId)
+      .delete();
+  }
+}
+
 export function getEventsById(id: string, cb: any) {
   return db
     .collection("projects")

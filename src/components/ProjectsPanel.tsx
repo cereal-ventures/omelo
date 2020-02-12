@@ -17,7 +17,7 @@ import {
   PopoverBody
 } from "@chakra-ui/core";
 
-import { addProject } from "../services/data";
+import { addProject, removeProject } from "../services/data";
 import UserDropdown from "./UserDropdown";
 
 import { logo } from "./icons";
@@ -111,7 +111,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                       &#8230;
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent zIndex={4} width='200px'>
+                  <PopoverContent zIndex={4} width="200px">
                     <PopoverArrow />
                     <PopoverHeader>Project Settings</PopoverHeader>
                     <PopoverBody>
@@ -119,9 +119,15 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                         as="button"
                         color="red.400"
                         onClick={() => {
-                          window.confirm(
-                            "Are you sure you want to delete this project?"
-                          );
+                          if (
+                            window.confirm(
+                              "Are you sure you want to delete this project?"
+                            )
+                          ) {
+                            removeProject(projectId)?.then(()=> {
+                              history.push('/');
+                            });
+                          }
                         }}
                       >
                         Delete Project

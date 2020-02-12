@@ -44,10 +44,10 @@ export default function Main({ user }: Props) {
           {({ match }) => {
             if (!hasProjects) return null;
             const projectId = match?.params?.id || projects[0].id;
-            const { name } = projects.find(({ id }: any) => id === projectId);
+            const name = projects.find(({ id }: any) => id === projectId)?.name;
             return (
               <Timeline
-                setIsPanelOpen={()=> setIsPanelOpen(true)}
+                setIsPanelOpen={() => setIsPanelOpen(true)}
                 projectName={name}
                 projectId={projectId}
               />
