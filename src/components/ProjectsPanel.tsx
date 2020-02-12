@@ -2,7 +2,20 @@ import React from "react";
 import { User } from "firebase";
 
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { Box, Button, Link, Heading, Grid, Flex } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Link,
+  Heading,
+  Grid,
+  Flex,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody
+} from "@chakra-ui/core";
 
 import { addProject } from "../services/data";
 import UserDropdown from "./UserDropdown";
@@ -85,15 +98,37 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                   />
                   {name}
                 </Link>
-                <Button
-                  position="relative"
-                  top="-4px"
-                  height="auto"
-                  minWidth="auto"
-                  variant="unstyled"
-                >
-                  &#8230;
-                </Button>
+
+                <Popover>
+                  <PopoverTrigger>
+                    <Button
+                      position="relative"
+                      top="-4px"
+                      height="auto"
+                      minWidth="auto"
+                      variant="unstyled"
+                    >
+                      &#8230;
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent zIndex={4} width='200px'>
+                    <PopoverArrow />
+                    <PopoverHeader>Project Settings</PopoverHeader>
+                    <PopoverBody>
+                      <Link
+                        as="button"
+                        color="red.400"
+                        onClick={() => {
+                          window.confirm(
+                            "Are you sure you want to delete this project?"
+                          );
+                        }}
+                      >
+                        Delete Project
+                      </Link>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
               </Flex>
             );
           })}

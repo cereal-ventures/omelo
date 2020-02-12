@@ -8,7 +8,8 @@ import {
   Icon,
   Button,
   Link,
-  Text
+  Text,
+  PopoverHeader
 } from "@chakra-ui/core";
 
 import { signOut } from "../services";
@@ -39,8 +40,9 @@ export default function UserDropdown({ user }: { user: User | null }) {
       </PopoverTrigger>
       <PopoverContent zIndex={4} width="240px">
         <PopoverArrow />
+        <PopoverHeader>User Settings</PopoverHeader>
         <PopoverBody>
-          <Link as="button" onClick={() => signOut()}>
+          <Link color='purple.800' as="button" onClick={() => signOut()}>
             Log out
           </Link>
         </PopoverBody>
