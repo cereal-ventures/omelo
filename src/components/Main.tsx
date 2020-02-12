@@ -57,7 +57,7 @@ export default function Main({ user }: Props) {
   const main = projects.length ? (
     <>
       <Route exact path="/">
-        <Redirect to={`/{${projects[0].id}}`} />
+        <Redirect to={`/${projects[0].id}`} />
       </Route>
       <Route path="/:id">
         {({ match }) => {
