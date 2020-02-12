@@ -7,7 +7,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   Checkbox,
   PopoverBody,
   Popover,
@@ -17,8 +16,6 @@ import {
   PopoverArrow,
   PopoverHeader,
   Link,
-  Flex,
-  DrawerFooter,
   Icon
 } from "@chakra-ui/core";
 import { formatDate } from "../utils";

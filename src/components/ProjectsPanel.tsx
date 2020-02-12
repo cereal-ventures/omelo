@@ -75,9 +75,13 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
           {projects.map(({ name, id }: any) => {
             const isActive = id === projectId;
             return (
-              <Flex mb={4} alignItems="center" justifyContent="space-between">
+              <Flex
+                key={id}
+                mb={4}
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Link
-                  key={id}
                   color="purple.800"
                   as="button"
                   display="flex"
@@ -124,8 +128,8 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                               "Are you sure you want to delete this project?"
                             )
                           ) {
-                            removeProject(id)?.then(()=> {
-                              history.push('/');
+                            removeProject(id)?.then(() => {
+                              history.push("/");
                             });
                           }
                         }}

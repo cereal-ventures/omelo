@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "@chakra-ui/core";
 import { formatDate } from "../utils";
 
 interface EventProps {
