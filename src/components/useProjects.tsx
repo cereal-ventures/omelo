@@ -11,6 +11,7 @@ export const useProjects = (userId: string | undefined) => {
 
   useEffect(() => {
     // listen for auth state changes
+    if(!userId) return;
     const unsubscribe = getProjects(userId,(projects: any[]) => {
       setState({ loading: false, projects });
     });
