@@ -39,19 +39,24 @@ export default function Main({ user }: Props) {
         </Box>
 
         <Route exact path="/">
-          {hasProjects && <Redirect to={`/${projects[0].id}`} />}
+          {hasProjects ? (
+            <Redirect to={`/${projects[0].id}`} />
+          ) : (
+            <ZeroState userId={user?.uid} />
+          )}
         </Route>
         <Route path="/:id">
           {({ match }) => {
-            if (!hasProjects) return <ZeroState userId={user?.uid} />;
-            const projectId = match?.params?.id || projects[0].id;
+            const projectId = match?.params?.id || projects[0]?.id;
             const name = projects.find(({ id }: any) => id === projectId)?.name;
             return (
-              <Timeline
-                setIsPanelOpen={() => setIsPanelOpen(true)}
-                projectName={name}
-                projectId={projectId}
-              />
+              name && (
+                <Timeline
+                  setIsPanelOpen={() => setIsPanelOpen(true)}
+                  projectName={name}
+                  projectId={projectId}
+                />
+              )
             );
           }}
         </Route>
