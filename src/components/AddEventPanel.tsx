@@ -22,7 +22,12 @@ interface Props {
 }
 
 export default function AddEventPanel({ isOpen, projectId }: Props) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      date: new Date(Date.now()).toISOString().substr(0, 10),
+      title: "New Event"
+    }
+  });
   const history = useHistory();
 
   const onClose = () => {
@@ -61,11 +66,15 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
           <DrawerBody>
             <FormControl mb={4} isInvalid={Boolean(errors.title)}>
               <Input
-                focusBorderColor='purple.800'
+                focusBorderColor="purple.800"
                 variant="flushed"
                 name="title"
                 placeholder="Add Event"
-                ref={register({ required: true })}
+                ref={(ref: any) =>
+                  register(ref,{
+                    required: "Please set a title for your event"
+                  })
+                }
               />
               <FormErrorMessage>
                 {errors.title && "Please add a title to your event"}
@@ -74,10 +83,14 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
             <FormControl mb={4} isInvalid={Boolean(errors.date)}>
               <Input
                 variant="flushed"
-                focusBorderColor='purple.800'
+                focusBorderColor="purple.800"
                 name="date"
                 type="date"
-                ref={register({ required: true })}
+                ref={(ref: any) =>
+                  register(ref,{
+                    required: "Please set a date for your event"
+                  })
+                }
               />
               <FormErrorMessage>
                 {errors.date && "Please add a date to your event"}
