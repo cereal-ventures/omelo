@@ -12,6 +12,7 @@ import {
 // Components
 import Timeline from "./Timeline";
 import ProjectsPanel from "./ProjectsPanel";
+import ZeroState from "./ZeroState";
 import { useProjects } from "./useProjects";
 // Types
 import { User } from "firebase";
@@ -42,7 +43,7 @@ export default function Main({ user }: Props) {
         </Route>
         <Route path="/:id">
           {({ match }) => {
-            if (!hasProjects) return null;
+            if (!hasProjects) return <ZeroState userId={user?.uid} />;
             const projectId = match?.params?.id || projects[0].id;
             const name = projects.find(({ id }: any) => id === projectId)?.name;
             return (
