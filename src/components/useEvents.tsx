@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { getEventsById } from "../services/data";
+import { useEffect, useState } from 'react';
+import { getEventsById } from '../services/data';
 
-export const useEvents = (id: string='') => {
+export const useEvents = (id: string = '') => {
   const [state, setState] = useState<{
     loading: boolean;
     events: Array<any>;
@@ -11,7 +11,7 @@ export const useEvents = (id: string='') => {
 
   useEffect(() => {
     // listen for auth state changes
-    if(!id) return;
+    if (!id) return;
     const unsubscribe = getEventsById(id, (events: any[]) => {
       setState({ loading: false, events });
     });

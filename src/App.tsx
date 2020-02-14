@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import React, { Suspense } from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import {
   ThemeProvider,
   theme,
@@ -7,22 +7,22 @@ import {
   Grid,
   Box,
   Spinner
-} from "@chakra-ui/core";
-import { useAuth } from "./components/useAuth";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
-import { logo } from "./components/icons";
+} from '@chakra-ui/core';
+import { useAuth } from './components/useAuth';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
+import { logo } from './components/icons';
 
-const Main = React.lazy(() => import("./components/Main"));
+const Main = React.lazy(() => import('./components/Main'));
 
 const loadingScreen = (
   <Grid
-    templateColumns="1fr"
-    height="100vh"
-    justifyItems="center"
-    alignItems="center"
+    templateColumns='1fr'
+    height='100vh'
+    justifyItems='center'
+    alignItems='center'
   >
-    <Spinner color="purple.400" />
+    <Spinner color='purple.400' />
   </Grid>
 );
 
@@ -40,7 +40,7 @@ function PrivateRoute({ children, ...rest }: any) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: '/login',
               state: { from: location }
             }}
           />
@@ -53,10 +53,10 @@ function PrivateRoute({ children, ...rest }: any) {
 function Layout({ children }: any) {
   return (
     <>
-      <Box position="absolute" top={5} left={5}>
+      <Box position='absolute' top={5} left={5}>
         {logo}
       </Box>
-      <Grid templateColumns={["1fr","1fr", "6fr 4fr"]} height="100vh">
+      <Grid templateColumns={['1fr', '1fr', '6fr 4fr']} height='100vh'>
         {children}
       </Grid>
     </>
@@ -66,14 +66,14 @@ function Layout({ children }: any) {
 function SignupPage({ loading }: { loading: boolean }) {
   return (
     <Layout>
-      <Box mx="auto" alignSelf="center" width="320px">
+      <Box mx='auto' alignSelf='center' width='320px'>
         <SignupForm loading={loading} />
       </Box>
       <Box
-        display={{ xs: "none", md: "block" }}
-        bg="purple.300"
-        width="100%"
-        height="100%"
+        display={{ xs: 'none', md: 'block' }}
+        bg='purple.300'
+        width='100%'
+        height='100%'
       />
     </Layout>
   );
@@ -82,14 +82,14 @@ function SignupPage({ loading }: { loading: boolean }) {
 function LoginPage({ loading }: { loading: boolean }) {
   return (
     <Layout>
-      <Box mx="auto" alignSelf="center" width="320px">
+      <Box mx='auto' alignSelf='center' width='320px'>
         <LoginForm loading={loading} />
       </Box>
       <Box
-        display={{ xs: "none", md: "block" }}
-        bg="purple.300"
-        width="100%"
-        height="100%"
+        display={{ xs: 'none', md: 'block' }}
+        bg='purple.300'
+        width='100%'
+        height='100%'
       />
     </Layout>
   );
@@ -103,13 +103,13 @@ function App() {
       <CSSReset />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/signup">
+          <Route exact path='/signup'>
             <SignupPage loading={loading} />
           </Route>
-          <Route exact path="/login">
+          <Route exact path='/login'>
             <LoginPage loading={loading} />
           </Route>
-          <PrivateRoute path="/">
+          <PrivateRoute path='/'>
             <Suspense fallback={loadingScreen}>
               <Main user={user} />
             </Suspense>

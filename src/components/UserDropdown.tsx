@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Popover,
   PopoverArrow,
@@ -10,39 +10,39 @@ import {
   Link,
   Text,
   PopoverHeader
-} from "@chakra-ui/core";
+} from '@chakra-ui/core';
 
-import { signOut } from "../services";
+import { signOut } from '../services';
 
-import { User } from "firebase";
+import { User } from 'firebase';
 
 export default function UserDropdown({ user }: { user: User | null }) {
   return (
     <Popover>
       <PopoverTrigger>
         <Button
-          color="purple.800"
-          variant="unstyled"
-          display="inline-flex"
-          height="auto"
+          color='purple.800'
+          variant='unstyled'
+          display='inline-flex'
+          height='auto'
         >
           <Text
-            as="span"
-            display="inline-block"
-            fontSize="sm"
-            overflow="hidden"
-            maxWidth="200px"
+            as='span'
+            display='inline-block'
+            fontSize='sm'
+            overflow='hidden'
+            maxWidth='200px'
           >
             {user && (user.displayName || user.email)}
           </Text>
-          <Icon name="chevron-down" />
+          <Icon name='chevron-down' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent zIndex={4} width="240px">
+      <PopoverContent zIndex={4} width='240px'>
         <PopoverArrow />
         <PopoverHeader>User Settings</PopoverHeader>
         <PopoverBody>
-          <Link color='purple.800' as="button" onClick={() => signOut()}>
+          <Link color='purple.800' as='button' onClick={() => signOut()}>
             Log out
           </Link>
         </PopoverBody>

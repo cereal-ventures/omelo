@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useHistory, Route } from "react-router-dom";
-import { Grid } from "@chakra-ui/core";
-import Event from "./Event";
-import AddButton from "./AddButton";
-import { useEvents } from "./useEvents";
-import AddEventPanel from "./AddEventPanel";
-import EventDetailPanel from "./EventDetailPanel";
-import ProjectTitle from "./ProjectTitle";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useHistory, Route } from 'react-router-dom';
+import { Grid } from '@chakra-ui/core';
+import Event from './Event';
+import AddButton from './AddButton';
+import { useEvents } from './useEvents';
+import AddEventPanel from './AddEventPanel';
+import EventDetailPanel from './EventDetailPanel';
+import ProjectTitle from './ProjectTitle';
 
 type TimelineProps = {
   projectId: string;
@@ -23,7 +23,7 @@ export default function Timeline({
 }: TimelineProps) {
   const history = useHistory();
   const { events } = useEvents(projectId);
-  const [height, setHeight] = useState<string | number>("100vh");
+  const [height, setHeight] = useState<string | number>('100vh');
 
   const lastCompletedIndex = events
     .map(({ completed }) => completed)
@@ -45,41 +45,41 @@ export default function Timeline({
   }, [length, handleResize]);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [handleResize]);
 
   return (
     <>
       <Grid
-        cursor="pointer"
-        position="relative"
-        width="100%"
-        justifyItems="center"
-        height="100vh"
-        overflow="auto"
+        cursor='pointer'
+        position='relative'
+        width='100%'
+        justifyItems='center'
+        height='100vh'
+        overflow='auto'
       >
         <ProjectTitle
           setIsPanelOpen={setIsPanelOpen}
           projectId={projectId}
           projectName={projectName}
         />
-        <svg overflow="visible" width={20} height={height}>
+        <svg overflow='visible' width={20} height={height}>
           <rect
-            className="timeline"
+            className='timeline'
             onClick={() => history.push(`/${projectId}/add-event`)}
-            fill="#F5F6FC"
-            width="100%"
-            rx="10"
+            fill='#F5F6FC'
+            width='100%'
+            rx='10'
             height={height}
           />
           <rect
-            rx="10"
+            rx='10'
             y={190}
-            fill="#9CBD3B"
-            width="100%"
+            fill='#9CBD3B'
+            width='100%'
             height={fillHeight}
           />
           {events.map(({ date, title, id, completed }, i) => {
@@ -97,7 +97,7 @@ export default function Timeline({
         </svg>
         <AddButton onClick={() => history.push(`/${projectId}/add-event`)} />
       </Grid>
-      <Route path="/:id/add-event">
+      <Route path='/:id/add-event'>
         {({ match }) => {
           return (
             <AddEventPanel
@@ -107,7 +107,7 @@ export default function Timeline({
           );
         }}
       </Route>
-      <Route path="/:id/event/:event">
+      <Route path='/:id/event/:event'>
         {({ match }) => {
           if (!match) return null;
           const event = events.find(({ id }) => id === match.params.event);

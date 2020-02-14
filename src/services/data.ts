@@ -1,12 +1,12 @@
-import * as firebase from "firebase/app";
-import "firebase/firestore";
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const db = firebase.firestore();
 
 export function getProjects(userId: string | undefined, cb: any) {
   return db
-    .collection("projects")
-    .where("users", "array-contains", userId)
+    .collection('projects')
+    .where('users', 'array-contains', userId)
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         return {
@@ -25,7 +25,7 @@ export function addProject({
   name: string;
   userId: string | undefined;
 }) {
-  return db.collection("projects").add({ name, users: [userId] });
+  return db.collection('projects').add({ name, users: [userId] });
 }
 
 export function updateProjectName({
@@ -36,7 +36,7 @@ export function updateProjectName({
   name: string;
 }) {
   return db
-    .collection("projects")
+    .collection('projects')
     .doc(projectId)
     .update({ name });
 }
@@ -44,7 +44,7 @@ export function updateProjectName({
 export function removeProject(projectId: string | undefined) {
   if (projectId) {
     return db
-      .collection("projects")
+      .collection('projects')
       .doc(projectId)
       .delete();
   }
@@ -52,9 +52,9 @@ export function removeProject(projectId: string | undefined) {
 
 export function getEventsById(id: string, cb: any) {
   return db
-    .collection("projects")
+    .collection('projects')
     .doc(id)
-    .collection("events")
+    .collection('events')
     .orderBy('date')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
@@ -81,9 +81,9 @@ export function addEvent({
   isDisabled: boolean;
 }) {
   return db
-    .collection("projects")
+    .collection('projects')
     .doc(projectId)
-    .collection("events")
+    .collection('events')
     .add({
       title,
       date,
@@ -102,24 +102,24 @@ export function updateEvent({
   completed: boolean;
 }) {
   return db
-    .collection("projects")
+    .collection('projects')
     .doc(projectId)
-    .collection("events")
+    .collection('events')
     .doc(eventId)
     .update({ completed });
 }
 
 export function removeEvent({
   projectId,
-  eventId,
+  eventId
 }: {
   projectId: string;
   eventId: string;
 }) {
   return db
-    .collection("projects")
+    .collection('projects')
     .doc(projectId)
-    .collection("events")
+    .collection('events')
     .doc(eventId)
-    .delete()
+    .delete();
 }

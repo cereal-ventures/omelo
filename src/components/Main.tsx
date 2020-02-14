@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Route, Redirect } from "react-router-dom";
+import React, { useState } from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import {
   Grid,
   Box,
@@ -7,15 +7,15 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton
-} from "@chakra-ui/core";
+} from '@chakra-ui/core';
 
 // Components
-import Timeline from "./Timeline";
-import ProjectsPanel from "./ProjectsPanel";
-import ZeroState from "./ZeroState";
-import { useProjects } from "./useProjects";
+import Timeline from './Timeline';
+import ProjectsPanel from './ProjectsPanel';
+import ZeroState from './ZeroState';
+import { useProjects } from './useProjects';
 // Types
-import { User } from "firebase";
+import { User } from 'firebase';
 
 interface Props {
   user: User | null;
@@ -30,22 +30,22 @@ export default function Main({ user }: Props) {
   return (
     <>
       <Grid
-        justifyItems="center"
-        alignItems="center"
-        gridTemplateColumns={{ xs: "1fr", md: "auto 1fr" }}
+        justifyItems='center'
+        alignItems='center'
+        gridTemplateColumns={{ xs: '1fr', md: 'auto 1fr' }}
       >
-        <Box display={{ xs: "none", md: "block" }}>
+        <Box display={{ xs: 'none', md: 'block' }}>
           <ProjectsPanel projects={projects} user={user} />
         </Box>
 
-        <Route exact path="/">
+        <Route exact path='/'>
           {hasProjects && !loading ? (
             <Redirect to={`/${projects[0].id}`} />
           ) : (
             <ZeroState userId={user?.uid} />
           )}
         </Route>
-        <Route path="/:id">
+        <Route path='/:id'>
           {({ match }) => {
             const projectId = match?.params?.id || projects[0]?.id;
             const name = projects.find(({ id }: any) => id === projectId)?.name;
@@ -60,7 +60,7 @@ export default function Main({ user }: Props) {
         </Route>
       </Grid>
       <Drawer
-        placement="left"
+        placement='left'
         onClose={() => setIsPanelOpen(false)}
         isOpen={isPanelOpen}
       >

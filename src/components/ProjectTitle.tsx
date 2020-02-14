@@ -17,7 +17,7 @@ export default function ProjectTitle({
   const [isEditing, setIsEditing] = useState(false);
 
   const submit = handleSubmit(({ projectTitle }) => {
-    if (projectTitle) {
+    if (projectTitle.trim()) {
       updateProjectName({ projectId, name: projectTitle }).then(() => {
         setIsEditing(false);
       });
@@ -26,10 +26,10 @@ export default function ProjectTitle({
     }
   });
   return (
-    <Box display='flex' p={8} position="fixed" width='100%' top="0px">
+    <Box display="flex" p={8} position="fixed" width="100%" top="0px">
       <Button
         size="xs"
-        fontSize='md'
+        fontSize="md"
         display={{ md: "none" }}
         mr={4}
         onClick={setIsPanelOpen}
@@ -38,7 +38,7 @@ export default function ProjectTitle({
       </Button>
       {!isEditing ? (
         <Heading size="sm" onClick={() => setIsEditing(true)}>
-          {projectName}
+          {projectName || "Untitled"}
         </Heading>
       ) : (
         <form onBlur={submit} onSubmit={submit}>
@@ -48,7 +48,7 @@ export default function ProjectTitle({
               if (el) el.focus();
             }}
             name="projectTitle"
-            focusBorderColor='purple.800'
+            focusBorderColor="purple.800"
             variant="flushed"
             placeholder={projectName}
           />

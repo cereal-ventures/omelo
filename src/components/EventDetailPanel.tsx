@@ -1,5 +1,5 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Heading,
   Drawer,
@@ -17,9 +17,9 @@ import {
   PopoverHeader,
   Link,
   Icon
-} from "@chakra-ui/core";
-import { formatDate } from "../utils";
-import { updateEvent, removeEvent } from "../services/data";
+} from '@chakra-ui/core';
+import { formatDate } from '../utils';
+import { updateEvent, removeEvent } from '../services/data';
 
 interface Props {
   projectId: string;
@@ -49,33 +49,33 @@ export default function EventDetailPanel({
   };
 
   const onClose = () => {
-    history.push("/");
+    history.push('/');
   };
   return (
-    <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
+    <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader display="flex" justifyContent="space-between">
-          <Heading color="purple.800" size="md">
+        <DrawerHeader display='flex' justifyContent='space-between'>
+          <Heading color='purple.800' size='md'>
             {title}
           </Heading>
           <Popover>
             <PopoverTrigger>
-              <Button position="relative" height="auto" minWidth="auto">
+              <Button position='relative' height='auto' minWidth='auto'>
                 &#8942;
               </Button>
             </PopoverTrigger>
-            <PopoverContent fontSize="md" zIndex={4} width="200px">
-              <PopoverArrow top="24px" />
+            <PopoverContent fontSize='md' zIndex={4} width='200px'>
+              <PopoverArrow top='24px' />
               <PopoverHeader>Event Settings</PopoverHeader>
               <PopoverBody>
                 <Link
-                  as="button"
-                  color="red.400"
+                  as='button'
+                  color='red.400'
                   onClick={() => {
                     if (
                       window.confirm(
-                        "Are you sure you want to delete this project?"
+                        'Are you sure you want to delete this project?'
                       )
                     ) {
                       removeEvent({ projectId, eventId })?.then(() => {
@@ -92,24 +92,24 @@ export default function EventDetailPanel({
         </DrawerHeader>
 
         <DrawerBody>
-            <Heading as="h6" size="sm" fontWeight="normal" mt={4}>
-              <Icon
-                position="relative"
-                name="calendar"
-                marginRight={2}
-                top="-1px"
-              />
-              {formatDate(date)}
-            </Heading>
-            <Checkbox
-              mt={6}
-              variantColor="purple"
-              value={`${completed}`}
-              onChange={handleChange}
-              defaultIsChecked={completed}
-            >
-              Completed
-            </Checkbox>
+          <Heading as='h6' size='sm' fontWeight='normal' mt={4}>
+            <Icon
+              position='relative'
+              name='calendar'
+              marginRight={2}
+              top='-1px'
+            />
+            {formatDate(date)}
+          </Heading>
+          <Checkbox
+            mt={6}
+            variantColor='purple'
+            value={`${completed}`}
+            onChange={handleChange}
+            defaultIsChecked={completed}
+          >
+            Completed
+          </Checkbox>
         </DrawerBody>
       </DrawerContent>
     </Drawer>
