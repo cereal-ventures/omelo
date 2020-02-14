@@ -11,6 +11,7 @@ export const useEvents = (id: string='') => {
 
   useEffect(() => {
     // listen for auth state changes
+    if(!id) return;
     const unsubscribe = getEventsById(id, (events: any[]) => {
       setState({ loading: false, events });
     });
