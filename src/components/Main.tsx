@@ -24,7 +24,7 @@ interface Props {
 type UseProjects = { loading: boolean; projects: any };
 
 export default function Main({ user }: Props) {
-  const { projects }: UseProjects = useProjects(user?.uid);
+  const { loading, projects }: UseProjects = useProjects(user?.uid);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const hasProjects = Boolean(projects.length);
   return (
@@ -39,7 +39,7 @@ export default function Main({ user }: Props) {
         </Box>
 
         <Route exact path="/">
-          {hasProjects ? (
+          {hasProjects && !loading ? (
             <Redirect to={`/${projects[0].id}`} />
           ) : (
             <ZeroState userId={user?.uid} />
@@ -50,13 +50,11 @@ export default function Main({ user }: Props) {
             const projectId = match?.params?.id || projects[0]?.id;
             const name = projects.find(({ id }: any) => id === projectId)?.name;
             return (
-              name && (
-                <Timeline
-                  setIsPanelOpen={() => setIsPanelOpen(true)}
-                  projectName={name}
-                  projectId={projectId}
-                />
-              )
+              <Timeline
+                setIsPanelOpen={() => setIsPanelOpen(true)}
+                projectName={name}
+                projectId={projectId}
+              />
             );
           }}
         </Route>
