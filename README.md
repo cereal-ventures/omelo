@@ -1,3 +1,0 @@
-Omelo
-
-will add docs about omelo soon...
