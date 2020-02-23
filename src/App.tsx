@@ -1,11 +1,14 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Grid, Box } from '@chakra-ui/core';
+import { Grid, Box, Image, Heading, Flex, Text } from '@chakra-ui/core';
 import { useAuth } from './components/useAuth';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { logo } from './components/icons';
 import { loadingScreen } from './components/loadingScreen';
+import projectImg from './images/devices@2x.png';
+import mountains from './images/Mountain-illustration@2x.png';
+import confetti from './images/Confetti@2x.png';
 
 const Main = React.lazy(() => import('./components/Main'));
 
@@ -46,18 +49,56 @@ function Layout({ children }: any) {
   );
 }
 
+function SignUpPanel() {
+  return (
+    <Grid
+      display={{ xs: 'none', md: 'grid' }}
+      bg='brand.primary'
+      width='100%'
+      height='100%'
+      position='relative'
+      alignItems='center'
+      justifyItems='start'
+    >
+      <Box pt={32} px={16} color='white' textAlign='center'>
+        <Flex
+          flexDirection='column'
+          alignItems='center'
+          justifyContent='center'
+          position='relative'
+        >
+          <Image
+            src={confetti}
+            alt='project illustration'
+            position='absolute'
+            top='-20px'
+          />
+          <Heading size='lg' maxWidth='90%' mb={4}>
+            "Omelo has enabled me to push code and not deadlines"
+          </Heading>
+          <Text>-Moe A</Text>
+          <Image
+            mt={8}
+            height='200px'
+            src={projectImg}
+            alt='project illustration'
+            position='relative'
+            zIndex={2}
+          />
+        </Flex>
+      </Box>
+      <Image src={mountains} alt='mountain illustration' zIndex={1} />
+    </Grid>
+  );
+}
+
 function SignupPage({ loading }: { loading: boolean }) {
   return (
     <Layout>
       <Box mx='auto' alignSelf='center' width='320px'>
         <SignupForm loading={loading} />
       </Box>
-      <Box
-        display={{ xs: 'none', md: 'block' }}
-        bg='brand.primary'
-        width='100%'
-        height='100%'
-      />
+      <SignUpPanel />
     </Layout>
   );
 }
