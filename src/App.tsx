@@ -1,23 +1,13 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Grid, Box, Spinner } from '@chakra-ui/core';
+import { Grid, Box } from '@chakra-ui/core';
 import { useAuth } from './components/useAuth';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { logo } from './components/icons';
+import { loadingScreen } from './components/loadingScreen';
 
 const Main = React.lazy(() => import('./components/Main'));
-
-const loadingScreen = (
-  <Grid
-    templateColumns='1fr'
-    height='100vh'
-    justifyItems='center'
-    alignItems='center'
-  >
-    <Spinner color='purple' />
-  </Grid>
-);
 
 function PrivateRoute({ children, ...rest }: any) {
   const { user, loading } = useAuth();

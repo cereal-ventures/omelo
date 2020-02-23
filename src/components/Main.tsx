@@ -14,6 +14,7 @@ import Timeline from './Timeline';
 import ProjectsPanel from './ProjectsPanel';
 import ZeroState from './ZeroState';
 import { useProjects } from './useProjects';
+import { loadingScreen } from './loadingScreen';
 // Types
 import { User } from 'firebase';
 
@@ -39,7 +40,9 @@ export default function Main({ user }: Props) {
         </Box>
 
         <Route exact path='/'>
-          {!loading || hasProjects ? (
+          {loading ? (
+            loadingScreen
+          ) : hasProjects ? (
             <Redirect to={`/${projects[0].id}`} />
           ) : (
             <ZeroState userId={user?.uid} />
