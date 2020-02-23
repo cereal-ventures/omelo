@@ -1,13 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import {
-  ThemeProvider,
-  theme,
-  CSSReset,
-  Grid,
-  Box,
-  Spinner
-} from '@chakra-ui/core';
+import { Grid, Box, Spinner } from '@chakra-ui/core';
 import { useAuth } from './components/useAuth';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
@@ -22,7 +15,7 @@ const loadingScreen = (
     justifyItems='center'
     alignItems='center'
   >
-    <Spinner color='purple.400' />
+    <Spinner color='purple' />
   </Grid>
 );
 
@@ -71,7 +64,7 @@ function SignupPage({ loading }: { loading: boolean }) {
       </Box>
       <Box
         display={{ xs: 'none', md: 'block' }}
-        bg='purple.300'
+        bg='brand.primary'
         width='100%'
         height='100%'
       />
@@ -87,7 +80,7 @@ function LoginPage({ loading }: { loading: boolean }) {
       </Box>
       <Box
         display={{ xs: 'none', md: 'block' }}
-        bg='purple.300'
+        bg='brand.primary'
         width='100%'
         height='100%'
       />
@@ -99,24 +92,21 @@ function App() {
   const { user, loading } = useAuth();
 
   return (
-    <ThemeProvider theme={theme}>
-      <CSSReset />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/signup'>
-            <SignupPage loading={loading} />
-          </Route>
-          <Route exact path='/login'>
-            <LoginPage loading={loading} />
-          </Route>
-          <PrivateRoute path='/'>
-            <Suspense fallback={loadingScreen}>
-              <Main user={user} />
-            </Suspense>
-          </PrivateRoute>
-        </Switch>
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/signup'>
+          <SignupPage loading={loading} />
+        </Route>
+        <Route exact path='/login'>
+          <LoginPage loading={loading} />
+        </Route>
+        <PrivateRoute path='/'>
+          <Suspense fallback={loadingScreen}>
+            <Main user={user} />
+          </Suspense>
+        </PrivateRoute>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

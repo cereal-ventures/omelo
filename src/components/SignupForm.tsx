@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Button, FormControl, Heading, Link } from '@chakra-ui/core';
+import { FormControl, Heading, Link } from '@chakra-ui/core';
 import FloatingLabelInput from './FloatLabelInput';
+import PrimaryButton from './PrimaryButton';
 import { createUser, getCurrentUser } from '../services';
 
 export default function SignupForm({ loading }: { loading: boolean }) {
@@ -60,16 +61,16 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         register={register}
       />
       <FormControl textAlign='center' my={4}>
-        <Button variantColor='teal' type='submit' isLoading={loading}>
+        <PrimaryButton type='submit' isLoading={loading}>
           Sign Up
-        </Button>
+        </PrimaryButton>
       </FormControl>
       <FormControl isInvalid={Boolean(errors)}>
         {errors && errors.network}
       </FormControl>
       <Link
         as='button'
-        color='teal.500'
+        color='brand.secondary'
         textAlign='center'
         display='inline-block'
         width='100%'

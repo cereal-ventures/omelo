@@ -39,7 +39,7 @@ export default function Main({ user }: Props) {
         </Box>
 
         <Route exact path='/'>
-          {hasProjects && !loading ? (
+          {!loading || hasProjects ? (
             <Redirect to={`/${projects[0].id}`} />
           ) : (
             <ZeroState userId={user?.uid} />

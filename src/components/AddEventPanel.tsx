@@ -12,7 +12,9 @@ import {
   Input,
   Button,
   FormControl,
-  Heading
+  Heading,
+  Icon,
+  Flex
 } from '@chakra-ui/core';
 import { addEvent } from '../services/data';
 
@@ -25,7 +27,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       date: new Date(Date.now()).toISOString().substr(0, 10),
-      title: 'New Event'
+      title: ''
     }
   });
   const history = useHistory();
@@ -59,49 +61,70 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent>
           <DrawerHeader>
-            <Heading size='md' color='purple.800'>
+            <Heading size='md' color='brand.secondary'>
               Add Event
             </Heading>
           </DrawerHeader>
           <DrawerBody>
             <FormControl mb={4} isInvalid={Boolean(errors.title)}>
-              <Input
-                focusBorderColor='purple.800'
-                variant='flushed'
-                name='title'
-                placeholder='Add Event'
-                ref={(ref: any) =>
-                  register(ref, {
-                    required: 'Please set a title for your event'
-                  })
-                }
-              />
+              <Flex alignItems='center'>
+                <Icon
+                  position='relative'
+                  name='edit'
+                  marginRight={4}
+                  top='-1px'
+                />
+                <Input
+                  focusBorderColor='brand.secondary'
+                  variant='flushed'
+                  name='title'
+                  placeholder='Event Title'
+                  ref={(ref: any) =>
+                    register(ref, {
+                      required: 'Please set a title for your event'
+                    })
+                  }
+                />
+              </Flex>
               <FormErrorMessage>
                 {errors.title && 'Please add a title to your event'}
               </FormErrorMessage>
             </FormControl>
             <FormControl mb={4} isInvalid={Boolean(errors.date)}>
-              <Input
-                variant='flushed'
-                focusBorderColor='purple.800'
-                name='date'
-                type='date'
-                ref={(ref: any) =>
-                  register(ref, {
-                    required: 'Please set a date for your event'
-                  })
-                }
-              />
+              <Flex alignItems='center'>
+                <Icon
+                  position='relative'
+                  name='calendar'
+                  marginRight={4}
+                  top='-1px'
+                />
+                <Input
+                  variant='flushed'
+                  focusBorderColor='brand.secondary'
+                  name='date'
+                  type='date'
+                  ref={(ref: any) =>
+                    register(ref, {
+                      required: 'Please set a date for your event'
+                    })
+                  }
+                />
+              </Flex>
               <FormErrorMessage>
                 {errors.date && 'Please add a date to your event'}
               </FormErrorMessage>
             </FormControl>
           </DrawerBody>
           <DrawerFooter justifyContent='start'>
-            <Button type='submit' backgroundColor='purple.800' color='white'>
+            <Button
+              borderRadius='full'
+              px={6}
+              type='submit'
+              variantColor='teal'
+            >
               Save
             </Button>
-            <Button variant='outline' ml={3} onClick={onClose}>
+            <Button variant='link' ml={3} onClick={onClose}>
               Cancel
             </Button>
           </DrawerFooter>

@@ -51,7 +51,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
       <Box mt={8} width='100%'>
         <Flex justifyContent='space-between' alignItems='center' mb={4}>
           <Heading
-            color='purple.800'
+            color='brand.secondary'
             as='h4'
             size='xs'
             textTransform='uppercase'
@@ -60,7 +60,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
           </Heading>
           <Button
             variant='link'
-            color='purple.800'
+            color='brand.secondary'
             textTransform='uppercase'
             size='xs'
             onClick={() => {
@@ -82,7 +82,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                 justifyContent='space-between'
               >
                 <Link
-                  color='purple.800'
+                  color='brand.secondary'
                   as='button'
                   display='flex'
                   alignItems='center'
@@ -95,7 +95,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                     width='24px'
                     height='24px'
                     borderRadius='50%'
-                    backgroundColor='purple.800'
+                    backgroundColor='brand.secondary'
                     color='white'
                     opacity={isActive ? 1 : 0.4}
                     marginRight={2}

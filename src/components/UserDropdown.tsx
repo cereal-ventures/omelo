@@ -21,7 +21,7 @@ export default function UserDropdown({ user }: { user: User | null }) {
     <Popover>
       <PopoverTrigger>
         <Button
-          color='purple.800'
+          color='brand.secondary'
           variant='unstyled'
           display='inline-flex'
           height='auto'
@@ -42,7 +42,7 @@ export default function UserDropdown({ user }: { user: User | null }) {
         <PopoverArrow />
         <PopoverHeader>User Settings</PopoverHeader>
         <PopoverBody>
-          <Link color='purple.800' as='button' onClick={() => signOut()}>
+          <Link color='brand.secondary' as='button' onClick={() => signOut()}>
             Log out
           </Link>
         </PopoverBody>

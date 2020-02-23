@@ -6,11 +6,9 @@ export default function AddButton({ onClick }: { onClick: () => void }) {
     <Box position='fixed' bottom='40px' right='40px'>
       <Button
         variantColor='purple'
-        backgroundColor='#394AB6'
-        color='white'
         width='40px'
         height='40px'
-        borderRadius={100}
+        borderRadius='full'
         onClick={onClick}
       >
         <Icon name='add' />

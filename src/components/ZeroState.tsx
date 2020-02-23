@@ -18,7 +18,7 @@ export default function ZeroState({ userId }: { userId: string | undefined }) {
         <Input
           ref={register({ required: true })}
           name='firstProjectTitle'
-          focusBorderColor='purple.800'
+          focusBorderColor='brand.secondary'
           variant='flushed'
           placeholder='Enter a project name to get started'
           width='240px'

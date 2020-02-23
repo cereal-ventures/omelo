@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Heading, Box, Input, Button } from "@chakra-ui/core";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Heading, Box, Input, Button } from '@chakra-ui/core';
 
-import { updateProjectName } from "../services/data";
+import { updateProjectName } from '../services/data';
 
 export default function ProjectTitle({
   projectName,
@@ -26,19 +26,26 @@ export default function ProjectTitle({
     }
   });
   return (
-    <Box display="flex" p={8} position="fixed" width="100%" top="0px">
+    <Box
+      display='flex'
+      alignItems='center'
+      p={8}
+      position='fixed'
+      width='100%'
+      top='0px'
+    >
       <Button
-        size="xs"
-        fontSize="md"
-        display={{ md: "none" }}
+        size='xs'
+        fontSize='md'
+        display={{ md: 'none' }}
         mr={4}
         onClick={setIsPanelOpen}
       >
         &#9776;
       </Button>
       {!isEditing ? (
-        <Heading size="sm" onClick={() => setIsEditing(true)}>
-          {projectName || "Untitled"}
+        <Heading size='sm' onClick={() => setIsEditing(true)}>
+          {projectName}
         </Heading>
       ) : (
         <form onBlur={submit} onSubmit={submit}>
@@ -47,9 +54,9 @@ export default function ProjectTitle({
               register(el);
               if (el) el.focus();
             }}
-            name="projectTitle"
-            focusBorderColor="purple.800"
-            variant="flushed"
+            name='projectTitle'
+            focusBorderColor='brand.secondary'
+            variant='flushed'
             placeholder={projectName}
           />
         </form>

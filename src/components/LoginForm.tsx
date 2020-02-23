@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Button, FormControl, Heading, Link } from '@chakra-ui/core';
+import { FormControl, Heading, Link } from '@chakra-ui/core';
 import FloatingLabelInput from './FloatLabelInput';
+import PrimaryButton from './PrimaryButton';
 import { signIn } from '../services';
 
 export default function LoginForm({ loading }: { loading: boolean }) {
@@ -45,13 +46,13 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         error={error}
       />
       <FormControl textAlign='center' my={4}>
-        <Button variantColor='teal' type='submit' isLoading={loading}>
+        <PrimaryButton type='submit' isLoading={loading}>
           Login
-        </Button>
+        </PrimaryButton>
       </FormControl>
       <Link
         as='button'
-        color='teal.500'
+        color='brand.secondary'
         textAlign='center'
         display='inline-block'
         width='100%'

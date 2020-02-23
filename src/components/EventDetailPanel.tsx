@@ -56,7 +56,7 @@ export default function EventDetailPanel({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader display='flex' justifyContent='space-between'>
-          <Heading color='purple.800' size='md'>
+          <Heading color='brand.secondary' size='md'>
             {title}
           </Heading>
           <Popover>
