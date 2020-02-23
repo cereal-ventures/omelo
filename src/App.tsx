@@ -49,7 +49,7 @@ function Layout({ children }: any) {
   );
 }
 
-function SignUpPanel() {
+function SignUpPanel({ quote, author }: { quote: string; author: string }) {
   return (
     <Grid
       display={{ xs: 'none', md: 'grid' }}
@@ -74,9 +74,9 @@ function SignUpPanel() {
             top='-20px'
           />
           <Heading size='lg' maxWidth='90%' mb={4}>
-            "Omelo has enabled me to push code and not deadlines"
+            {quote}
           </Heading>
-          <Text>-Moe A</Text>
+          <Text>{author}</Text>
           <Image
             mt={8}
             height='200px'
@@ -98,7 +98,10 @@ function SignupPage({ loading }: { loading: boolean }) {
       <Box mx='auto' alignSelf='center' width='320px'>
         <SignupForm loading={loading} />
       </Box>
-      <SignUpPanel />
+      <SignUpPanel
+        quote={`"Omelo has enabled me to push code and not deadlines"`}
+        author='- Moe A.'
+      />
     </Layout>
   );
 }
@@ -109,11 +112,9 @@ function LoginPage({ loading }: { loading: boolean }) {
       <Box mx='auto' alignSelf='center' width='320px'>
         <LoginForm loading={loading} />
       </Box>
-      <Box
-        display={{ xs: 'none', md: 'block' }}
-        bg='brand.primary'
-        width='100%'
-        height='100%'
+      <SignUpPanel
+        quote={`"I got 99 problems but scope creep ain't one"`}
+        author='- Moe A.'
       />
     </Layout>
   );
