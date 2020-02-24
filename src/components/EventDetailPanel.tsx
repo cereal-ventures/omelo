@@ -49,7 +49,7 @@ export default function EventDetailPanel({
   };
 
   const onClose = () => {
-    history.push('/');
+    history.push(`/${projectId}`);
   };
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
