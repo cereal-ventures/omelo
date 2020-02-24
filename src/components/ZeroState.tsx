@@ -13,15 +13,26 @@ export default function ZeroState({ userEmail }: { userEmail: UserEmail }) {
     }
   });
   return (
-    <Grid width='100%' height='100vh' alignItems='center' justifyItems='center'>
-      <form onBlur={submit} onSubmit={submit}>
+    <Grid
+      width='100%'
+      height='100vh'
+      alignItems='center'
+      justifyItems='center'
+      px={4}
+    >
+      <form
+        onBlur={submit}
+        onSubmit={submit}
+        style={{ width: '100%', maxWidth: '320px' }}
+      >
         <Input
           ref={register({ required: true })}
           name='firstProjectTitle'
           focusBorderColor='brand.secondary'
           variant='flushed'
           placeholder='Enter a project name to get started'
-          width='240px'
+          width='100%'
+          textAlign='center'
         />
       </form>
     </Grid>
