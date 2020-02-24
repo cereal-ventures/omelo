@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getProjects } from '../services/data';
+import { getProjects, UserEmail } from '../services/data';
 
-export const useProjects = (userId: string | undefined) => {
+export const useProjects = (userEmail: UserEmail) => {
   const [state, setState] = useState<{
     loading: boolean;
     projects: Array<any>;
@@ -11,13 +11,13 @@ export const useProjects = (userId: string | undefined) => {
 
   useEffect(() => {
     // listen for auth state changes
-    if (!userId) return;
-    const unsubscribe = getProjects(userId, (projects: any[]) => {
+    if (!userEmail) return;
+    const unsubscribe = getProjects(userEmail, (projects: any[]) => {
       setState({ loading: false, projects });
     });
     // unsubscribe to the listener when unmounting
     return () => unsubscribe();
-  }, [userId]);
+  }, [userEmail]);
 
   return state;
 };

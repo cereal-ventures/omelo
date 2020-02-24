@@ -25,7 +25,7 @@ interface Props {
 type UseProjects = { loading: boolean; projects: any };
 
 export default function Main({ user }: Props) {
-  const { loading, projects }: UseProjects = useProjects(user?.uid);
+  const { loading, projects }: UseProjects = useProjects(user?.email);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const hasProjects = Boolean(projects.length);
   return (
@@ -45,7 +45,7 @@ export default function Main({ user }: Props) {
           ) : hasProjects ? (
             <Redirect to={`/${projects[0].id}`} />
           ) : (
-            <ZeroState userId={user?.uid} />
+            <ZeroState userEmail={user?.email} />
           )}
         </Route>
         <Route path='/:id'>

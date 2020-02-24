@@ -3,10 +3,12 @@ import 'firebase/firestore';
 
 const db = firebase.firestore();
 
-export function getProjects(userId: string | undefined, cb: any) {
+export type UserEmail = string | null | undefined;
+
+export function getProjects(userEmail: UserEmail, cb: any) {
   return db
     .collection('projects')
-    .where('users', 'array-contains', userId)
+    .where('users', 'array-contains', userEmail)
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         return {
@@ -17,15 +19,14 @@ export function getProjects(userId: string | undefined, cb: any) {
       cb(data);
     });
 }
-
 export function addProject({
   name,
-  userId
+  userEmail
 }: {
   name: string;
-  userId: string | undefined;
+  userEmail: UserEmail;
 }) {
-  return db.collection('projects').add({ name, users: [userId] });
+  return db.collection('projects').add({ name, users: [userEmail] });
 }
 
 export function updateProjectName({

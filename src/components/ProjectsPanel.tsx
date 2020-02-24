@@ -64,7 +64,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
             textTransform='uppercase'
             size='xs'
             onClick={() => {
-              addProject({ name: 'My Project', userId: user?.uid });
+              addProject({ name: 'My Project', userEmail: user?.email });
             }}
           >
             Add
