@@ -14,6 +14,10 @@ type TimelineProps = {
   setIsPanelOpen: () => void;
 };
 
+function getIsOverdue(date: Date) {
+  return new Date(date) < new Date(Date.now());
+}
+
 const HEIGHT_OFFSET = 200;
 
 export default function Timeline({
@@ -89,7 +93,7 @@ export default function Timeline({
                 y={HEIGHT_OFFSET + 100 * i}
                 date={date}
                 title={title}
-                isOverdue={lastCompletedIndex > i && !completed}
+                isOverdue={getIsOverdue(date) && !completed}
                 handleClick={() => history.push(`/${projectId}/event/${id}`)}
               />
             );
