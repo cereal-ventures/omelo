@@ -115,13 +115,13 @@ export default function Timeline({
         {({ match }) => {
           if (!match) return null;
           const event = events.find(({ id }) => id === match.params.event);
-          return event ? (
+          return (
             <EventDetailPanel
               projectId={match?.params?.id}
               isOpen={Boolean(match)}
               {...event}
             />
-          ) : null;
+          );
         }}
       </Route>
     </>

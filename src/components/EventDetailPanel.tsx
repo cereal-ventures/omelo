@@ -85,7 +85,9 @@ export default function EventDetailPanel({
     updateEvent({
       projectId,
       eventId,
-      completed: !completed
+      payload: {
+        completed: !completed
+      }
     });
   };
 

@@ -96,18 +96,18 @@ export function addEvent({
 export function updateEvent({
   projectId,
   eventId,
-  completed
+  payload
 }: {
   projectId: string;
   eventId: string;
-  completed: boolean;
+  payload: { [x: string]: any };
 }) {
   return db
     .collection('projects')
     .doc(projectId)
     .collection('events')
     .doc(eventId)
-    .update({ completed });
+    .update(payload);
 }
 
 export function removeEvent({
@@ -147,6 +147,24 @@ export function addAsset({
     type,
     url
   });
+}
+
+export function updateAsset({
+  assetId,
+  name,
+  url
+}: {
+  assetId: string;
+  name: string;
+  url: string;
+}) {
+  return db
+    .collection('assets')
+    .doc(assetId)
+    .update({
+      name,
+      url
+    });
 }
 
 export function removeAsset(assetId: string) {
