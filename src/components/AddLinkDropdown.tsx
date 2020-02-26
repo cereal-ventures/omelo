@@ -118,7 +118,7 @@ export default function AddLinkDropdown({
               </Link>
             </Flex>
           </PopoverTrigger>
-          <PopoverContent fontSize='md' zIndex={4} width='275px'>
+          <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
             <PopoverCloseButton />
             <PopoverBody px={4}>
               <Heading size='sm' mb={4}>

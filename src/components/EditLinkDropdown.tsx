@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Popover,
@@ -71,11 +71,15 @@ function UpdateAssetForm({
           placeholder='Enter a url'
         />
       </FormControl>
-      <ButtonGroup display='flex' justifyContent='flex-end' spacing={4}>
+      <ButtonGroup display='flex' spacing={0} flexDirection='row-reverse'>
+        <Button type='submit' variantColor='teal' ml={4}>
+          Update
+        </Button>
         <Link
           as='button'
           color='system.alert'
-          onClick={() => {
+          onClick={(e: SyntheticEvent) => {
+            e.preventDefault();
             if (window.confirm('Are you user you want to delete this link?')) {
               removeAsset(assetId);
             }
@@ -84,9 +88,6 @@ function UpdateAssetForm({
         >
           Delete
         </Link>
-        <Button type='submit' variantColor='teal'>
-          Update
-        </Button>
       </ButtonGroup>
     </form>
   );
@@ -108,7 +109,7 @@ export default function EditLinkDropdown({
               Edit
             </Link>
           </PopoverTrigger>
-          <PopoverContent fontSize='md' zIndex={4} width='275px'>
+          <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
             <PopoverCloseButton />
             <PopoverBody px={4}>
               <Heading size='sm' mb={4}>
