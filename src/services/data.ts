@@ -124,3 +124,64 @@ export function removeEvent({
     .doc(eventId)
     .delete();
 }
+
+type Asset = 'link'; // | 'video' | 'image' | 'pdf';
+
+export function addAsset({
+  projectId,
+  eventId,
+  name,
+  type,
+  url
+}: {
+  projectId: string;
+  eventId: string;
+  name: string;
+  type: Asset;
+  url: string;
+}) {
+  return db.collection('assets').add({
+    projectId,
+    eventId,
+    name,
+    type,
+    url
+  });
+}
+
+export function removeAsset(assetId: string) {
+  return db
+    .collection('assets')
+    .doc(assetId)
+    .delete();
+}
+
+export function getAssetsByEvent(eventId: string, cb: any) {
+  return db
+    .collection('assets')
+    .where('eventId', '==', eventId)
+    .onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data()
+        };
+      });
+      cb(data);
+    });
+}
+
+export function getAssetsByProject(projectId: string, cb: any) {
+  return db
+    .collection('assets')
+    .where('projectId', '==', projectId)
+    .onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data()
+        };
+      });
+      cb(data);
+    });
+}

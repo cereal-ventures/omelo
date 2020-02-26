@@ -16,10 +16,12 @@ import {
   PopoverArrow,
   PopoverHeader,
   Link,
-  Icon
+  Icon,
+  Box,
+  Flex
 } from '@chakra-ui/core';
-import { formatDate } from '../utils';
 import { updateEvent, removeEvent } from '../services/data';
+import Assets from './Assets';
 
 interface Props {
   projectId: string;
@@ -28,6 +30,45 @@ interface Props {
   date: Date;
   isOpen: boolean;
   completed: boolean;
+}
+
+function ContextMenu({
+  projectId,
+  eventId,
+  onComplete
+}: {
+  projectId: string;
+  eventId: string;
+  onComplete: () => void;
+}) {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button position='relative' height='auto' minWidth='auto'>
+          &#8942;
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent fontSize='md' zIndex={4} width='200px'>
+        <PopoverArrow top='24px' />
+        <PopoverHeader>Event Settings</PopoverHeader>
+        <PopoverBody>
+          <Link
+            as='button'
+            color='red.400'
+            onClick={() => {
+              if (
+                window.confirm('Are you sure you want to delete this project?')
+              ) {
+                removeEvent({ projectId, eventId })?.then(onComplete);
+              }
+            }}
+          >
+            Delete Event
+          </Link>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
 }
 
 export default function EventDetailPanel({
@@ -56,60 +97,54 @@ export default function EventDetailPanel({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader display='flex' justifyContent='space-between'>
-          <Heading color='brand.secondary' size='md'>
+          <Heading fontWeight='semibold' size='md'>
             {title}
           </Heading>
-          <Popover>
-            <PopoverTrigger>
-              <Button position='relative' height='auto' minWidth='auto'>
-                &#8942;
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent fontSize='md' zIndex={4} width='200px'>
-              <PopoverArrow top='24px' />
-              <PopoverHeader>Event Settings</PopoverHeader>
-              <PopoverBody>
-                <Link
-                  as='button'
-                  color='red.400'
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        'Are you sure you want to delete this project?'
-                      )
-                    ) {
-                      removeEvent({ projectId, eventId })?.then(() => {
-                        history.push(`/${projectId}`);
-                      });
-                    }
-                  }}
-                >
-                  Delete Event
-                </Link>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
+          <ContextMenu
+            projectId={projectId}
+            eventId={eventId}
+            onComplete={onClose}
+          />
         </DrawerHeader>
 
         <DrawerBody>
-          <Heading as='h6' size='sm' fontWeight='normal' mt={4}>
+          <Flex alignItems='center' mt={8}>
+            <Checkbox
+              variantColor='purple'
+              value={`${completed}`}
+              onChange={handleChange}
+              defaultIsChecked={completed}
+            >
+              <Heading
+                fontWeight='semibold'
+                as='h4'
+                size='sm'
+                ml={4}
+                color='black'
+              >
+                Completed
+              </Heading>
+            </Checkbox>
+          </Flex>
+          <Heading
+            fontWeight='semibold'
+            as='h4'
+            size='sm'
+            mt={8}
+            color='brand.secondary'
+          >
             <Icon
               position='relative'
               name='calendar'
-              marginRight={2}
+              marginRight={6}
               top='-1px'
             />
-            {formatDate(date)}
+            <Box as='span' color='black'>
+              {new Date(date).toLocaleDateString('en-US')}
+            </Box>
           </Heading>
-          <Checkbox
-            mt={6}
-            variantColor='purple'
-            value={`${completed}`}
-            onChange={handleChange}
-            defaultIsChecked={completed}
-          >
-            Completed
-          </Checkbox>
+
+          <Assets eventId={eventId} projectId={projectId} />
         </DrawerBody>
       </DrawerContent>
     </Drawer>

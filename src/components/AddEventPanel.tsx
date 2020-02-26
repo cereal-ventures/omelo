@@ -60,13 +60,13 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       <DrawerOverlay />
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent>
-          <DrawerHeader>
-            <Heading size='md' color='brand.secondary'>
+          <DrawerHeader mb={8}>
+            <Heading size='md' fontWeight='semibold'>
               Add Event
             </Heading>
           </DrawerHeader>
           <DrawerBody>
-            <FormControl mb={4} isInvalid={Boolean(errors.title)}>
+            <FormControl mb={6} isInvalid={Boolean(errors.title)}>
               <Flex alignItems='center'>
                 <Icon
                   position='relative'
@@ -90,7 +90,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                 {errors.title && 'Please add a title to your event'}
               </FormErrorMessage>
             </FormControl>
-            <FormControl mb={4} isInvalid={Boolean(errors.date)}>
+            <FormControl mb={6} isInvalid={Boolean(errors.date)}>
               <Flex alignItems='center'>
                 <Icon
                   position='relative'
