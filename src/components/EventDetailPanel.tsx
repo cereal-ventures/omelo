@@ -24,6 +24,7 @@ import { updateEvent, removeEvent } from '../services/data';
 import Assets from './Assets';
 
 interface Props {
+  isViewOnly: boolean;
   projectId: string;
   id: string;
   title: string;
@@ -72,6 +73,7 @@ function ContextMenu({
 }
 
 export default function EventDetailPanel({
+  isViewOnly = false,
   projectId,
   id: eventId,
   title,
@@ -92,7 +94,11 @@ export default function EventDetailPanel({
   };
 
   const onClose = () => {
-    history.push(`/${projectId}`);
+    if (isViewOnly) {
+      history.push(`/public/${projectId}`);
+    } else {
+      history.push(`/${projectId}`);
+    }
   };
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
@@ -102,16 +108,19 @@ export default function EventDetailPanel({
           <Heading fontWeight='semibold' size='md'>
             {title}
           </Heading>
-          <ContextMenu
-            projectId={projectId}
-            eventId={eventId}
-            onComplete={onClose}
-          />
+          {!isViewOnly && (
+            <ContextMenu
+              projectId={projectId}
+              eventId={eventId}
+              onComplete={onClose}
+            />
+          )}
         </DrawerHeader>
 
         <DrawerBody>
           <Flex alignItems='center' mt={8}>
             <Checkbox
+              isDisabled={isViewOnly}
               variantColor='purple'
               value={`${completed}`}
               onChange={handleChange}
@@ -146,7 +155,11 @@ export default function EventDetailPanel({
             </Box>
           </Heading>
 
-          <Assets eventId={eventId} projectId={projectId} />
+          <Assets
+            eventId={eventId}
+            projectId={projectId}
+            isViewOnly={isViewOnly}
+          />
         </DrawerBody>
       </DrawerContent>
     </Drawer>

@@ -5,16 +5,22 @@ import AddLinkDropdown from './AddLinkDropdown';
 import EditLinkDropdown from './EditLinkDropdown';
 
 export default function Assets({
+  isViewOnly,
   eventId,
   projectId
 }: {
+  isViewOnly: boolean;
   eventId: string;
   projectId: string;
 }) {
   const { loading, assets } = useEventAssets(eventId);
   return (
     <>
-      <AddLinkDropdown eventId={eventId} projectId={projectId} />
+      <AddLinkDropdown
+        eventId={eventId}
+        projectId={projectId}
+        isViewOnly={isViewOnly}
+      />
       <Box pl='40px'>
         {!loading
           ? assets.map(asset => {
@@ -43,11 +49,13 @@ export default function Assets({
                     {asset.name}
                     <Icon color='brand.secondary' name='external-link' />
                   </Link>
-                  <EditLinkDropdown
-                    assetId={asset.id}
-                    name={asset.name}
-                    url={asset.url}
-                  />
+                  {!isViewOnly && (
+                    <EditLinkDropdown
+                      assetId={asset.id}
+                      name={asset.name}
+                      url={asset.url}
+                    />
+                  )}
                 </Flex>
               );
             })

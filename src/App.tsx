@@ -9,6 +9,7 @@ import { loadingScreen } from './components/loadingScreen';
 import projectImg from './images/devices@2x.png';
 import mountains from './images/Mountain-illustration@2x.png';
 import confetti from './images/Confetti@2x.png';
+import PublicTimeline from './components/PublicTimeline';
 
 const Main = React.lazy(() => import('./components/Main'));
 
@@ -131,6 +132,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <LoginPage loading={loading} />
+        </Route>
+        <Route path='/public/:id'>
+          <PublicTimeline />
         </Route>
         <PrivateRoute path='/'>
           <Suspense fallback={loadingScreen}>

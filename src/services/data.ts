@@ -4,6 +4,20 @@ import 'firebase/firestore';
 const db = firebase.firestore();
 
 export type UserEmail = string | null | undefined;
+export type ProjectId = string | null | undefined;
+
+export function getProjectById(projectId: string, cb: any) {
+  return db
+    .collection('projects')
+    .doc(projectId)
+    .onSnapshot(snapshot => {
+      const data = {
+        id: snapshot.id,
+        ...snapshot.data()
+      };
+      cb(data);
+    });
+}
 
 export function getProjects(userEmail: UserEmail, cb: any) {
   return db
@@ -19,6 +33,7 @@ export function getProjects(userEmail: UserEmail, cb: any) {
       cb(data);
     });
 }
+
 export function addProject({
   name,
   userEmail

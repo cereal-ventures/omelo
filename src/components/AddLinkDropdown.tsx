@@ -81,31 +81,39 @@ function AddAssetForm({
   );
 }
 
+const linkHeading = (
+  <Heading
+    my={8}
+    as='h4'
+    size='sm'
+    fontWeight='semibold'
+    display='flex'
+    alignItems='center'
+    color='brand.secondary'
+  >
+    <Icon name='copy' mr={6} />
+    <Box as='span' color='black'>
+      Assets
+    </Box>
+  </Heading>
+);
+
 export default function AddLinkDropdown({
+  isViewOnly,
   eventId,
   projectId
 }: {
   [x: string]: any;
 }) {
-  return (
+  return isViewOnly ? (
+    linkHeading
+  ) : (
     <Popover placement='bottom-start'>
       {({ onClose }) => (
         <>
           <PopoverTrigger>
             <Flex my={8} justifyContent='space-between' alignItems='center'>
-              <Heading
-                as='h4'
-                size='sm'
-                fontWeight='semibold'
-                display='flex'
-                alignItems='center'
-                color='brand.secondary'
-              >
-                <Icon name='copy' mr={6} />
-                <Box as='span' color='black'>
-                  Assets
-                </Box>
-              </Heading>
+              {linkHeading}
               <Link
                 as='button'
                 color='brand.secondary'
