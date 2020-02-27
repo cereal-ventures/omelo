@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FormControl, Heading, Link } from '@chakra-ui/core';
@@ -7,19 +7,27 @@ import PrimaryButton from './PrimaryButton';
 import { signIn } from '../services';
 
 export default function LoginForm({ loading }: { loading: boolean }) {
-  const { handleSubmit, register } = useForm();
+  const { errors, handleSubmit, register, setError } = useForm();
   const history = useHistory();
-  const [error, setError] = useState(null);
 
   return (
     <form
       onSubmit={handleSubmit(({ email, password }) => {
         signIn(email, password)
-          .then(() => {
-            history.push('/');
-          })
+          .then(
+            () => {
+              history.push('/');
+            },
+            e => Promise.reject(e)
+          )
           .catch(({ message }) => {
-            setError(message);
+            setError([
+              {
+                type: 'noMatch',
+                name: 'network',
+                message
+              }
+            ]);
           });
       })}
     >
@@ -34,16 +42,16 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         type='email'
         label='Email:'
         my={8}
-        register={register}
-        error={error}
+        ref={register}
+        error={null}
       />
       <FloatingLabelInput
         name='password'
         type='password'
         label='Password:'
         my={8}
-        register={register}
-        error={error}
+        ref={register}
+        error={errors.network}
       />
       <FormControl textAlign='center' my={4}>
         <PrimaryButton type='submit' isLoading={loading}>
