@@ -7,16 +7,13 @@ export type UserEmail = string | null | undefined;
 export type ProjectId = string | null | undefined;
 
 export function getProjectById(projectId: string, cb: any) {
-  return db
-    .collection('projects')
-    .doc(projectId)
-    .onSnapshot(snapshot => {
-      const data = {
-        id: snapshot.id,
-        ...snapshot.data()
-      };
-      cb(data);
-    });
+  return db.doc(`/projects/${projectId}`).onSnapshot(snapshot => {
+    const data = {
+      id: snapshot.id,
+      ...snapshot.data()
+    };
+    cb(data);
+  });
 }
 
 export function getProjects(userEmail: UserEmail, cb: any) {
@@ -51,26 +48,18 @@ export function updateProjectName({
   projectId: string;
   name: string;
 }) {
-  return db
-    .collection('projects')
-    .doc(projectId)
-    .update({ name });
+  return db.doc(`/projects/${projectId}`).update({ name });
 }
 
 export function removeProject(projectId: string | undefined) {
   if (projectId) {
-    return db
-      .collection('projects')
-      .doc(projectId)
-      .delete();
+    return db.doc(`/projects/${projectId}`).delete();
   }
 }
 
 export function getEventsById(id: string, cb: any) {
   return db
-    .collection('projects')
-    .doc(id)
-    .collection('events')
+    .collection(`/projects/${id}/events`)
     .orderBy('date')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
@@ -96,16 +85,12 @@ export function addEvent({
   completed: boolean;
   isDisabled: boolean;
 }) {
-  return db
-    .collection('projects')
-    .doc(projectId)
-    .collection('events')
-    .add({
-      title,
-      date,
-      completed,
-      isDisabled
-    });
+  return db.collection(`/projects/${projectId}/events`).add({
+    title,
+    date,
+    completed,
+    isDisabled
+  });
 }
 
 export function updateEvent({
@@ -117,12 +102,7 @@ export function updateEvent({
   eventId: string;
   payload: { [x: string]: any };
 }) {
-  return db
-    .collection('projects')
-    .doc(projectId)
-    .collection('events')
-    .doc(eventId)
-    .update(payload);
+  return db.doc(`/projects/${projectId}/events/${eventId}`).update(payload);
 }
 
 export function removeEvent({
@@ -132,12 +112,7 @@ export function removeEvent({
   projectId: string;
   eventId: string;
 }) {
-  return db
-    .collection('projects')
-    .doc(projectId)
-    .collection('events')
-    .doc(eventId)
-    .delete();
+  return db.doc(`/projects/${projectId}/events/${eventId}`).delete();
 }
 
 type Asset = 'link'; // | 'video' | 'image' | 'pdf';
@@ -173,20 +148,14 @@ export function updateAsset({
   name: string;
   url: string;
 }) {
-  return db
-    .collection('assets')
-    .doc(assetId)
-    .update({
-      name,
-      url
-    });
+  return db.doc(`/assets/${assetId}`).update({
+    name,
+    url
+  });
 }
 
 export function removeAsset(assetId: string) {
-  return db
-    .collection('assets')
-    .doc(assetId)
-    .delete();
+  return db.doc(`/assets/${assetId}`).delete();
 }
 
 export function getAssetsByEvent(eventId: string, cb: any) {
