@@ -47,8 +47,10 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       addEvent({
         projectId,
         title,
-        date,
-        completed: completed,
+        date: new Date(date).toLocaleDateString('en-US', {
+          timeZone: 'UTC'
+        }),
+        completed,
         isDisabled: false
       });
       onClose();

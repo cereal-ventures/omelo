@@ -113,8 +113,7 @@ export default function Timeline({
       </Route>
       <Route path='/:id/event/:event'>
         {({ match }) => {
-          if (!match) return null;
-          const event = events.find(({ id }) => id === match.params.event);
+          const event = events.find(({ id }) => id === match?.params?.event);
           return (
             <EventDetailPanel
               projectId={match?.params?.id}

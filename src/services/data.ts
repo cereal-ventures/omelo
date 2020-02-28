@@ -81,7 +81,7 @@ export function addEvent({
 }: {
   projectId: string;
   title: string;
-  date: Date;
+  date: string;
   completed: boolean;
   isDisabled: boolean;
 }) {
