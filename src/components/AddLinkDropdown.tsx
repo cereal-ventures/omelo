@@ -83,7 +83,6 @@ function AddAssetForm({
 
 const linkHeading = (
   <Heading
-    my={8}
     as='h4'
     size='sm'
     fontWeight='semibold'
@@ -106,7 +105,7 @@ export default function AddLinkDropdown({
   [x: string]: any;
 }) {
   return isViewOnly ? (
-    linkHeading
+    <Box my={8}>{linkHeading}</Box>
   ) : (
     <Popover placement='bottom-start'>
       {({ onClose }) => (
