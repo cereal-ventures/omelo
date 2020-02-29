@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Heading, Box, Input, Button } from '@chakra-ui/core';
+import { Heading, Flex, Input, Button } from '@chakra-ui/core';
+import ShareModal from './ShareModal';
 
 import { updateProject } from '../services/data';
 
@@ -26,41 +27,44 @@ export default function ProjectTitle({
     }
   });
   return (
-    <Box
-      display='flex'
-      alignItems='center'
-      p={8}
+    <Flex
       position='fixed'
-      width='100%'
+      alignItems='center'
+      justifyContent='space-between'
+      width={{ xs: '100%', md: 'calc(100% - 275px)' }}
       top='0px'
+      p={8}
     >
-      <Button
-        size='xs'
-        fontSize='md'
-        display={{ md: 'none' }}
-        mr={4}
-        onClick={setIsPanelOpen}
-      >
-        &#9776;
-      </Button>
-      {!isEditing ? (
-        <Heading size='sm' onClick={() => setIsEditing(true)}>
-          {projectName}
-        </Heading>
-      ) : (
-        <form onBlur={submit} onSubmit={submit}>
-          <Input
-            ref={(el: any) => {
-              register(el);
-              if (el) el.focus();
-            }}
-            name='projectTitle'
-            focusBorderColor='brand.secondary'
-            variant='flushed'
-            placeholder={projectName}
-          />
-        </form>
-      )}
-    </Box>
+      <Flex alignItems='center'>
+        <Button
+          size='xs'
+          fontSize='md'
+          display={{ md: 'none' }}
+          mr={4}
+          onClick={setIsPanelOpen}
+        >
+          &#9776;
+        </Button>
+        {!isEditing ? (
+          <Heading size='sm' onClick={() => setIsEditing(true)}>
+            {projectName}
+          </Heading>
+        ) : (
+          <form onBlur={submit} onSubmit={submit}>
+            <Input
+              ref={(el: any) => {
+                register(el);
+                if (el) el.focus();
+              }}
+              name='projectTitle'
+              focusBorderColor='brand.secondary'
+              variant='flushed'
+              placeholder={projectName}
+            />
+          </form>
+        )}
+      </Flex>
+      <ShareModal projectId={projectId} />
+    </Flex>
   );
 }
