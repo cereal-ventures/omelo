@@ -13,7 +13,7 @@ export default function Assets({
   eventId: string;
   projectId: string;
 }) {
-  const { loading, assets } = useEventAssets(eventId);
+  const { loading, assets } = useEventAssets({ eventId, projectId });
   return (
     <>
       <AddLinkDropdown
@@ -51,6 +51,7 @@ export default function Assets({
                   </Link>
                   {!isViewOnly && (
                     <EditLinkDropdown
+                      projectId={projectId}
                       assetId={asset.id}
                       name={asset.name}
                       url={asset.url}

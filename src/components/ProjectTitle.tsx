@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Heading, Box, Input, Button } from '@chakra-ui/core';
 
-import { updateProjectName } from '../services/data';
+import { updateProject } from '../services/data';
 
 export default function ProjectTitle({
   projectName,
@@ -18,7 +18,7 @@ export default function ProjectTitle({
 
   const submit = handleSubmit(({ projectTitle }) => {
     if (projectTitle.trim()) {
-      updateProjectName({ projectId, name: projectTitle }).then(() => {
+      updateProject({ projectId, payload: { name: projectTitle } }).then(() => {
         setIsEditing(false);
       });
     } else {

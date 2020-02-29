@@ -9,9 +9,9 @@ import { loadingScreen } from './components/loadingScreen';
 import projectImg from './images/devices@2x.png';
 import mountains from './images/Mountain-illustration@2x.png';
 import confetti from './images/Confetti@2x.png';
-import PublicTimeline from './components/PublicTimeline';
 
 const Main = React.lazy(() => import('./components/Main'));
+const PublicTimeline = React.lazy(() => import('./components/PublicTimeline'));
 
 function PrivateRoute({ children, ...rest }: any) {
   const { user, loading } = useAuth();
@@ -134,7 +134,9 @@ function App() {
           <LoginPage loading={loading} />
         </Route>
         <Route path='/public/:id'>
-          <PublicTimeline />
+          <Suspense fallback={loadingScreen}>
+            <PublicTimeline />
+          </Suspense>
         </Route>
         <PrivateRoute path='/'>
           <Suspense fallback={loadingScreen}>

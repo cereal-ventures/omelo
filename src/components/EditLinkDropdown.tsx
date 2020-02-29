@@ -16,14 +16,16 @@ import {
 import { updateAsset, removeAsset } from '../services/data';
 
 function UpdateAssetForm({
+  projectId,
   name,
   url,
   assetId,
   onClose
 }: {
+  projectId: string;
+  assetId: string;
   name: string;
   url: string;
-  assetId: string;
   onClose: (() => void) | undefined;
 }) {
   const { register, handleSubmit, errors } = useForm({
@@ -43,7 +45,8 @@ function UpdateAssetForm({
       updateAsset({
         name,
         url,
-        assetId
+        assetId,
+        projectId
       });
       onClose && onClose();
     }
@@ -81,7 +84,7 @@ function UpdateAssetForm({
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
             if (window.confirm('Are you user you want to delete this link?')) {
-              removeAsset(assetId);
+              removeAsset({ assetId, projectId });
             }
             onClose && onClose();
           }}
@@ -94,6 +97,7 @@ function UpdateAssetForm({
 }
 
 export default function EditLinkDropdown({
+  projectId,
   assetId,
   name,
   url
@@ -116,6 +120,7 @@ export default function EditLinkDropdown({
                 Edit Link
               </Heading>
               <UpdateAssetForm
+                projectId={projectId}
                 assetId={assetId}
                 onClose={onClose}
                 name={name}

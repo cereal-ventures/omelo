@@ -41,14 +41,19 @@ export function addProject({
   return db.collection('projects').add({ name, users: [userEmail] });
 }
 
-export function updateProjectName({
+type ProjectKey = {
+  name?: string;
+  isPublic?: boolean;
+};
+
+export function updateProject({
   projectId,
-  name
+  payload
 }: {
   projectId: string;
-  name: string;
+  payload: ProjectKey;
 }) {
-  return db.doc(`/projects/${projectId}`).update({ name });
+  return db.doc(`/projects/${projectId}`).update(payload);
 }
 
 export function removeProject(projectId: string | undefined) {
@@ -130,8 +135,7 @@ export function addAsset({
   type: Asset;
   url: string;
 }) {
-  return db.collection('assets').add({
-    projectId,
+  return db.collection(`/projects/${projectId}/assets`).add({
     eventId,
     name,
     type,
@@ -140,27 +144,44 @@ export function addAsset({
 }
 
 export function updateAsset({
+  projectId,
   assetId,
   name,
   url
 }: {
+  projectId: string;
   assetId: string;
   name: string;
   url: string;
 }) {
-  return db.doc(`/assets/${assetId}`).update({
+  return db.doc(`/projects/${projectId}/assets/${assetId}`).update({
     name,
     url
   });
 }
 
-export function removeAsset(assetId: string) {
-  return db.doc(`/assets/${assetId}`).delete();
+export function removeAsset({
+  projectId,
+  assetId
+}: {
+  projectId: string;
+  assetId: string;
+}) {
+  return db.doc(`/projects/${projectId}/assets/${assetId}`).delete();
 }
 
-export function getAssetsByEvent(eventId: string, cb: any) {
+export function getAssetsByEvent(
+  {
+    projectId,
+    eventId
+  }: {
+    projectId: string;
+    eventId: string;
+  },
+  cb: any
+) {
   return db
-    .collection('assets')
+    .collection(`/projects/${projectId}/assets`)
     .where('eventId', '==', eventId)
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
@@ -174,16 +195,13 @@ export function getAssetsByEvent(eventId: string, cb: any) {
 }
 
 export function getAssetsByProject(projectId: string, cb: any) {
-  return db
-    .collection('assets')
-    .where('projectId', '==', projectId)
-    .onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data()
-        };
-      });
-      cb(data);
+  return db.collection(`project/${projectId}/assets`).onSnapshot(snapshot => {
+    const data = snapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
     });
+    cb(data);
+  });
 }
