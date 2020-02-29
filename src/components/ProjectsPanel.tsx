@@ -14,10 +14,13 @@ import {
   PopoverContent,
   PopoverArrow,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
+  Switch,
+  FormLabel,
+  PopoverFooter
 } from '@chakra-ui/core';
 
-import { addProject, removeProject } from '../services/data';
+import { addProject, removeProject, updateProject } from '../services/data';
 import UserDropdown from './UserDropdown';
 
 import { logo } from './icons';
@@ -72,7 +75,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
         </Flex>
 
         <Box mt={8}>
-          {projects.map(({ name, id }: any) => {
+          {projects.map(({ name, id, isPublic }: any) => {
             const isActive = id === projectId;
             return (
               <Flex
@@ -117,8 +120,36 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                   </PopoverTrigger>
                   <PopoverContent zIndex={4} width='200px'>
                     <PopoverArrow />
-                    <PopoverHeader>Project Settings</PopoverHeader>
+                    <PopoverHeader>
+                      <Heading as='h6' size='sm' fontWeight='semibold'>
+                        Project Settings
+                      </Heading>
+                    </PopoverHeader>
                     <PopoverBody>
+                      <Flex align='center' justify='space-between'>
+                        <FormLabel
+                          p={0}
+                          fontWeight='normal'
+                          textAlign='right'
+                          htmlFor='set-visibility'
+                        >
+                          {isPublic ? 'Shared' : 'Private'}
+                        </FormLabel>
+                        <Switch
+                          id='set-visibility'
+                          defaultIsChecked={isPublic}
+                          value={isPublic}
+                          color='purple'
+                          onChange={() => {
+                            updateProject({
+                              projectId: id,
+                              payload: { isPublic: !isPublic }
+                            });
+                          }}
+                        />
+                      </Flex>
+                    </PopoverBody>
+                    <PopoverFooter>
                       <Link
                         as='button'
                         color='red.400'
@@ -136,7 +167,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                       >
                         Delete Project
                       </Link>
-                    </PopoverBody>
+                    </PopoverFooter>
                   </PopoverContent>
                 </Popover>
               </Flex>
