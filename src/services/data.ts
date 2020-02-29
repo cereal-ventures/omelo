@@ -7,13 +7,18 @@ export type UserEmail = string | null | undefined;
 export type ProjectId = string | null | undefined;
 
 export function getProjectById(projectId: string, cb: any) {
-  return db.doc(`/projects/${projectId}`).onSnapshot(snapshot => {
-    const data = {
-      id: snapshot.id,
-      ...snapshot.data()
-    };
-    cb(data);
-  });
+  return db.doc(`/projects/${projectId}`).onSnapshot(
+    snapshot => {
+      const data = {
+        id: snapshot.id,
+        ...snapshot.data()
+      };
+      cb(data);
+    },
+    () => {
+      window.location.replace('/');
+    }
+  );
 }
 
 export function getProjects(userEmail: UserEmail, cb: any) {
