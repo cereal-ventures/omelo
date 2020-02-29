@@ -190,7 +190,7 @@ export function getAssetsByEvent(
 ) {
   return db
     .collection(`/projects/${projectId}/assets`)
-    .where('eventId', '==', eventId)
+    .where('eventId', '==', eventId || '')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         return {
