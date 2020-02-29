@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getEventsById } from '../services/data';
+import { getEventsById } from '../../services/data';
 
 export const useEvents = (id: string = '') => {
   const [state, setState] = useState<{

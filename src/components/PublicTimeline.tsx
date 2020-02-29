@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, Route, useParams } from 'react-router-dom';
 import { Grid, Heading, Box } from '@chakra-ui/core';
 import Event from './Event';
-import { useEvents } from './useEvents';
+import { useEvents } from './hooks/useEvents';
 import EventDetailPanel from './EventDetailPanel';
-import { useProject } from './useProject';
+import { useProject } from './hooks/useProject';
 import { loadingScreen } from './loadingScreen';
 
 function getIsOverdue(date: Date) {

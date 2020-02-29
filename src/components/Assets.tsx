@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Link, Icon, Flex } from '@chakra-ui/core';
-import { useEventAssets } from './useEventAssets';
+import { useEventAssets } from './hooks/useEventAssets';
 import AddLinkDropdown from './AddLinkDropdown';
 import EditLinkDropdown from './EditLinkDropdown';
 

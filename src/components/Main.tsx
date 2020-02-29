@@ -13,7 +13,7 @@ import {
 import Timeline from './Timeline';
 import ProjectsPanel from './ProjectsPanel';
 import ZeroState from './ZeroState';
-import { useProjects } from './useProjects';
+import { useProjects } from './hooks/useProjects';
 import { loadingScreen } from './loadingScreen';
 // Types
 import { User } from 'firebase';

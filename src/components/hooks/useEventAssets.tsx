@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAssetsByEvent } from '../services/data';
+import { getAssetsByEvent } from '../../services/data';
 
 export const useEventAssets = ({
   projectId,

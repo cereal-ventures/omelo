@@ -71,15 +71,18 @@ export function getEventsById(id: string, cb: any) {
   return db
     .collection(`/projects/${id}/events`)
     .orderBy('date')
-    .onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data()
-        };
-      });
-      cb(data);
-    });
+    .onSnapshot(
+      snapshot => {
+        const data = snapshot.docs.map(doc => {
+          return {
+            id: doc.id,
+            ...doc.data()
+          };
+        });
+        cb(data);
+      },
+      e => console.log(e)
+    );
 }
 
 export function addEvent({

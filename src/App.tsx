@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Grid, Box, Image, Heading, Flex, Text } from '@chakra-ui/core';
-import { useAuth } from './components/useAuth';
+import { useAuth } from './components/hooks/useAuth';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { logo } from './components/icons';

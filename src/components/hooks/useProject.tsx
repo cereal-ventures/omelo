@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProjectById, ProjectId } from '../services/data';
+import { getProjectById, ProjectId } from '../../services/data';
 
 export const useProject = (projectId: ProjectId) => {
   const [state, setState] = useState<{

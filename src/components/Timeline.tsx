@@ -3,7 +3,7 @@ import { useHistory, Route } from 'react-router-dom';
 import { Grid } from '@chakra-ui/core';
 import Event from './Event';
 import AddButton from './AddButton';
-import { useEvents } from './useEvents';
+import { useEvents } from './hooks/useEvents';
 import AddEventPanel from './AddEventPanel';
 import EventDetailPanel from './EventDetailPanel';
 import ProjectTitle from './ProjectTitle';
