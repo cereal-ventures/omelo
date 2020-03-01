@@ -43,7 +43,7 @@ export default function ShareModal({ projectId }: { projectId: string }) {
 
       <Modal isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
-        <ModalContent p={8}>
+        <ModalContent p={8} mx='auto' maxWidth={{xs: '90vw', md: '600px'}}>
           <ModalCloseButton />
           <ModalBody textAlign='center'>
             <Heading
@@ -65,6 +65,7 @@ export default function ShareModal({ projectId }: { projectId: string }) {
             >
               <Link
                 href={`/public/${projectId}`}
+                overflowWrap='break-word'
                 target='_blank'
                 color='brand.secondary'
               >
@@ -83,7 +84,7 @@ export default function ShareModal({ projectId }: { projectId: string }) {
                 setIsShared(true);
               }}
             >
-              {!isShared ? 'Copy To Clipboard' : 'Coppied  🎉'}
+              {!isShared ? 'Copy To Clipboard' : 'Copied  🎉'}
             </Link>
           </ModalFooter>
         </ModalContent>
