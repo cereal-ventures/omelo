@@ -25,6 +25,12 @@ export default function ShareModal({ projectId }: { projectId: string }) {
       navigator.clipboard.writeText(url);
     }
   }, [isShared, url]);
+
+  useEffect(()=> {
+    if(!isOpen) {
+      setIsShared(false)
+    }
+  }, [isOpen])
   return (
     <>
       <Button
