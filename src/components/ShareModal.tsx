@@ -56,12 +56,12 @@ export default function ShareModal({ projectId }: { projectId: string }) {
               mb={2}
               size='lg'
               color='brand.secondary'
-              fontWeight='normal'
+              fontWeight='semibold'
             >
               Share this project
             </Heading>
             <Text mb={4} fontWeight='light'>
-              Use this link to share your timeline
+              Anyone with this link can view your timeline
             </Text>
             <Box
               p={4}
@@ -71,6 +71,7 @@ export default function ShareModal({ projectId }: { projectId: string }) {
             >
               <Link
                 href={`/public/${projectId}`}
+                fontWeight='semibold'
                 overflowWrap='break-word'
                 target='_blank'
                 color='brand.secondary'
