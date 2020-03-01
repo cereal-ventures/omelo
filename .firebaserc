@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "omelo-dev",
+    "test": "omelo-test"
+  }
+}
