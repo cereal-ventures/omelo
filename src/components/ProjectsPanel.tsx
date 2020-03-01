@@ -75,7 +75,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
         </Flex>
 
         <Box mt={8}>
-          {projects.map(({ name, id, isPublic }: any) => {
+          {projects.map(({ name, id, isPublic, eventCount }: any) => {
             const isActive = id === projectId;
             return (
               <Flex
@@ -94,7 +94,9 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                   onClick={() => history.push(`/${id}`)}
                 >
                   <Box
-                    display='inline-block'
+                    display='inline-flex'
+                    alignItems='center'
+                    justifyContent='center'
                     width='24px'
                     height='24px'
                     borderRadius='50%'
@@ -102,7 +104,17 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                     color='white'
                     opacity={isActive ? 1 : 0.4}
                     marginRight={2}
-                  />
+                  >
+                    <Box
+                      as='span'
+                      position='relative'
+                      top='-1px'
+                      fontSize='10px'
+                      fontWeight='bold'
+                    >
+                      {eventCount || 0}
+                    </Box>
+                  </Box>
                   {name}
                 </Link>
 

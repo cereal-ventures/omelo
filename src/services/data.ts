@@ -98,12 +98,19 @@ export function addEvent({
   completed: boolean;
   isDisabled: boolean;
 }) {
-  return db.collection(`/projects/${projectId}/events`).add({
+  const batch = db.batch();
+  const projectRef = db.doc(`/projects/${projectId}`);
+  batch.update(projectRef, {
+    eventCount: firebase.firestore.FieldValue.increment(1)
+  });
+  const eventsRef = db.collection(`/projects/${projectId}/events`).doc();
+  batch.set(eventsRef, {
     title,
     date,
     completed,
     isDisabled
   });
+  return batch.commit();
 }
 
 export function updateEvent({
@@ -125,7 +132,14 @@ export function removeEvent({
   projectId: string;
   eventId: string;
 }) {
-  return db.doc(`/projects/${projectId}/events/${eventId}`).delete();
+  const batch = db.batch();
+  const projectRef = db.doc(`/projects/${projectId}`);
+  batch.update(projectRef, {
+    eventCount: firebase.firestore.FieldValue.increment(-1)
+  });
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+  batch.delete(eventRef);
+  return batch.commit();
 }
 
 type Asset = 'link'; // | 'video' | 'image' | 'pdf';
