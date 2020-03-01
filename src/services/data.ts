@@ -16,7 +16,7 @@ export function getProjectById(projectId: string, cb: any) {
       cb(data);
     },
     () => {
-      window.location.replace('/');
+      window.location.replace('/404');
     }
   );
 }

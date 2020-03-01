@@ -4,6 +4,7 @@ import { Grid, Box, Image, Heading, Flex, Text } from '@chakra-ui/core';
 import { useAuth } from './components/hooks/useAuth';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
+import Page404 from './components/404';
 import { logo } from './components/icons';
 import { loadingScreen } from './components/loadingScreen';
 import projectImg from './images/devices@2x.png';
@@ -127,6 +128,9 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route exact path='/404'>
+          <Page404 />
+        </Route>
         <Route exact path='/signup'>
           <SignupPage loading={loading} />
         </Route>
