@@ -7,6 +7,7 @@ import { useEvents } from './hooks/useEvents';
 import AddEventPanel from './AddEventPanel';
 import EventDetailPanel from './EventDetailPanel';
 import ProjectTitle from './ProjectTitle';
+import { getIsOverdue } from '../utils';
 
 type TimelineProps = {
   projectId: string;
@@ -14,9 +15,6 @@ type TimelineProps = {
   setIsPanelOpen: () => void;
 };
 
-function getIsOverdue(date: Date) {
-  return new Date(date) < new Date(Date.now());
-}
 
 const HEIGHT_OFFSET = 200;
 

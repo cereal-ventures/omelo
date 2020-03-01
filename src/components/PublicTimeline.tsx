@@ -6,10 +6,7 @@ import { useEvents } from './hooks/useEvents';
 import EventDetailPanel from './EventDetailPanel';
 import { useProject } from './hooks/useProject';
 import { loadingScreen } from './loadingScreen';
-
-function getIsOverdue(date: Date) {
-  return new Date(date) < new Date(Date.now());
-}
+import { getIsOverdue } from '../utils';
 
 const HEIGHT_OFFSET = 200;
 

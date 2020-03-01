@@ -12,3 +12,7 @@ export const formatDate = (date: Date | string): string => {
   });
   return dateString === today ? 'Today' : dateString;
 };
+
+export function getIsOverdue(date: Date) {
+  return new Date(date) < new Date(Date.now() - 86400000);
+}
