@@ -7,7 +7,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerFooter,
   FormErrorMessage,
   Input,
   Button,
@@ -116,20 +115,20 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                 {errors.date && 'Please add a date to your event'}
               </FormErrorMessage>
             </FormControl>
+            <Flex align='center' mt={12}>
+              <Button
+                borderRadius='full'
+                px={6}
+                type='submit'
+                variantColor='teal'
+              >
+                Save
+              </Button>
+              <Button variant='link' ml={3} onClick={onClose}>
+                Cancel
+              </Button>
+            </Flex>
           </DrawerBody>
-          <DrawerFooter justifyContent='start'>
-            <Button
-              borderRadius='full'
-              px={6}
-              type='submit'
-              variantColor='teal'
-            >
-              Save
-            </Button>
-            <Button variant='link' ml={3} onClick={onClose}>
-              Cancel
-            </Button>
-          </DrawerFooter>
         </DrawerContent>
       </form>
     </Drawer>
