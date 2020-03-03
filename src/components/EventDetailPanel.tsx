@@ -11,7 +11,8 @@ import {
   Icon,
   Box,
   Flex,
-  ButtonGroup
+  ButtonGroup,
+  Tooltip
 } from '@chakra-ui/core';
 import { updateEvent, removeEvent } from '../services/data';
 import Assets from './Assets';
@@ -118,26 +119,34 @@ export default function EventDetailPanel({
   );
 
   const indicator = (
-    <Flex
-      align='center'
-      justify='center'
-      width='32px'
-      height='32px'
-      backgroundColor={completed ? 'rgba(156,189,59,.25)' : 'white'}
-      borderRadius='full'
-      border='1px solid'
-      borderColor={completed ? 'system.positive' : 'gray.200'}
-      position='relative'
-      mr={4}
+    <Tooltip
+      hasArrow
+      zIndex={3}
+      placement='left'
+      aria-label={completed ? 'Event has been completed' : 'Not yet completed'}
+      label={completed ? 'Event has been completed' : 'Not yet completed'}
     >
-      {completed && <Icon name='check' color='system.positive' size='16px' />}
-    </Flex>
+      <Flex
+        align='center'
+        justify='center'
+        width='32px'
+        height='32px'
+        backgroundColor={completed ? 'rgba(156,189,59,.25)' : 'white'}
+        borderRadius='full'
+        border='1px solid'
+        borderColor={completed ? 'system.positive' : 'gray.200'}
+        position='relative'
+        mr={4}
+      >
+        {completed && <Icon name='check' color='system.positive' size='16px' />}
+      </Flex>
+    </Tooltip>
   );
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      <DrawerOverlay />
-      <DrawerContent>
+      <DrawerOverlay zIndex={1} />
+      <DrawerContent zIndex={2}>
         <DrawerHeader>
           <Flex align='center'>
             {indicator}

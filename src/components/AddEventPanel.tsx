@@ -14,7 +14,8 @@ import {
   Heading,
   Icon,
   Flex,
-  Box
+  Box,
+  Tooltip
 } from '@chakra-ui/core';
 import { addEvent } from '../services/data';
 
@@ -58,23 +59,31 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
   };
 
   const indicator = (
-    <Box
-      width='32px'
-      height='32px'
-      backgroundColor={'white'}
-      borderRadius='full'
-      border='1px solid'
-      borderColor={'gray.200'}
-      position='relative'
-      mr={4}
-    />
+    <Tooltip
+      hasArrow
+      placement='left'
+      zIndex={3}
+      aria-label='Not yet completed'
+      label='Not yet completed'
+    >
+      <Box
+        width='32px'
+        height='32px'
+        backgroundColor={'white'}
+        borderRadius='full'
+        border='1px solid'
+        borderColor={'gray.200'}
+        position='relative'
+        mr={4}
+      />
+    </Tooltip>
   );
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      <DrawerOverlay />
+      <DrawerOverlay zIndex={1} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DrawerContent>
+        <DrawerContent zIndex={2}>
           <DrawerHeader mb={4}>
             <Flex align='center'>
               {indicator}
