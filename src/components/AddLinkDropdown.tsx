@@ -53,6 +53,7 @@ function AddAssetForm({
           ref={register({
             required: 'Please enter a name'
           })}
+          type='text'
           name='assetName'
           variant='flushed'
           label='Enter a name'
@@ -66,6 +67,7 @@ function AddAssetForm({
             pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/
           })}
           name='assetUrl'
+          type='text'
           variant='flushed'
           label='Enter a name'
           placeholder='Enter a url'
