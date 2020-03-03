@@ -6,9 +6,9 @@ export default function AddButton({ onClick }: { onClick: () => void }) {
     <Box position='fixed' bottom='40px' right='40px'>
       <Tooltip
         hasArrow
-        aria-label='Add Event'
-        label='Add Event'
-        placement='top'
+        aria-label='Add to timeline'
+        label='Add to timeline'
+        placement='left'
       >
         <Button
           variantColor='purple'

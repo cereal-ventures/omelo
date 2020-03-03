@@ -40,7 +40,7 @@ export default function TitleInput({
         fontWeight='semibold'
         name='title'
         fontSize='inherit'
-        placeholder='Event Title'
+        placeholder='Enter Title'
         onBlur={handleSubmit(onSubmit)}
         ref={(ref: any) =>
           register(ref, {
@@ -49,7 +49,7 @@ export default function TitleInput({
         }
       />
       <FormErrorMessage>
-        {errors?.title && 'Please add a title to your event'}
+        {errors?.title && 'Please add a title'}
       </FormErrorMessage>
     </FormControl>
   );

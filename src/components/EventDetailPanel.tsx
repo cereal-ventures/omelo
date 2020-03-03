@@ -70,7 +70,7 @@ function StatusButtons({
           }
         }}
       >
-        Delete Event
+        Delete
       </Button>
     </ButtonGroup>
   );

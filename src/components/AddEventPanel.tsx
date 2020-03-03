@@ -97,15 +97,15 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                     focusBorderColor='brand.secondary'
                     variant='flushed'
                     name='title'
-                    placeholder='Event Title'
+                    placeholder='Enter Title'
                     ref={(ref: any) =>
                       register(ref, {
-                        required: 'Please set a title for your event'
+                        required: 'Please set a title'
                       })
                     }
                   />
                   <FormErrorMessage>
-                    {errors.title && 'Please add a title to your event'}
+                    {errors.title && 'Please add a title'}
                   </FormErrorMessage>
                 </FormControl>
               </Heading>
@@ -131,13 +131,13 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                   type='date'
                   ref={(ref: any) =>
                     register(ref, {
-                      required: 'Please set a date for your event'
+                      required: 'Please set a valid date'
                     })
                   }
                 />
               </Flex>
               <FormErrorMessage>
-                {errors.date && 'Please add a date to your event'}
+                {errors.date && 'Please add a date'}
               </FormErrorMessage>
             </FormControl>
             <Flex align='center' mt={12}>
