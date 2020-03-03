@@ -8,7 +8,6 @@ import {
   PopoverContent,
   PopoverBody,
   FormControl,
-  Input,
   ButtonGroup,
   Button,
   Link,
@@ -17,6 +16,7 @@ import {
   Box
 } from '@chakra-ui/core';
 import { addAsset } from '../services/data';
+import FloatLabelInput from './FloatLabelInput';
 
 function AddAssetForm({
   eventId,
@@ -49,23 +49,25 @@ function AddAssetForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl mb={8} isInvalid={Boolean(errors.assetName)}>
-        <Input
+        <FloatLabelInput
           ref={register({
             required: 'Please enter a name'
           })}
           name='assetName'
           variant='flushed'
+          label='Enter a name'
           placeholder='Enter a name'
         />
       </FormControl>
       <FormControl mb={8} isInvalid={Boolean(errors.assetUrl)}>
-        <Input
+        <FloatLabelInput
           ref={register({
             required: 'Please enter a valid url',
             pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/
           })}
           name='assetUrl'
           variant='flushed'
+          label='Enter a name'
           placeholder='Enter a url'
         />
       </FormControl>
@@ -128,7 +130,7 @@ export default function AddLinkDropdown({
           <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
             <PopoverCloseButton />
             <PopoverBody px={4}>
-              <Heading size='sm' mb={4}>
+              <Heading size='sm' mb={6}>
                 Add Link
               </Heading>
               <AddAssetForm
