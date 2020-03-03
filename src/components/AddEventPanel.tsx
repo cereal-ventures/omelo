@@ -13,7 +13,8 @@ import {
   FormControl,
   Heading,
   Icon,
-  Flex
+  Flex,
+  Box
 } from '@chakra-ui/core';
 import { addEvent } from '../services/data';
 
@@ -56,51 +57,66 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
     }
   };
 
+  const indicator = (
+    <Box
+      width='32px'
+      height='32px'
+      backgroundColor={'white'}
+      borderRadius='full'
+      border='1px solid'
+      borderColor={'gray.200'}
+      position='relative'
+      mr={4}
+    />
+  );
+
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent>
-          <DrawerHeader mb={8}>
-            <Heading size='md' fontWeight='semibold'>
-              Add Event
-            </Heading>
+          <DrawerHeader mb={4}>
+            <Flex align='center'>
+              {indicator}
+
+              <Heading fontWeight='semibold' size='md' flexGrow={1}>
+                <FormControl isInvalid={Boolean(errors.title)}>
+                  <Input
+                    fontWeight='semibold'
+                    fontSize='inherit'
+                    borderColor='gray.100'
+                    focusBorderColor='brand.secondary'
+                    variant='flushed'
+                    name='title'
+                    placeholder='Event Title'
+                    ref={(ref: any) =>
+                      register(ref, {
+                        required: 'Please set a title for your event'
+                      })
+                    }
+                  />
+                  <FormErrorMessage>
+                    {errors.title && 'Please add a title to your event'}
+                  </FormErrorMessage>
+                </FormControl>
+              </Heading>
+            </Flex>
           </DrawerHeader>
-          <DrawerBody>
-            <FormControl mb={6} isInvalid={Boolean(errors.title)}>
-              <Flex alignItems='center'>
-                <Icon
-                  position='relative'
-                  name='edit'
-                  marginRight={4}
-                  top='-1px'
-                />
-                <Input
-                  focusBorderColor='brand.secondary'
-                  variant='flushed'
-                  name='title'
-                  placeholder='Event Title'
-                  ref={(ref: any) =>
-                    register(ref, {
-                      required: 'Please set a title for your event'
-                    })
-                  }
-                />
-              </Flex>
-              <FormErrorMessage>
-                {errors.title && 'Please add a title to your event'}
-              </FormErrorMessage>
-            </FormControl>
+          <DrawerBody pl={8}>
             <FormControl mb={6} isInvalid={Boolean(errors.date)}>
-              <Flex alignItems='center'>
+              <Flex alignItems='center' color='brand.secondary'>
                 <Icon
                   position='relative'
                   name='calendar'
-                  marginRight={4}
+                  marginRight={6}
                   top='-1px'
+                  size='19px'
                 />
                 <Input
+                  color='black'
                   variant='flushed'
+                  fontWeight='semibold'
+                  borderColor='gray.100'
                   focusBorderColor='brand.secondary'
                   name='date'
                   type='date'

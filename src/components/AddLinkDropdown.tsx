@@ -90,7 +90,7 @@ const linkHeading = (
     alignItems='center'
     color='brand.secondary'
   >
-    <Icon name='copy' mr={6} />
+    <Icon name='copy' mr={6} size='19px' />
     <Box as='span' color='black'>
       Assets
     </Box>

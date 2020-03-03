@@ -26,11 +26,11 @@ export default function ShareModal({ projectId }: { projectId: string }) {
     }
   }, [isShared, url]);
 
-  useEffect(()=> {
-    if(!isOpen) {
-      setIsShared(false)
+  useEffect(() => {
+    if (!isOpen) {
+      setIsShared(false);
     }
-  }, [isOpen])
+  }, [isOpen]);
   return (
     <>
       <Button
@@ -49,7 +49,7 @@ export default function ShareModal({ projectId }: { projectId: string }) {
 
       <Modal isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
-        <ModalContent p={8} mx='auto' maxWidth={{xs: '90vw', md: '600px'}}>
+        <ModalContent p={8} mx='auto' maxWidth={{ xs: '90vw', md: '600px' }}>
           <ModalCloseButton />
           <ModalBody textAlign='center'>
             <Heading

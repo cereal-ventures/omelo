@@ -7,68 +7,71 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  Checkbox,
-  PopoverBody,
-  Popover,
-  PopoverTrigger,
   Button,
-  PopoverContent,
-  PopoverArrow,
-  PopoverHeader,
-  Link,
   Icon,
   Box,
-  Flex
+  Flex,
+  ButtonGroup
 } from '@chakra-ui/core';
 import { updateEvent, removeEvent } from '../services/data';
 import Assets from './Assets';
+import DateInput from './DateInput';
+import TitleInput from './TitleInput';
 
 interface Props {
   isViewOnly: boolean;
   projectId: string;
   id: string;
   title: string;
-  date: Date;
+  date: string;
   isOpen: boolean;
   completed: boolean;
 }
 
-function ContextMenu({
+function StatusButtons({
   projectId,
   eventId,
+  completed,
   onComplete
 }: {
   projectId: string;
   eventId: string;
+  completed: boolean;
   onComplete: () => void;
 }) {
+  const handleChange = () => {
+    updateEvent({
+      projectId,
+      eventId,
+      payload: {
+        completed: !completed
+      }
+    });
+  };
   return (
-    <Popover>
-      <PopoverTrigger>
-        <Button position='relative' height='auto' minWidth='auto'>
-          &#8942;
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent fontSize='md' zIndex={4} width='200px'>
-        <PopoverArrow top='24px' />
-        <PopoverHeader>Event Settings</PopoverHeader>
-        <PopoverBody>
-          <Link
-            as='button'
-            color='red.400'
-            onClick={() => {
-              if (
-                window.confirm('Are you sure you want to delete this project?')
-              ) {
-                removeEvent({ projectId, eventId })?.then(onComplete);
-              }
-            }}
-          >
-            Delete Event
-          </Link>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+    <ButtonGroup ml={12} mt={6} spacing={4}>
+      <Button
+        size='sm'
+        borderRadius='full'
+        variantColor='green'
+        variant={completed ? 'outline' : 'solid'}
+        onClick={handleChange}
+      >
+        {completed ? 'Reset Status' : 'Mark completed'}
+      </Button>
+      <Button
+        size='xs'
+        variant='link'
+        onClick={() => {
+          if (window.confirm('Are you sure you want to delete this project?')) {
+            onComplete();
+            removeEvent({ projectId, eventId });
+          }
+        }}
+      >
+        Delete Event
+      </Button>
+    </ButtonGroup>
   );
 }
 
@@ -83,16 +86,6 @@ export default function EventDetailPanel({
 }: Props) {
   const history = useHistory();
 
-  const handleChange = () => {
-    updateEvent({
-      projectId,
-      eventId,
-      payload: {
-        completed: !completed
-      }
-    });
-  };
-
   const onClose = () => {
     if (isViewOnly) {
       history.push(`/public/${projectId}`);
@@ -100,61 +93,67 @@ export default function EventDetailPanel({
       history.push(`/${projectId}`);
     }
   };
+
+  const dateHeading = (
+    <Heading fontWeight='semibold' as='h4' size='sm' color='brand.secondary'>
+      <Icon position='relative' name='calendar' marginRight={6} top='-1px' />
+      <Box as='span' color='black'>
+        {new Date(date).toLocaleDateString('en-US')}
+      </Box>
+    </Heading>
+  );
+
+  const dateInputEl = (
+    <DateInput projectId={projectId} eventId={eventId} date={date} />
+  );
+
+  const eventTitleEl = (
+    <Heading fontWeight='semibold' size='md' flexGrow={1}>
+      {isViewOnly ? (
+        title
+      ) : title ? (
+        <TitleInput title={title} projectId={projectId} eventId={eventId} />
+      ) : null}
+    </Heading>
+  );
+
+  const indicator = (
+    <Flex
+      align='center'
+      justify='center'
+      width='32px'
+      height='32px'
+      backgroundColor={completed ? 'rgba(156,189,59,.25)' : 'white'}
+      borderRadius='full'
+      border='1px solid'
+      borderColor={completed ? 'system.positive' : 'gray.200'}
+      position='relative'
+      mr={4}
+    >
+      {completed && <Icon name='check' color='system.positive' size='16px' />}
+    </Flex>
+  );
+
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader display='flex' justifyContent='space-between'>
-          <Heading fontWeight='semibold' size='md'>
-            {title}
-          </Heading>
+        <DrawerHeader>
+          <Flex align='center'>
+            {indicator}
+            {eventTitleEl}
+          </Flex>
           {!isViewOnly && (
-            <ContextMenu
+            <StatusButtons
               projectId={projectId}
               eventId={eventId}
+              completed={completed}
               onComplete={onClose}
             />
           )}
         </DrawerHeader>
-
-        <DrawerBody>
-          <Flex alignItems='center' mt={8}>
-            <Checkbox
-              isDisabled={isViewOnly}
-              variantColor='purple'
-              value={`${completed}`}
-              onChange={handleChange}
-              defaultIsChecked={completed}
-            >
-              <Heading
-                fontWeight='semibold'
-                as='h4'
-                size='sm'
-                ml={4}
-                color='black'
-              >
-                Completed
-              </Heading>
-            </Checkbox>
-          </Flex>
-          <Heading
-            fontWeight='semibold'
-            as='h4'
-            size='sm'
-            mt={8}
-            color='brand.secondary'
-          >
-            <Icon
-              position='relative'
-              name='calendar'
-              marginRight={6}
-              top='-1px'
-            />
-            <Box as='span' color='black'>
-              {new Date(date).toLocaleDateString('en-US')}
-            </Box>
-          </Heading>
-
+        <DrawerBody pl={8} pt={4}>
+          {isViewOnly ? dateHeading : date ? dateInputEl : null}
           <Assets
             eventId={eventId}
             projectId={projectId}

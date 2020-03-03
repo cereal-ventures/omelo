@@ -11,7 +11,6 @@ interface Props {
   type: 'email' | 'password' | 'text';
   label: string;
   error?: any;
-  altRef: React.Ref<any>;
   [x: string]: any;
 }
 
