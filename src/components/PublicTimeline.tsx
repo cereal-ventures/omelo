@@ -87,6 +87,7 @@ export default function PublicTimeline() {
             return (
               <Event
                 key={id}
+                completed={completed}
                 y={HEIGHT_OFFSET + 100 * i}
                 date={date}
                 title={title}
