@@ -2,6 +2,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
 const db = firebase.firestore();
+const { fromDate } = firebase.firestore.Timestamp;
 
 export type UserEmail = string | null | undefined;
 export type ProjectId = string | null | undefined;
@@ -74,9 +75,11 @@ export function getEventsById(id: string, cb: any) {
     .onSnapshot(
       snapshot => {
         const data = snapshot.docs.map(doc => {
+          const { date, ...rest } = doc.data();
           return {
             id: doc.id,
-            ...doc.data()
+            date: date.toDate(),
+            ...rest
           };
         });
         cb(data);
@@ -103,10 +106,11 @@ export function addEvent({
   batch.update(projectRef, {
     eventCount: firebase.firestore.FieldValue.increment(1)
   });
+
   const eventsRef = db.collection(`/projects/${projectId}/events`).doc();
   batch.set(eventsRef, {
     title,
-    date,
+    date: fromDate(new Date(date)),
     completed,
     isDisabled
   });
@@ -122,6 +126,9 @@ export function updateEvent({
   eventId: string;
   payload: { [x: string]: any };
 }) {
+  if (payload.date) {
+    payload.date = fromDate(new Date(payload.date));
+  }
   return db.doc(`/projects/${projectId}/events/${eventId}`).update(payload);
 }
 
