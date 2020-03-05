@@ -69,7 +69,7 @@ function AddAssetForm({
           name='assetUrl'
           type='text'
           variant='flushed'
-          label='Enter a name'
+          label='Enter a url'
           placeholder='Enter a url'
         />
       </FormControl>
