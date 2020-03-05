@@ -5,7 +5,6 @@ import {
   Drawer,
   DrawerBody,
   DrawerHeader,
-  DrawerOverlay,
   DrawerContent,
   Button,
   Icon,
