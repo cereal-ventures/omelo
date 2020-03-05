@@ -19,7 +19,7 @@ const fillMap = {
     border: '#D3D5E0',
     fill: '#D3D5E0',
     textColor: 'black',
-    tooltipText: 'Not yet completed'
+    tooltipText: 'Not yet complete'
   }
 };
 

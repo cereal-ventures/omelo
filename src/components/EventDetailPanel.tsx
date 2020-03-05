@@ -127,6 +127,7 @@ export default function EventDetailPanel({
       label={completed ? 'Event has been completed' : 'Not yet completed'}
     >
       <Flex
+        flexShrink={0}
         align='center'
         justify='center'
         width='32px'
@@ -145,7 +146,7 @@ export default function EventDetailPanel({
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      <DrawerOverlay zIndex={1} />
+      {/* <DrawerOverlay zIndex={1} /> */}
       <DrawerContent zIndex={2}>
         <DrawerHeader>
           <Flex align='center'>

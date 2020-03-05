@@ -67,6 +67,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       label='Not yet completed'
     >
       <Box
+        flexShrink={0}
         width='32px'
         height='32px'
         backgroundColor={'white'}
@@ -81,7 +82,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      <DrawerOverlay zIndex={1} />
+      {/* <DrawerOverlay zIndex={1} /> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent zIndex={2}>
           <DrawerHeader mb={4}>
