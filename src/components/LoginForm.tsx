@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { FormControl, Heading, Link } from '@chakra-ui/core';
+import { FormControl, Heading, Button } from '@chakra-ui/core';
 import FloatingLabelInput from './FloatLabelInput';
 import PrimaryButton from './PrimaryButton';
 import { signIn } from '../services';
 
 export default function LoginForm({ loading }: { loading: boolean }) {
+  const [isLoading, setIsLoading] = useState(false);
   const { errors, handleSubmit, register, setError } = useForm();
   const history = useHistory();
 
   return (
     <form
       onSubmit={handleSubmit(({ email, password }) => {
+        setIsLoading(true);
         signIn(email, password)
           .then(
             () => {
@@ -54,12 +56,13 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         error={errors.network}
       />
       <FormControl textAlign='center' my={4}>
-        <PrimaryButton type='submit' isLoading={loading}>
+        <PrimaryButton type='submit' isLoading={isLoading}>
           Login
         </PrimaryButton>
       </FormControl>
-      <Link
-        as='button'
+      <Button
+        isDisabled={isLoading}
+        variant='link'
         color='brand.secondary'
         textAlign='center'
         display='inline-block'
@@ -67,7 +70,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         onClick={() => history.push(`/signup${history.location.search}`)}
       >
         Need to create an account?
-      </Link>
+      </Button>
     </form>
   );
 }

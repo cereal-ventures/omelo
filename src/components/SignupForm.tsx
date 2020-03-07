@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { FormControl, Heading, Link, FormErrorMessage } from '@chakra-ui/core';
+import {
+  FormControl,
+  Heading,
+  FormErrorMessage,
+  Button
+} from '@chakra-ui/core';
 import FloatingLabelInput from './FloatLabelInput';
 import PrimaryButton from './PrimaryButton';
 import { createUser } from '../services';
+import { updateUser, addProject } from '../services/data';
 
 export default function SignupForm({ loading }: { loading: boolean }) {
+  const [isLoading, setIsLoading] = useState(false);
   const { handleSubmit, register, errors, setError } = useForm();
   const history = useHistory();
   const hasErrors: boolean = Boolean(Object.keys(errors).length);
@@ -20,11 +27,14 @@ export default function SignupForm({ loading }: { loading: boolean }) {
           signUpName: name
         }) => {
           if (!hasErrors) {
+            setIsLoading(true);
             createUser(email, password)
               .then(
                 ({ user }) => user?.updateProfile({ displayName: name }),
                 e => Promise.reject(e)
               )
+              .then(updateUser)
+              .then(() => addProject({ name: 'My First Project' }))
               .then(() => history.push(`/${history.location.search}`))
               .catch(({ message }) => {
                 setError([
@@ -81,12 +91,13 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         </FormErrorMessage>
       </FormControl>
       <FormControl textAlign='center' my={4}>
-        <PrimaryButton type='submit' isLoading={loading}>
+        <PrimaryButton type='submit' isLoading={isLoading}>
           Sign Up
         </PrimaryButton>
       </FormControl>
-      <Link
-        as='button'
+      <Button
+        isDisabled={isLoading}
+        variant='link'
         color='brand.secondary'
         textAlign='center'
         display='inline-block'
@@ -94,7 +105,7 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         onClick={() => history.push(`/login${history.location.search}`)}
       >
         Already have an account?
-      </Link>
+      </Button>
     </form>
   );
 }
