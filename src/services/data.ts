@@ -65,8 +65,9 @@ export function updateUser() {
 }
 
 export async function validateInvite(inviteId: string) {
+  const user = getCurrentUser();
   const invite = await db.doc(`/invites/${inviteId}`).get();
-  return invite.exists;
+  return invite.exists && user?.email === invite.data()?.email;
 }
 
 export async function acceptProjectInvite(inviteId: string) {
