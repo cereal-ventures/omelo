@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, Route } from 'react-router-dom';
-import { Grid } from '@chakra-ui/core';
+import { Grid, useDisclosure } from '@chakra-ui/core';
 import Event from './Event';
 import AddButton from './AddButton';
 import { useEvents } from './hooks/useEvents';
 import AddEventPanel from './AddEventPanel';
 import EventDetailPanel from './EventDetailPanel';
 import ProjectTitle from './ProjectTitle';
+import AcceptInviteModal from './AcceptInviteModal';
 import { getIsOverdue } from '../utils';
+import { validateInvite } from '../services/data';
 
 type TimelineProps = {
+  invite?: string | null;
+  inviteName?: string | null;
   projectId: string;
   projectName: string;
   setIsPanelOpen: () => void;
+  users?: Array<any>;
 };
 
 const HEIGHT_OFFSET = 200;
 
 export default function Timeline({
+  users,
+  invite,
+  inviteName,
   projectId,
   projectName,
   setIsPanelOpen
@@ -25,6 +33,7 @@ export default function Timeline({
   const history = useHistory();
   const { events } = useEvents(projectId);
   const [height, setHeight] = useState<string | number>('100vh');
+  const { isOpen, onClose, onOpen } = useDisclosure(false);
 
   const lastCompletedIndex = events
     .map(({ completed }) => completed)
@@ -42,6 +51,17 @@ export default function Timeline({
   }, [length]);
 
   useEffect(() => {
+    if (invite) {
+      (async () => {
+        const isValid = await validateInvite(invite);
+        if (isValid) {
+          onOpen();
+        }
+      })();
+    }
+  }, [invite, onOpen]);
+
+  useEffect(() => {
     handleResize();
   }, [length, handleResize]);
 
@@ -54,6 +74,12 @@ export default function Timeline({
 
   return (
     <>
+      <AcceptInviteModal
+        isOpen={isOpen}
+        onClose={onClose}
+        invite={invite}
+        projectName={inviteName}
+      />
       <Grid
         cursor='pointer'
         position='relative'
@@ -63,6 +89,7 @@ export default function Timeline({
         overflow='auto'
       >
         <ProjectTitle
+          users={users}
           setIsPanelOpen={setIsPanelOpen}
           projectId={projectId}
           projectName={projectName}

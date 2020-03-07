@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { getCurrentUser } from '.';
 
 const db = firebase.firestore();
 const { fromDate } = firebase.firestore.Timestamp;
@@ -37,10 +38,7 @@ export function getProjects(userEmail: UserEmail, cb: any) {
     });
 }
 
-export function addProject({
-  name,
-  userEmail
-export function addProject({ name }: { name: string }) {
+export function addProject({ name = 'My First Project' }: { name?: string }) {
   const user = getCurrentUser();
   const userData = {
     uid: user?.uid,
@@ -55,11 +53,58 @@ export function addProject({ name }: { name: string }) {
     userProfiles: [userData]
   });
 }
+
+export function updateUser() {
+  const user = getCurrentUser();
+  return db.doc(`/users/${user?.uid}`).set({
+    displayName: user?.displayName,
+    photoURL: user?.photoURL,
+    email: user?.email,
+    uid: user?.uid
+  });
+}
+
+export async function validateInvite(inviteId: string) {
+  const invite = await db.doc(`/invites/${inviteId}`).get();
+  return invite.exists;
+}
+
+export async function acceptProjectInvite(inviteId: string) {
+  const inviteRef = db.doc(`/invites/${inviteId}`);
+  const invite = await inviteRef.get();
+  if (!invite.exists) return;
+
+  const user = getCurrentUser();
+  const inviteData = invite.data();
+
+  if (inviteData?.email === user?.email) {
+    const batch = db.batch();
+    const projectRef = db.doc(`/projects/${inviteData?.projectId}`);
+    batch.update(projectRef, {
+      userProfiles: firebase.firestore.FieldValue.arrayUnion({
+        uid: user?.uid,
+        email: user?.email,
+        displayName: user?.displayName,
+        photoUrl: user?.photoURL
+      }),
+      users: firebase.firestore.FieldValue.arrayUnion(user?.email)
+    });
+    batch.delete(inviteRef);
+    return batch.commit();
+  }
+}
+
+export async function addUserToProject({
+  email,
+  projectId
 }: {
-  name: string;
-  userEmail: UserEmail;
+  email: string;
+  projectId: string;
 }) {
-  return db.collection('projects').add({ name, users: [userEmail] });
+  return db.collection('/invites').add({
+    email,
+    projectId
+  });
 }
 
 type ProjectKey = {

@@ -54,9 +54,11 @@ export default function Main({ user }: Props) {
           {({ match, location }) => {
             const projectId = match?.params?.id || projects[0]?.id;
             const project = projects.find(({ id }: any) => id === projectId);
+            const params = new URLSearchParams(location.search);
             return (
               <Timeline
-                invite={new URLSearchParams(location.search).get('invite')}
+                invite={params.get('invite')}
+                inviteName={params.get('name')}
                 setIsPanelOpen={() => setIsPanelOpen(true)}
                 projectName={project?.name}
                 users={project?.userProfiles}
