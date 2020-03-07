@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useHistory } from 'react-router-dom';
 import {
   Grid,
   Box,
@@ -28,6 +28,8 @@ export default function Main({ user }: Props) {
   const { loading, projects }: UseProjects = useProjects(user?.email);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const hasProjects = Boolean(projects.length);
+  const history = useHistory();
+
   return (
     <>
       <Grid
@@ -43,19 +45,21 @@ export default function Main({ user }: Props) {
           {loading ? (
             loadingScreen
           ) : hasProjects ? (
-            <Redirect to={`/${projects[0].id}`} />
+            <Redirect to={`/${projects[0].id}${history.location.search}`} />
           ) : (
-            <ZeroState userEmail={user?.email} />
+            <ZeroState />
           )}
         </Route>
         <Route path='/:id'>
-          {({ match }) => {
+          {({ match, location }) => {
             const projectId = match?.params?.id || projects[0]?.id;
-            const name = projects.find(({ id }: any) => id === projectId)?.name;
+            const project = projects.find(({ id }: any) => id === projectId);
             return (
               <Timeline
+                invite={new URLSearchParams(location.search).get('invite')}
                 setIsPanelOpen={() => setIsPanelOpen(true)}
-                projectName={name}
+                projectName={project?.name}
+                users={project?.userProfiles}
                 projectId={projectId}
               />
             );

@@ -25,7 +25,7 @@ export default function SignupForm({ loading }: { loading: boolean }) {
                 ({ user }) => user?.updateProfile({ displayName: name }),
                 e => Promise.reject(e)
               )
-              .then(() => history.push('/'))
+              .then(() => history.push(`/${history.location.search}`))
               .catch(({ message }) => {
                 setError([
                   {
@@ -91,7 +91,7 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         textAlign='center'
         display='inline-block'
         width='100%'
-        onClick={() => history.push('/login')}
+        onClick={() => history.push(`/login${history.location.search}`)}
       >
         Already have an account?
       </Link>

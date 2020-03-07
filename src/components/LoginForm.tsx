@@ -16,7 +16,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         signIn(email, password)
           .then(
             () => {
-              history.push('/');
+              history.push(`/${history.location.search}`);
             },
             e => Promise.reject(e)
           )
@@ -64,7 +64,7 @@ export default function LoginForm({ loading }: { loading: boolean }) {
         textAlign='center'
         display='inline-block'
         width='100%'
-        onClick={() => history.push('/signup')}
+        onClick={() => history.push(`/signup${history.location.search}`)}
       >
         Need to create an account?
       </Link>
