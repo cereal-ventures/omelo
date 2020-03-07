@@ -96,14 +96,20 @@ export async function acceptProjectInvite(inviteId: string) {
 }
 
 export async function addUserToProject({
+  name,
   email,
+  projectName,
   projectId
 }: {
+  name: string;
   email: string;
+  projectName: string;
   projectId: string;
 }) {
   return db.collection('/invites').add({
+    name,
     email,
+    projectName,
     projectId
   });
 }

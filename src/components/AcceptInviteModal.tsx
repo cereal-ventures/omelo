@@ -40,7 +40,7 @@ export default function AcceptInviteModal({
               : 'Join Project'}
           </Heading>
           <Heading mb={8} as='h6' size='sm' fontWeight='normal'>
-            You have been invited to join
+            You have been invited to join{' '}
             {projectName ? projectName : 'this project'}{' '}
             <span role='img' aria-label='celebrate'>
               🎉

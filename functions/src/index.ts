@@ -15,7 +15,7 @@ exports.sendProjectInvite = functions.firestore
       sgMail.setApiKey(functions.config().sendgrid.key);
       const invite = doc.data();
       const url = `${functions.config().url.base}?invite=${doc.id}&name=${
-        invite?.name
+        invite?.projectName
       }`;
       const msg = {
         to: invite?.email,

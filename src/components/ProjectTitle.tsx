@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Heading, Flex, Input, Button, Avatar, Box } from '@chakra-ui/core';
 import ShareModal from './ShareModal';
+import AddUserModal from './AddUserModal';
 
 import { updateProject } from '../services/data';
 
@@ -13,7 +14,7 @@ export default function ProjectTitle({
 }: {
   projectName: string;
   projectId: string;
-  users?: Array<string>;
+  users?: Array<any>;
   setIsPanelOpen: () => void;
 }) {
   const { register, handleSubmit } = useForm();
@@ -55,14 +56,11 @@ export default function ProjectTitle({
             </Box>
           </Flex>
         ))}
-        <Button
-          variant='link'
-          size='xs'
-          variantColor='purple'
-          textTransform='uppercase'
-        >
-          + Add New
-        </Button>
+        <AddUserModal
+          users={users.map(user => user?.email)}
+          projectId={projectId}
+          projectName={projectName}
+        />
       </Box>
       <Flex alignItems='center'>
         <Button
