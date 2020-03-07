@@ -40,6 +40,21 @@ export function getProjects(userEmail: UserEmail, cb: any) {
 export function addProject({
   name,
   userEmail
+export function addProject({ name }: { name: string }) {
+  const user = getCurrentUser();
+  const userData = {
+    uid: user?.uid,
+    email: user?.email,
+    displayName: user?.displayName,
+    photoUrl: user?.photoURL
+  };
+  return db.collection('projects').add({
+    name,
+    role: 'owner',
+    users: [userData.email],
+    userProfiles: [userData]
+  });
+}
 }: {
   name: string;
   userEmail: UserEmail;

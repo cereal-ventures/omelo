@@ -68,7 +68,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
             textTransform='uppercase'
             size='xs'
             onClick={() => {
-              addProject({ name: 'My Project', userEmail: user?.email });
+              addProject({ name: 'My Project' });
             }}
           >
             Add
@@ -77,7 +77,9 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
 
         <Box mt={8}>
           {projects.map(({ name, id, isPublic, eventCount }: any) => {
-            const countLabel = `${eventCount || 0} ${eventCount === 1 ? 'Event': 'Events'}`;
+            const countLabel = `${eventCount || 0} ${
+              eventCount === 1 ? 'Event' : 'Events'
+            }`;
             const isActive = id === projectId;
             return (
               <Flex

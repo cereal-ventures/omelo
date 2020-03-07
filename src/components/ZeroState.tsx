@@ -2,15 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Grid, Input } from '@chakra-ui/core';
 
-import { addProject, UserEmail } from '../services/data';
+import { addProject } from '../services/data';
 
-export default function ZeroState({ userEmail }: { userEmail: UserEmail }) {
+export default function ZeroState() {
   const { register, handleSubmit } = useForm();
 
   const submit = handleSubmit(({ firstProjectTitle }) => {
-    if (userEmail) {
-      addProject({ name: firstProjectTitle, userEmail });
-    }
+    addProject({ name: firstProjectTitle });
   });
   return (
     <Grid
