@@ -7,17 +7,23 @@ import * as functions from 'firebase-functions';
 //  response.send("Hello from Firebase!");
 // });
 
-exports.updateEvent = functions.firestore
-  .document('projects/{projectId}/events/{eventId}')
-  .onUpdate(async change => {
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(functions.config().sendgrid.key);
-    const msg = {
-      to: 'benjamin.mark.adam@gmail.com',
-      from: 'benjamin.mark.adam@gmail.com',
-      subject: 'Sending with Twilio SendGrid is Fun',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>'
-    };
-    sgMail.send(msg);
+exports.sendProjectInvite = functions.firestore
+  .document('invites/{inviteId}')
+  .onCreate(async doc => {
+    if (doc.exists) {
+      const sgMail = require('@sendgrid/mail');
+      sgMail.setApiKey(functions.config().sendgrid.key);
+      const invite = doc.data();
+      const url = `${functions.config().url.base}?invite=${doc.id}&name=${
+        invite?.name
+      }`;
+      const msg = {
+        to: invite?.email,
+        from: 'hello@omelo.com',
+        subject: 'You have been invited to join a project on Omelo.com',
+        text: `You have been invited to a project: ${url}`,
+        html: `You have been invited to a project: <a href=${url} target='_blank'>Accept invite</a>`
+      };
+      sgMail.send(msg);
+    }
   });
