@@ -161,9 +161,13 @@ export function removeProject(projectId: string | undefined) {
     const permissionRef = db.doc(`permissions/${user?.uid}`);
 
     batch.delete(projectRef);
-    batch.set(permissionRef, {
-      [projectRef.id]: firebase.firestore.FieldValue.delete()
-    });
+    batch.set(
+      permissionRef,
+      {
+        [projectRef.id]: firebase.firestore.FieldValue.delete()
+      },
+      { merge: true }
+    );
     return batch.commit();
   }
 }
