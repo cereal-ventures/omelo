@@ -59,9 +59,15 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
   });
 
   const permissionRef = db.doc(`permissions/${user?.uid}`);
-  batch.update(permissionRef, {
-    [projectRef.id]: 'owner'
-  });
+  batch.set(
+    permissionRef,
+    {
+      [projectRef.id]: 'owner'
+    },
+    {
+      merge: true
+    }
+  );
   return batch.commit();
 }
 
