@@ -52,22 +52,16 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
 
   const batch = db.batch();
   const projectRef = db.collection('projects').doc();
+  const permissionRef = db.doc(`permissions/${user?.uid}`);
+
   batch.set(projectRef, {
     name,
     users: [userData.email],
     userProfiles: [userData]
   });
 
-  const permissionRef = db.doc(`permissions/${user?.uid}`);
-  batch.set(
-    permissionRef,
-    {
-      [projectRef.id]: 'owner'
-    },
-    {
-      merge: true
-    }
-  );
+  batch.set(permissionRef, { [projectRef.id]: 'owner' }, { merge: true });
+
   return batch.commit();
 }
 
@@ -161,7 +155,16 @@ export function updateProject({
 
 export function removeProject(projectId: string | undefined) {
   if (projectId) {
-    return db.doc(`/projects/${projectId}`).delete();
+    const user = getCurrentUser();
+    const batch = db.batch();
+    const projectRef = db.doc(`/projects/${projectId}`);
+    const permissionRef = db.doc(`permissions/${user?.uid}`);
+
+    batch.delete(projectRef);
+    batch.set(permissionRef, {
+      [projectRef.id]: firebase.firestore.FieldValue.delete()
+    });
+    return batch.commit();
   }
 }
 
