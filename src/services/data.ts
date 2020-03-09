@@ -56,6 +56,7 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
 
   batch.set(projectRef, {
     name,
+    owner: user?.uid,
     users: [userData.email],
     userProfiles: [userData]
   });

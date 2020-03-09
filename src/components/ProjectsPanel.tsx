@@ -76,7 +76,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
         </Flex>
 
         <Box mt={8}>
-          {projects.map(({ name, id, isPublic, eventCount }: any) => {
+          {projects.map(({ name, id, isPublic, eventCount, owner }: any) => {
             const countLabel = `${eventCount || 0} ${
               eventCount === 1 ? 'Event' : 'Events'
             }`;
@@ -129,70 +129,72 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                   {name}
                 </Link>
 
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      position='relative'
-                      top='-4px'
-                      height='auto'
-                      minWidth='auto'
-                      variant='unstyled'
-                    >
-                      &#8230;
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent zIndex={4} width='200px'>
-                    <PopoverArrow />
-                    <PopoverHeader>
-                      <Heading as='h6' size='sm' fontWeight='semibold'>
-                        Project Settings
-                      </Heading>
-                    </PopoverHeader>
-                    <PopoverBody>
-                      <Flex align='center' justify='space-between'>
-                        <FormLabel
-                          p={0}
-                          fontWeight='normal'
-                          textAlign='right'
-                          htmlFor='set-visibility'
-                        >
-                          {isPublic ? 'Shared' : 'Private'}
-                        </FormLabel>
-                        <Switch
-                          id='set-visibility'
-                          defaultIsChecked={isPublic}
-                          value={isPublic}
-                          color='purple'
-                          onChange={() => {
-                            updateProject({
-                              projectId: id,
-                              payload: { isPublic: !isPublic }
-                            });
-                          }}
-                        />
-                      </Flex>
-                    </PopoverBody>
-                    <PopoverFooter>
-                      <Link
-                        as='button'
-                        color='red.400'
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              'Are you sure you want to delete this project?'
-                            )
-                          ) {
-                            removeProject(id)?.then(() => {
-                              history.push('/');
-                            });
-                          }
-                        }}
+                {owner === user?.uid && (
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button
+                        position='relative'
+                        top='-4px'
+                        height='auto'
+                        minWidth='auto'
+                        variant='unstyled'
                       >
-                        Delete Project
-                      </Link>
-                    </PopoverFooter>
-                  </PopoverContent>
-                </Popover>
+                        &#8230;
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent zIndex={4} width='200px'>
+                      <PopoverArrow />
+                      <PopoverHeader>
+                        <Heading as='h6' size='sm' fontWeight='semibold'>
+                          Project Settings
+                        </Heading>
+                      </PopoverHeader>
+                      <PopoverBody>
+                        <Flex align='center' justify='space-between'>
+                          <FormLabel
+                            p={0}
+                            fontWeight='normal'
+                            textAlign='right'
+                            htmlFor='set-visibility'
+                          >
+                            {isPublic ? 'Shared' : 'Private'}
+                          </FormLabel>
+                          <Switch
+                            id='set-visibility'
+                            defaultIsChecked={isPublic}
+                            value={isPublic}
+                            color='purple'
+                            onChange={() => {
+                              updateProject({
+                                projectId: id,
+                                payload: { isPublic: !isPublic }
+                              });
+                            }}
+                          />
+                        </Flex>
+                      </PopoverBody>
+                      <PopoverFooter>
+                        <Link
+                          as='button'
+                          color='red.400'
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                'Are you sure you want to delete this project?'
+                              )
+                            ) {
+                              removeProject(id)?.then(() => {
+                                history.push('/');
+                              });
+                            }
+                          }}
+                        >
+                          Delete Project
+                        </Link>
+                      </PopoverFooter>
+                    </PopoverContent>
+                  </Popover>
+                )}
               </Flex>
             );
           })}
