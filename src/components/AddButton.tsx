@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Icon, Box, Button, Tooltip } from '@chakra-ui/core';
+import { ProjectContext } from './ProjectContext';
 
 export default function AddButton({ onClick }: { onClick: () => void }) {
-  return (
+  const { permission } = useContext(ProjectContext);
+  return permission === 'owner' ? (
     <Box position='fixed' bottom='40px' right='40px'>
       <Tooltip
         hasArrow
@@ -21,5 +23,5 @@ export default function AddButton({ onClick }: { onClick: () => void }) {
         </Button>
       </Tooltip>
     </Box>
-  );
+  ) : null;
 }

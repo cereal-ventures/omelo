@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useHistory, Route } from 'react-router-dom';
 import { Grid, useDisclosure } from '@chakra-ui/core';
 import Event from './Event';
 import AddButton from './AddButton';
-import { useEvents } from './hooks/useEvents';
 import AddEventPanel from './AddEventPanel';
 import EventDetailPanel from './EventDetailPanel';
 import ProjectTitle from './ProjectTitle';
 import AcceptInviteModal from './AcceptInviteModal';
 import { getIsOverdue } from '../utils';
 import { validateInvite } from '../services/data';
+import { ProjectContext } from './ProjectContext';
 
 type TimelineProps = {
   invite?: string | null;
@@ -31,10 +31,9 @@ export default function Timeline({
   setIsPanelOpen
 }: TimelineProps) {
   const history = useHistory();
-  const { events } = useEvents(projectId);
+  const { events, permission } = useContext(ProjectContext);
   const [height, setHeight] = useState<string | number>('100vh');
   const { isOpen, onClose, onOpen } = useDisclosure(false);
-
   const lastCompletedIndex = events
     .map(({ completed }) => completed)
     .lastIndexOf(true);
@@ -141,6 +140,7 @@ export default function Timeline({
           const event = events.find(({ id }) => id === match?.params?.event);
           return (
             <EventDetailPanel
+              isViewOnly={['viewer', 'commenter'].includes(permission)}
               projectId={match?.params?.id}
               isOpen={Boolean(match)}
               {...event}

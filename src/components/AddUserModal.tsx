@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Button,
   useDisclosure,
@@ -10,11 +11,12 @@ import {
   Heading,
   Text,
   ModalHeader,
-  Stack
+  Stack,
+  Select
 } from '@chakra-ui/core';
 import { addUserToProject } from '../services/data';
 import FloatLabelInput from './FloatLabelInput';
-import { useForm } from 'react-hook-form';
+import { ProjectContext } from './ProjectContext';
 
 export default function AddUserModal({
   projectId,
@@ -25,21 +27,24 @@ export default function AddUserModal({
   projectName: string;
   users: Array<string>;
 }) {
+  const { permission } = useContext(ProjectContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, errors, handleSubmit } = useForm();
 
   const hasErrors = Object.keys(errors).length;
-  const onSubmit = ({ name, email }: any) => {
-    if (!hasErrors)
+  const onSubmit = ({ name, email, permission }: any) => {
+    if (!hasErrors) {
       addUserToProject({
         name,
         email,
         projectId,
-        projectName
+        projectName,
+        permission
       }).then(onClose);
+    }
   };
 
-  return (
+  return permission === 'owner' ? (
     <>
       <Button
         size='xs'
@@ -49,10 +54,10 @@ export default function AddUserModal({
         onClick={onOpen}
         textTransform='uppercase'
       >
-        + Add Teammate
+        + Add New
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent p={8} mx='auto' maxWidth='450px'>
           <ModalCloseButton />
@@ -93,11 +98,22 @@ export default function AddUserModal({
                   }
                 })}
               />
-              <Stack mt={12}>
-                <Button type='submit' variantColor='green' borderRadius='full'>
+              <Select name='permission' mt={8} variant='flushed' ref={register}>
+                <option value='viewer'>Can view</option>
+                <option value='commenter'>Can view & comment</option>
+                <option value='editor'>Can edit</option>
+              </Select>
+              <Stack mt={12} align='center'>
+                <Button
+                  px={8}
+                  maxWidth='160px'
+                  type='submit'
+                  variantColor='green'
+                  borderRadius='full'
+                >
                   Invite User
                 </Button>
-                <Button variant='link' onClick={onClose}>
+                <Button mt={4} variant='link' onClick={onClose}>
                   Cancel
                 </Button>
               </Stack>
@@ -106,5 +122,5 @@ export default function AddUserModal({
         </ModalContent>
       </Modal>
     </>
-  );
+  ) : null;
 }
