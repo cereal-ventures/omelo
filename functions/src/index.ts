@@ -16,7 +16,7 @@ exports.sendProjectInvite = functions.firestore
       const invite = doc.data();
       const url = `${functions.config().url.base}?invite=${
         doc.id
-      }&name=${encodeURI(invite?.projectName)}`;
+      }&name=${encodeURI(invite?.projectName || '')}`;
       const msg = {
         to: invite?.email,
         from: 'hello@omelo.com',
