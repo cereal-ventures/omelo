@@ -2,11 +2,14 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { getCurrentUser } from '.';
 
-const db = firebase.firestore();
-const { fromDate } = firebase.firestore.Timestamp;
-
 export type UserEmail = string | null | undefined;
 export type ProjectId = string | null | undefined;
+export type ProjectPermission = 'owner' | 'editor' | 'commenter' | 'viewer';
+export type ProjectKey = { name?: string; isPublic?: boolean };
+export type Asset = 'link'; // | 'video' | 'image' | 'pdf';
+
+const db = firebase.firestore();
+const { fromDate } = firebase.firestore.Timestamp;
 
 export function getProjectById(projectId: string, cb: any) {
   return db.doc(`/projects/${projectId}`).onSnapshot(
@@ -46,12 +49,31 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
     displayName: user?.displayName,
     photoUrl: user?.photoURL
   };
-  return db.collection('projects').add({
+
+  const batch = db.batch();
+  const projectRef = db.collection('projects').doc();
+  batch.set(projectRef, {
     name,
-    role: 'owner',
     users: [userData.email],
     userProfiles: [userData]
   });
+
+  const permissionRef = db.doc(`permissions/${user?.uid}`);
+  batch.update(permissionRef, {
+    [projectRef.id]: 'owner'
+  });
+  return batch.commit();
+}
+
+export async function getProjectPermissions(projectId: string) {
+  const user = getCurrentUser();
+  return db
+    .doc(`/permissions/${user?.uid}`)
+    .get()
+    .then(snap => {
+      const userPermission = snap.data() || {};
+      return userPermission[projectId];
+    });
 }
 
 export function updateUser() {
@@ -90,6 +112,10 @@ export async function acceptProjectInvite(inviteId: string) {
       }),
       users: firebase.firestore.FieldValue.arrayUnion(user?.email)
     });
+    const permissionRef = db.doc(`permissions/${user?.uid}`);
+    batch.update(permissionRef, {
+      [projectRef.id]: 'owner'
+    });
     batch.delete(inviteRef);
     return batch.commit();
   }
@@ -99,25 +125,23 @@ export async function addUserToProject({
   name,
   email,
   projectName,
-  projectId
+  projectId,
+  permission
 }: {
   name: string;
   email: string;
   projectName: string;
   projectId: string;
+  permission: ProjectPermission;
 }) {
   return db.collection('/invites').add({
     name,
     email,
     projectName,
-    projectId
+    projectId,
+    permission
   });
 }
-
-type ProjectKey = {
-  name?: string;
-  isPublic?: boolean;
-};
 
 export function updateProject({
   projectId,
@@ -215,8 +239,6 @@ export function removeEvent({
   batch.delete(eventRef);
   return batch.commit();
 }
-
-type Asset = 'link'; // | 'video' | 'image' | 'pdf';
 
 export function addAsset({
   projectId,
