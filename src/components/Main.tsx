@@ -17,6 +17,7 @@ import { useProjects } from './hooks/useProjects';
 import { loadingScreen } from './loadingScreen';
 // Types
 import { User } from 'firebase';
+import { ProjectProvider } from './ProjectContext';
 
 interface Props {
   user: User | null;
@@ -56,14 +57,16 @@ export default function Main({ user }: Props) {
             const project = projects.find(({ id }: any) => id === projectId);
             const params = new URLSearchParams(location.search);
             return (
-              <Timeline
-                invite={params.get('invite')}
-                inviteName={params.get('name')}
-                setIsPanelOpen={() => setIsPanelOpen(true)}
-                projectName={project?.name}
-                users={project?.userProfiles}
-                projectId={projectId}
-              />
+              <ProjectProvider projectId={projectId}>
+                <Timeline
+                  invite={params.get('invite')}
+                  inviteName={params.get('name')}
+                  setIsPanelOpen={() => setIsPanelOpen(true)}
+                  projectName={project?.name}
+                  users={project?.userProfiles}
+                  projectId={projectId}
+                />
+              </ProjectProvider>
             );
           }}
         </Route>
