@@ -14,9 +14,9 @@ exports.sendProjectInvite = functions.firestore
       const sgMail = require('@sendgrid/mail');
       sgMail.setApiKey(functions.config().sendgrid.key);
       const invite = doc.data();
-      const url = `${functions.config().url.base}?invite=${doc.id}&name=${
-        invite?.projectName
-      }`;
+      const url = `${functions.config().url.base}?invite=${
+        doc.id
+      }&name=${encodeURI(invite?.projectName)}`;
       const msg = {
         to: invite?.email,
         from: 'hello@omelo.com',
