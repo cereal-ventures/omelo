@@ -14,15 +14,18 @@ exports.sendProjectInvite = functions.firestore
       const sgMail = require('@sendgrid/mail');
       sgMail.setApiKey(functions.config().sendgrid.key);
       const invite = doc.data();
-      const url = `${functions.config().url.base}?invite=${
-        doc.id
-      }&name=${encodeURI(invite?.projectName || '')}`;
+      const isViewer = invite?.permission === 'viewer';
+      const url = isViewer
+        ? `${functions.config().url.base}/public/${invite?.projectId}`
+        : `${functions.config().url.base}?invite=${doc.id}&name=${encodeURI(
+            invite?.projectName || ''
+          )}`;
       const msg = {
         to: invite?.email,
         from: 'hello@omelo.com',
         subject: 'You have been invited to join a project on Omelo.com',
         text: `You have been invited to a project: ${url}`,
-        html: `You have been invited to a project: <a href=${url} target='_blank'>Accept invite</a>`
+        html: `You have been invited to a project: <a href="${url}" target="_blank">Accept invite</a>`
       };
       sgMail.send(msg);
     }
