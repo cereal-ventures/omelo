@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,6 +17,12 @@ export default function SignupForm({ loading }: { loading: boolean }) {
   const { handleSubmit, register, errors, setError } = useForm();
   const history = useHistory();
   const hasErrors: boolean = Boolean(Object.keys(errors).length);
+
+  useEffect(() => {
+    if (hasErrors) {
+      setIsLoading(false);
+    }
+  }, [hasErrors]);
 
   return (
     <form
