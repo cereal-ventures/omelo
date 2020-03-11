@@ -50,7 +50,6 @@ export default function PublicTimeline() {
   return (
     <>
       <Grid
-        cursor='pointer'
         position='relative'
         width='100%'
         justifyItems='center'

@@ -12,7 +12,8 @@ import {
   Text,
   ModalHeader,
   Stack,
-  Select
+  Select,
+  Flex
 } from '@chakra-ui/core';
 import { addUserToProject } from '../services/data';
 import FloatLabelInput from './FloatLabelInput';
@@ -32,10 +33,9 @@ export default function AddUserModal({
   const { register, errors, handleSubmit } = useForm();
 
   const hasErrors = Object.keys(errors).length;
-  const onSubmit = ({ name, email, permission }: any) => {
+  const onSubmit = ({ email, permission }: any) => {
     if (!hasErrors) {
       addUserToProject({
-        name,
         email,
         projectId,
         projectName,
@@ -76,33 +76,34 @@ export default function AddUserModal({
           </ModalHeader>
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FloatLabelInput
-                name='name'
-                type='text'
-                label='Full Name'
-                error={errors?.name}
-                ref={register({ required: 'Please provide a name' })}
-              />
-              <FloatLabelInput
-                mt={8}
-                name='email'
-                type='email'
-                label='Email Address'
-                error={errors?.email}
-                ref={register({
-                  required: 'A valid email is required',
-                  validate: value => {
-                    if (users.includes(value)) {
-                      return 'This user is already added to this project';
+              <Flex mt={8}>
+                <FloatLabelInput
+                  flexGrow={1}
+                  name='email'
+                  type='email'
+                  label='Email Address'
+                  error={errors?.email}
+                  ref={register({
+                    required: 'A valid email is required',
+                    validate: value => {
+                      if (users.includes(value)) {
+                        return 'This user is already added to this project';
+                      }
                     }
-                  }
-                })}
-              />
-              <Select name='permission' mt={8} variant='flushed' ref={register}>
-                <option value='viewer'>Can view</option>
-                <option value='commenter'>Can view & comment</option>
-                <option value='editor'>Can edit</option>
-              </Select>
+                  })}
+                />
+                <Select
+                  dir='rtl'
+                  width='auto'
+                  name='permission'
+                  variant='flushed'
+                  ref={register}
+                >
+                  <option value='viewer'>View Only</option>
+                  <option value='commenter'>Comment</option>
+                  <option value='editor'>Edit</option>
+                </Select>
+              </Flex>
               <Stack mt={12} align='center'>
                 <Button
                   px={8}

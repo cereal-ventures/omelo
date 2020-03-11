@@ -23,7 +23,7 @@ type TimelineProps = {
 const HEIGHT_OFFSET = 200;
 
 export default function Timeline({
-  users,
+  users = [],
   invite,
   inviteName,
   projectId,
@@ -80,7 +80,6 @@ export default function Timeline({
         projectName={inviteName}
       />
       <Grid
-        cursor='pointer'
         position='relative'
         width='100%'
         justifyItems='center'
@@ -95,6 +94,7 @@ export default function Timeline({
         />
         <svg overflow='visible' width={20} height={height}>
           <rect
+            style={{ cursor: 'pointer' }}
             className='timeline'
             onClick={() => history.push(`/${projectId}/add-event`)}
             fill='#F5F6FC'

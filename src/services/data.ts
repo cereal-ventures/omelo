@@ -109,7 +109,8 @@ export async function acceptProjectInvite(inviteId: string) {
         uid: user?.uid,
         email: user?.email,
         displayName: user?.displayName,
-        photoUrl: user?.photoURL
+        photoUrl: user?.photoURL,
+        permission: inviteData?.permission
       }),
       users: firebase.firestore.FieldValue.arrayUnion(user?.email)
     });
@@ -123,20 +124,17 @@ export async function acceptProjectInvite(inviteId: string) {
 }
 
 export async function addUserToProject({
-  name,
   email,
   projectName,
   projectId,
   permission
 }: {
-  name: string;
   email: string;
   projectName: string;
   projectId: string;
   permission: ProjectPermission;
 }) {
   return db.collection('/invites').add({
-    name,
     email,
     projectName,
     projectId,

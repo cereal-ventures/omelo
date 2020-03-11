@@ -43,7 +43,11 @@ export default function Event({
   const statusKey = completed ? 'completed' : isOverdue ? 'overdue' : 'default';
 
   return (
-    <g className='event-wrapper' onClick={handleClick}>
+    <g
+      className='event-wrapper'
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       <text
         style={{
           fontSize: '12px',
