@@ -26,11 +26,10 @@ import FloatLabelInput from './FloatLabelInput';
 
 function ProjectTeammates({ users = [] }: { users?: Array<any> }) {
   return (
-    <Flex mr={4}>
+    <Flex mr={4} display={{ xs: 'none', md: 'flex' }}>
       {users.map((user: any, i: number) => (
         <Tooltip
           key={i}
-          zIndex={4}
           hasArrow={true}
           aria-label={user.displayName || user.email}
           label={user.displayName || user.email}
@@ -80,7 +79,7 @@ function InviteUserForm({
         Add Teammate
       </Heading>
       <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-        <Flex align='center'>
+        <Flex align='center' flexDirection={{ xs: 'column', md: 'row' }}>
           <Flex width='100%' position='relative'>
             <FloatLabelInput
               flexGrow={1}
@@ -114,6 +113,7 @@ function InviteUserForm({
             </Select>
           </Flex>
           <Button
+            mt={{ xs: 4, md: 0 }}
             px={8}
             ml={4}
             maxWidth='160px'
@@ -177,7 +177,7 @@ export default function ShareModal({
       <Modal isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
         <ModalContent borderRadius='8px' mx='auto'>
-          <ModalCloseButton />
+          <ModalCloseButton zIndex={4} />
           <ModalHeader pt={8} pb={4} px={8}>
             <Box textAlign='center'>
               <Heading
@@ -198,7 +198,14 @@ export default function ShareModal({
             <Heading fontSize='12px' textTransform='uppercase'>
               Public Link
             </Heading>
-            <Flex align='center' justify='space-between' width='100%' pt={4}>
+            <Flex
+              overflow='hidden'
+              flexDirection={{ xs: 'column', md: 'row' }}
+              align={{ xs: 'flex-start', md: 'center' }}
+              justify='space-between'
+              width='100%'
+              pt={4}
+            >
               <Link
                 fontWeight='semibold'
                 color='brand.secondary'
@@ -208,6 +215,8 @@ export default function ShareModal({
                 {url}
               </Link>
               <Button
+                px={0}
+                mt={{ xs: 4, md: 0 }}
                 variant='link'
                 variantColor='green'
                 fontWeight='semibold'

@@ -35,7 +35,7 @@ const FloatLabelInput = forwardRef(
         <FormLabel
           position='absolute'
           transform={`scale(${hasFocus ? 0.75 : 1}) translateY(${
-            hasFocus ? '-12px' : '0px'
+            hasFocus ? '-24px' : '0px'
           })`}
           top='8px'
           opacity={hasFocus ? 1 : 0.5}
