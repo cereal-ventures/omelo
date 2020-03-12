@@ -47,7 +47,8 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
     uid: user?.uid,
     email: user?.email,
     displayName: user?.displayName,
-    photoUrl: user?.photoURL
+    photoUrl: user?.photoURL,
+    permission: 'owner'
   };
 
   const batch = db.batch();
