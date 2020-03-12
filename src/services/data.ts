@@ -61,7 +61,11 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
     userProfiles: [userData]
   });
 
-  batch.set(permissionRef, { [projectRef.id]: 'owner' }, { merge: true });
+  batch.set(
+    permissionRef,
+    { user: user?.email, [projectRef.id]: 'owner' },
+    { merge: true }
+  );
 
   return batch.commit();
 }
