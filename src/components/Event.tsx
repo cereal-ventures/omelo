@@ -46,7 +46,6 @@ export default function Event({
     <g
       className='event-wrapper'
       onClick={handleClick}
-      onTouchStart={handleClick}
       style={{ cursor: 'pointer' }}
     >
       <text
