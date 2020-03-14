@@ -48,6 +48,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
       gridTemplateColumns='100%'
       justifyItems='left'
       padding={8}
+      pt={10}
       borderRight={{ md: '1px solid lightgrey' }}
       height='100vh'
     >
@@ -63,10 +64,10 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
             Projects:
           </Heading>
           <Button
-            variant='link'
+            size='xs'
+            variant='outline'
             color='brand.secondary'
             textTransform='uppercase'
-            size='xs'
             onClick={() => {
               addProject({ name: 'My Project' });
             }}

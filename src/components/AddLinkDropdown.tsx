@@ -117,8 +117,9 @@ export default function AddLinkDropdown({
           <PopoverTrigger>
             <Flex my={8} justifyContent='space-between' alignItems='center'>
               {linkHeading}
-              <Link
-                as='button'
+              <Button
+                size='xs'
+                variant='outline'
                 color='brand.secondary'
                 textTransform='uppercase'
                 fontWeight='bold'
@@ -126,7 +127,7 @@ export default function AddLinkDropdown({
                 ml={8}
               >
                 Add New
-              </Link>
+              </Button>
             </Flex>
           </PopoverTrigger>
           <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
