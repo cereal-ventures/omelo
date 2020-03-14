@@ -22,8 +22,9 @@ const colors = {
     1: '#DDDDDD', // TypeNeutral
     2: '#D3D5E0', // deadline
     3: '#C4C9E9', // inactive
-    4: '##DCDFF2', // separator
-    5: '#F5F6FC' // timeline
+    4: '#DCDFF2', // separator
+    5: '#F5F6FC', // timeline,
+    6: '#F9FAFD'
   }
 };
 
