@@ -11,12 +11,16 @@ import {
   Box,
   Flex,
   ButtonGroup,
-  Tooltip
+  Tooltip,
+  DrawerFooter,
+  Divider
 } from '@chakra-ui/core';
 import { updateEvent, removeEvent } from '../services/data';
 import Assets from './Assets';
 import DateInput from './DateInput';
 import TitleInput from './TitleInput';
+import CommentList from './CommentList';
+import CommentInput from './CommentInput';
 
 interface Props {
   isViewOnly: boolean;
@@ -145,7 +149,6 @@ export default function EventDetailPanel({
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      {/* <DrawerOverlay zIndex={1} /> */}
       <DrawerContent zIndex={2}>
         <DrawerHeader>
           <Flex align='center'>
@@ -161,14 +164,31 @@ export default function EventDetailPanel({
             />
           )}
         </DrawerHeader>
-        <DrawerBody pl={8} pt={4}>
+        <DrawerBody pl={8} pt={4} pb={12} position='relative' overflow='auto'>
           {isViewOnly ? dateHeading : date ? dateInputEl : null}
           <Assets
             eventId={eventId}
             projectId={projectId}
             isViewOnly={isViewOnly}
           />
+          <CommentList eventId={eventId} projectId={projectId} />
         </DrawerBody>
+        <DrawerFooter
+          width='100%'
+          position='absolute'
+          bottom={0}
+          backgroundColor='white'
+        >
+          <Divider
+            width='100%'
+            top='-8px'
+            left={0}
+            color='black'
+            position='absolute'
+            zIndex={4}
+          />
+          <CommentInput eventId={eventId} projectId={projectId} />
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

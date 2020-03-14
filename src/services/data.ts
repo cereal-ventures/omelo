@@ -10,6 +10,7 @@ export type Asset = 'link'; // | 'video' | 'image' | 'pdf';
 
 const db = firebase.firestore();
 const { fromDate } = firebase.firestore.Timestamp;
+const { FieldValue } = firebase.firestore;
 
 export function getProjectById(projectId: string, cb: any) {
   return db.doc(`/projects/${projectId}`).onSnapshot(
@@ -212,7 +213,7 @@ export function addEvent({
   const batch = db.batch();
   const projectRef = db.doc(`/projects/${projectId}`);
   batch.update(projectRef, {
-    eventCount: firebase.firestore.FieldValue.increment(1)
+    eventCount: FieldValue.increment(1)
   });
 
   const eventsRef = db.collection(`/projects/${projectId}/events`).doc();
@@ -329,14 +330,88 @@ export function getAssetsByEvent(
     });
 }
 
-export function getAssetsByProject(projectId: string, cb: any) {
-  return db.collection(`project/${projectId}/assets`).onSnapshot(snapshot => {
-    const data = snapshot.docs.map(doc => {
-      return {
-        id: doc.id,
-        ...doc.data()
-      };
-    });
-    cb(data);
+export function addComment({
+  projectId,
+  eventId,
+  comment,
+  resolved
+}: {
+  projectId: string;
+  eventId: string;
+  comment: string;
+  resolved: boolean;
+}) {
+  const user = getCurrentUser();
+  const batch = db.batch();
+  const commentRef = db.collection(`/projects/${projectId}/comments`).doc();
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+  batch.set(
+    commentRef,
+    {
+      date: fromDate(new Date(Date.now())),
+      eventId,
+      projectId,
+      comment,
+      resolved,
+      photoURL: user?.photoURL,
+      email: user?.email,
+      displayName: user?.displayName
+    },
+    { merge: true }
+  );
+
+  batch.update(eventRef, {
+    commentCount: FieldValue.increment(1)
   });
+
+  return batch.commit();
+}
+
+export function getCommentsByEvent(
+  {
+    projectId,
+    eventId
+  }: {
+    projectId: string;
+    eventId: string;
+  },
+  cb: any
+) {
+  return db
+    .collection(`/projects/${projectId}/comments`)
+    .where('eventId', '==', eventId || '')
+    .onSnapshot(snapshot => {
+      const data = snapshot.docs.map(doc => {
+        const data = doc.data();
+        const date = data.date.toDate();
+        data.date = new Date(date).toLocaleDateString('en-US');
+        return {
+          id: doc.id,
+          ...data
+        };
+      });
+      cb(data);
+    });
+}
+
+export function removeComment({
+  projectId,
+  eventId,
+  commentId
+}: {
+  projectId: string;
+  eventId: string;
+  commentId: string;
+}) {
+  const batch = db.batch();
+
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+  const commentRef = db.doc(`/projects/${projectId}/comments/${commentId}`);
+
+  batch.update(eventRef, {
+    eventCount: FieldValue.increment(-1)
+  });
+  batch.delete(commentRef);
+
+  return batch.commit();
 }
