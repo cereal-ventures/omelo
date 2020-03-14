@@ -109,7 +109,7 @@ export default function Timeline({
             width='100%'
             height={fillHeight}
           />
-          {events.map(({ date, title, id, completed }, i) => {
+          {events.map(({ date, title, id, completed, commentCount }, i) => {
             return (
               <Event
                 key={id}
@@ -117,6 +117,7 @@ export default function Timeline({
                 date={date}
                 title={title}
                 completed={completed}
+                commentCount={commentCount}
                 isOverdue={getIsOverdue(date) && !completed}
                 handleClick={() => history.push(`/${projectId}/event/${id}`)}
               />

@@ -90,24 +90,27 @@ export default function Event({
       </Tooltip>
 
       {Boolean(commentCount) && (
-        <svg y={16} x={32} overflow='visible'>
-          <svg width={17} height={18} fill='none'>
-            <path
-              fillRule='evenodd'
-              clipRule='evenodd'
-              d='M13.032 14.463c1.969-1.467 3.242-3.798 3.242-6.423C16.274 3.6 12.63 0 8.137 0 3.643 0 0 3.6 0 8.04c0 4.44 3.643 8.04 8.137 8.04.715 0 1.41-.09 2.07-.262a3.26 3.26 0 002.812 1.595c1.707 0 .173-1.298.013-2.95z'
-              fill='#394AB6'
-            />
-            <path
-              d='M4.953 6.5h6.51M4.953 10.5H9.02'
-              stroke='#fff'
-              strokeLinecap='round'
-            />
+        <Tooltip
+          hasArrow
+          placement='left'
+          aria-label='Comment Count'
+          label={`${commentCount} ${
+            commentCount === 1 ? 'comment' : 'comments'
+          }`}
+        >
+          <svg y={18} x={32} overflow='visible'>
+            <rect width='260%' rx={16} height={32} fill='#E2EDF1' />
+            <svg x={9} y={9} height={16} fill='none' viewBox='0 0 13 12'>
+              <path
+                d='M2.473 8.285l.488.112.069-.298-.235-.197-.322.383zm-.348 1.512l.487.113-.487-.113zm1.58 1.02l.304.397-.303-.397zM5.759 9.25v-.5h-.17l-.134.103.304.397zM1.5 5.125A3.625 3.625 0 015.125 1.5v-1A4.625 4.625 0 00.5 5.125h1zm1.295 2.777A3.616 3.616 0 011.5 5.125h-1c0 1.422.643 2.695 1.652 3.543l.643-.766zM2.612 9.91l.349-1.513-.975-.224-.349 1.512.975.225zm.79.51a.5.5 0 01-.79-.51l-.975-.225c-.316 1.369 1.255 2.382 2.372 1.53l-.607-.796zm2.052-1.567l-2.052 1.566.607.795 2.052-1.567-.607-.794zm2.421-.103H5.758v1h2.117v-1zM11.5 5.125A3.625 3.625 0 017.875 8.75v1A4.625 4.625 0 0012.5 5.125h-1zM7.875 1.5A3.625 3.625 0 0111.5 5.125h1A4.625 4.625 0 007.875.5v1zm-2.75 0h2.75v-1h-2.75v1z'
+                fill='#6979F8'
+              />
+            </svg>
+            <text y={21} x={32} fontSize='13px' fontWeight='600'>
+              {commentCount}
+            </text>
           </svg>
-          <text y={14} x={22}>
-            {commentCount} comments
-          </text>
-        </svg>
+        </Tooltip>
       )}
     </svg>
   );
