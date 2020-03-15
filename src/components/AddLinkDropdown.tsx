@@ -94,9 +94,9 @@ const linkHeading = (
     alignItems='center'
     color='brand.secondary'
   >
-    <Icon name='copy' mr={6} size='19px' />
+    <Icon name='link' mr={6} />
     <Box as='span' color='black'>
-      Attachments
+      Links
     </Box>
   </Heading>
 );
