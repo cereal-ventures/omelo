@@ -10,7 +10,6 @@ import {
   PopoverTrigger,
   Button,
   PopoverContent,
-  PopoverArrow,
   PopoverHeader,
   PopoverFooter,
   Link
@@ -42,7 +41,6 @@ function ContextMenu({
         </Button>
       </PopoverTrigger>
       <PopoverContent zIndex={4} width='200px'>
-        <PopoverArrow />
         <PopoverHeader>
           <Heading as='h6' size='sm' fontWeight='semibold'>
             Comment:

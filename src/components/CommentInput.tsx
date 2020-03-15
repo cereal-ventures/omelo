@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Avatar, Flex, Box, Button, Input } from '@chakra-ui/core';
 import { getCurrentUser } from '../services';
@@ -11,6 +11,7 @@ export default function CommentInput({
   eventId: string;
   projectId: string;
 }) {
+  const [value, setValue] = useState('');
   const user = getCurrentUser();
   const { register, handleSubmit, errors } = useForm();
 
@@ -18,11 +19,13 @@ export default function CommentInput({
   return (
     <Box width='100%'>
       <form
+        autoComplete='off'
         onSubmit={handleSubmit(({ comment }, e) => {
           if (!hasErrors) {
             addComment({ eventId, projectId, comment, resolved: false }).then(
               () => {
                 e?.target.reset();
+                setValue('');
               }
             );
           }
@@ -36,6 +39,7 @@ export default function CommentInput({
           />
           <Box mx={2} flexGrow={1} position='relative' top='-1px'>
             <Input
+              onChange={(e: any) => setValue(e.target.value)}
               fontSize='14px'
               fontWeight='semibold'
               placeholder='Add comment...'
@@ -44,14 +48,16 @@ export default function CommentInput({
               ref={register({ required: '' })}
             />
           </Box>
-          <Button
-            variantColor='purple'
-            type='submit'
-            size='xs'
-            fontWeight='semibold'
-          >
-            Send
-          </Button>
+          {value.length >= 1 && (
+            <Button
+              variantColor='purple'
+              type='submit'
+              size='xs'
+              fontWeight='semibold'
+            >
+              Send
+            </Button>
+          )}
         </Flex>
       </form>
     </Box>
