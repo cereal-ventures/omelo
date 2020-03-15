@@ -181,7 +181,7 @@ export default function EventDetailPanel({
           <DrawerFooter
             width='100%'
             position='absolute'
-            bottom={0}
+            bottom='32px'
             backgroundColor='white'
           >
             <Divider
