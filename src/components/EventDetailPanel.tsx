@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
@@ -76,6 +76,45 @@ function StatusButtons({
         Delete
       </Button>
     </ButtonGroup>
+  );
+}
+
+function Footer({
+  projectId,
+  eventId
+}: {
+  projectId: string;
+  eventId: string;
+}) {
+  const [height, setHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const height = window.innerHeight;
+      setHeight(height);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  return (
+    <DrawerFooter
+      width='100%'
+      position='absolute'
+      top={`${height - 56}px`}
+      backgroundColor='white'
+    >
+      <Divider
+        width='100%'
+        top='-8px'
+        left={0}
+        color='black'
+        position='absolute'
+        zIndex={4}
+      />
+      <CommentInput eventId={eventId} projectId={projectId} />
+    </DrawerFooter>
   );
 }
 
@@ -177,24 +216,7 @@ export default function EventDetailPanel({
             projectId={projectId}
           />
         </DrawerBody>
-        {!isViewOnly && (
-          <DrawerFooter
-            width='100%'
-            position='absolute'
-            bottom='32px'
-            backgroundColor='white'
-          >
-            <Divider
-              width='100%'
-              top='-8px'
-              left={0}
-              color='black'
-              position='absolute'
-              zIndex={4}
-            />
-            <CommentInput eventId={eventId} projectId={projectId} />
-          </DrawerFooter>
-        )}
+        {!isViewOnly && <Footer eventId={eventId} projectId={projectId} />}
       </DrawerContent>
     </Drawer>
   );
