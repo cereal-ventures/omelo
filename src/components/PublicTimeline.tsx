@@ -82,21 +82,25 @@ export default function PublicTimeline() {
             width='100%'
             height={fillHeight}
           />
-          {events.map(({ date, title, id, completed }, i) => {
-            return (
-              <Event
-                key={id}
-                completed={completed}
-                y={HEIGHT_OFFSET + 100 * i}
-                date={date}
-                title={title}
-                isOverdue={getIsOverdue(date) && !completed}
-                handleClick={() =>
-                  history.push(`/public/${projectId}/event/${id}`)
-                }
-              />
-            );
-          })}
+          {events.map(
+            ({ date, title, id, completed, assetCount, commentCount }, i) => {
+              return (
+                <Event
+                  key={id}
+                  completed={completed}
+                  y={HEIGHT_OFFSET + 100 * i}
+                  date={date}
+                  title={title}
+                  assetCount={assetCount}
+                  commentCount={commentCount}
+                  isOverdue={getIsOverdue(date) && !completed}
+                  handleClick={() =>
+                    history.push(`/public/${projectId}/event/${id}`)
+                  }
+                />
+              );
+            }
+          )}
         </svg>
       </Grid>
       <Route path='/public/:id/event/:event'>

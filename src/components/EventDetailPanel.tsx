@@ -171,24 +171,30 @@ export default function EventDetailPanel({
             projectId={projectId}
             isViewOnly={isViewOnly}
           />
-          <CommentList eventId={eventId} projectId={projectId} />
-        </DrawerBody>
-        <DrawerFooter
-          width='100%'
-          position='absolute'
-          bottom={0}
-          backgroundColor='white'
-        >
-          <Divider
-            width='100%'
-            top='-8px'
-            left={0}
-            color='black'
-            position='absolute'
-            zIndex={4}
+          <CommentList
+            isViewOnly={isViewOnly}
+            eventId={eventId}
+            projectId={projectId}
           />
-          <CommentInput eventId={eventId} projectId={projectId} />
-        </DrawerFooter>
+        </DrawerBody>
+        {!isViewOnly && (
+          <DrawerFooter
+            width='100%'
+            position='absolute'
+            bottom={0}
+            backgroundColor='white'
+          >
+            <Divider
+              width='100%'
+              top='-8px'
+              left={0}
+              color='black'
+              position='absolute'
+              zIndex={4}
+            />
+            <CommentInput eventId={eventId} projectId={projectId} />
+          </DrawerFooter>
+        )}
       </DrawerContent>
     </Drawer>
   );

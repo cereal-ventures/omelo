@@ -68,9 +68,11 @@ function ContextMenu({
 }
 
 export default function CommentList({
+  isViewOnly,
   eventId,
   projectId
 }: {
+  isViewOnly: boolean;
   projectId: string;
   eventId: string;
 }) {
@@ -96,11 +98,13 @@ export default function CommentList({
               borderRadius='4px'
               position='relative'
             >
-              <ContextMenu
-                projectId={projectId}
-                eventId={eventId}
-                commentId={comment.id}
-              />
+              {!isViewOnly && (
+                <ContextMenu
+                  projectId={projectId}
+                  eventId={eventId}
+                  commentId={comment.id}
+                />
+              )}
               <Flex>
                 <Avatar size='xs' />
                 <Box ml={2}>
