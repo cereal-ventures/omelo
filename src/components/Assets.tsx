@@ -51,6 +51,7 @@ export default function Assets({
                   </Link>
                   {!isViewOnly && (
                     <EditLinkDropdown
+                      eventId={eventId}
                       projectId={projectId}
                       assetId={asset.id}
                       name={asset.name}

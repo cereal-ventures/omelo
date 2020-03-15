@@ -96,7 +96,7 @@ const linkHeading = (
   >
     <Icon name='copy' mr={6} size='19px' />
     <Box as='span' color='black'>
-      Assets
+      Attachments
     </Box>
   </Heading>
 );

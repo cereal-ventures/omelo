@@ -16,12 +16,14 @@ import {
 import { updateAsset, removeAsset } from '../services/data';
 
 function UpdateAssetForm({
+  eventId,
   projectId,
   name,
   url,
   assetId,
   onClose
 }: {
+  eventId: string;
   projectId: string;
   assetId: string;
   name: string;
@@ -84,7 +86,7 @@ function UpdateAssetForm({
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
             if (window.confirm('Are you user you want to delete this link?')) {
-              removeAsset({ assetId, projectId });
+              removeAsset({ assetId, projectId, eventId });
             }
             onClose && onClose();
           }}
@@ -97,6 +99,7 @@ function UpdateAssetForm({
 }
 
 export default function EditLinkDropdown({
+  eventId,
   projectId,
   assetId,
   name,
@@ -120,6 +123,7 @@ export default function EditLinkDropdown({
                 Edit Link
               </Heading>
               <UpdateAssetForm
+                eventId={eventId}
                 projectId={projectId}
                 assetId={assetId}
                 onClose={onClose}

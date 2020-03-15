@@ -271,12 +271,25 @@ export function addAsset({
   type: Asset;
   url: string;
 }) {
-  return db.collection(`/projects/${projectId}/assets`).add({
-    eventId,
-    name,
-    type,
-    url
+  const batch = db.batch();
+  const assetRef = db.collection(`/projects/${projectId}/assets`).doc();
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+  batch.set(
+    assetRef,
+    {
+      eventId,
+      name,
+      type,
+      url
+    },
+    { merge: true }
+  );
+
+  batch.update(eventRef, {
+    assetCount: FieldValue.increment(1)
   });
+
+  return batch.commit();
 }
 
 export function updateAsset({
@@ -298,12 +311,22 @@ export function updateAsset({
 
 export function removeAsset({
   projectId,
-  assetId
+  assetId,
+  eventId
 }: {
   projectId: string;
   assetId: string;
+  eventId: string;
 }) {
-  return db.doc(`/projects/${projectId}/assets/${assetId}`).delete();
+  const batch = db.batch();
+  const assetRef = db.doc(`/projects/${projectId}/assets/${assetId}`);
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+
+  batch.delete(assetRef);
+  batch.update(eventRef, {
+    assetCount: FieldValue.increment(-1)
+  });
+  return batch.commit();
 }
 
 export function getAssetsByEvent(

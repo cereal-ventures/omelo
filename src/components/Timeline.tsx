@@ -109,20 +109,23 @@ export default function Timeline({
             width='100%'
             height={fillHeight}
           />
-          {events.map(({ date, title, id, completed, commentCount }, i) => {
-            return (
-              <Event
-                key={id}
-                y={HEIGHT_OFFSET + 100 * i}
-                date={date}
-                title={title}
-                completed={completed}
-                commentCount={commentCount}
-                isOverdue={getIsOverdue(date) && !completed}
-                handleClick={() => history.push(`/${projectId}/event/${id}`)}
-              />
-            );
-          })}
+          {events.map(
+            ({ date, title, id, completed, commentCount, assetCount }, i) => {
+              return (
+                <Event
+                  key={id}
+                  y={HEIGHT_OFFSET + 100 * i}
+                  date={date}
+                  title={title}
+                  completed={completed}
+                  commentCount={commentCount}
+                  assetCount={assetCount}
+                  isOverdue={getIsOverdue(date) && !completed}
+                  handleClick={() => history.push(`/${projectId}/event/${id}`)}
+                />
+              );
+            }
+          )}
         </svg>
         <AddButton onClick={() => history.push(`/${projectId}/add-event`)} />
       </Grid>
