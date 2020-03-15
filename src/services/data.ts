@@ -409,7 +409,7 @@ export function removeComment({
   const commentRef = db.doc(`/projects/${projectId}/comments/${commentId}`);
 
   batch.update(eventRef, {
-    eventCount: FieldValue.increment(-1)
+    commentCount: FieldValue.increment(-1)
   });
   batch.delete(commentRef);
 

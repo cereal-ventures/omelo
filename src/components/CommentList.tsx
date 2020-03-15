@@ -1,6 +1,73 @@
 import React from 'react';
-import { Box, Flex, Avatar, Heading, Text, Icon } from '@chakra-ui/core';
+import {
+  Box,
+  Flex,
+  Avatar,
+  Heading,
+  Text,
+  Icon,
+  Popover,
+  PopoverTrigger,
+  Button,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverFooter,
+  Link
+} from '@chakra-ui/core';
 import { useComments } from './hooks/useComments';
+import { removeComment } from '../services/data';
+
+function ContextMenu({
+  projectId,
+  eventId,
+  commentId
+}: {
+  projectId: string;
+  eventId: string;
+  commentId: string;
+}) {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button
+          position='absolute'
+          right='16px'
+          top='8px'
+          height='auto'
+          minWidth='auto'
+          variant='unstyled'
+        >
+          &#8942;
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent zIndex={4} width='200px'>
+        <PopoverArrow />
+        <PopoverHeader>
+          <Heading as='h6' size='sm' fontWeight='semibold'>
+            Comment:
+          </Heading>
+        </PopoverHeader>
+
+        <PopoverFooter>
+          <Link
+            as='button'
+            color='red.400'
+            onClick={() => {
+              if (
+                window.confirm('Are you sure you want to delete this comment?')
+              ) {
+                removeComment({ eventId, projectId, commentId });
+              }
+            }}
+          >
+            Delete Comment
+          </Link>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export default function CommentList({
   eventId,
@@ -29,7 +96,13 @@ export default function CommentList({
               border='1px solid'
               borderColor='neutral.1'
               borderRadius='4px'
+              position='relative'
             >
+              <ContextMenu
+                projectId={projectId}
+                eventId={eventId}
+                commentId={comment.id}
+              />
               <Flex>
                 <Avatar size='xs' />
                 <Box ml={2}>

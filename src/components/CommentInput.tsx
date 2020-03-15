@@ -44,7 +44,12 @@ export default function CommentInput({
               ref={register({ required: '' })}
             />
           </Box>
-          <Button variantColor='purple' type='submit' size='xs'>
+          <Button
+            variantColor='purple'
+            type='submit'
+            size='xs'
+            fontWeight='semibold'
+          >
             Send
           </Button>
         </Flex>
