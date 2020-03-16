@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Link, Icon, Flex } from '@chakra-ui/core';
+import { Link, Icon, Flex } from '@chakra-ui/core';
 import { useEventAssets } from './hooks/useEventAssets';
 import AddLinkDropdown from './AddLinkDropdown';
 import EditLinkDropdown from './EditLinkDropdown';
@@ -28,25 +28,29 @@ export default function Assets({
                 key={asset.id}
                 alignItems='center'
                 justifyContent='flex-end'
+                px={2}
+                py={1}
+                borderRadius='4px'
+                backgroundColor='neutral.5'
+                borderColor='brand.secondary'
+                border='1px solid'
+                color='brand.secondary'
                 mb={2}
               >
                 <Link
                   display='flex'
-                  justifyContent='space-between'
                   alignItems='center'
                   width='100%'
-                  px={2}
-                  py={1}
-                  borderRadius='4px'
-                  backgroundColor='neutral.5'
-                  borderColor='brand.secondary'
-                  border='1px solid'
-                  color='brand.secondary'
                   href={asset.url}
                   target='_blank'
                 >
+                  <Icon
+                    size='.75em'
+                    color='brand.secondary'
+                    name='link'
+                    mr={2}
+                  />
                   {asset.name}
-                  <Icon color='brand.secondary' name='external-link' />
                 </Link>
                 {!isViewOnly && (
                   <EditLinkDropdown

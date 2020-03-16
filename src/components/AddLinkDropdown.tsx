@@ -94,9 +94,9 @@ const linkHeading = (
     alignItems='center'
     color='brand.secondary'
   >
-    <Icon size='.85em' name='link' mr={2} />
+    <Icon size='.85em' name='attachment' mr={2} />
     <Box as='span' color='black'>
-      Links
+      Attachments
     </Box>
   </Heading>
 );
@@ -119,14 +119,14 @@ export default function AddLinkDropdown({
               {linkHeading}
               <Button
                 size='xs'
-                variant='outline'
+                variant='link'
                 color='brand.secondary'
                 textTransform='uppercase'
                 fontWeight='bold'
                 fontSize='12px'
                 ml={8}
               >
-                Add New
+                Add
               </Button>
             </Flex>
           </PopoverTrigger>

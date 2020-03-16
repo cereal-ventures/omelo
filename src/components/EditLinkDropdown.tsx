@@ -108,17 +108,17 @@ export default function EditLinkDropdown({
   [x: string]: any;
 }) {
   return (
-    <Popover placement='bottom-start'>
+    <Popover placement='bottom'>
       {({ onClose }) => (
         <>
           <PopoverTrigger>
-            <Link as='button' color='gray.500' ml={4}>
+            <Link as='button' color='gray.500' ml={4} mr={2} fontSize='sm'>
               Edit
             </Link>
           </PopoverTrigger>
           <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
             <PopoverCloseButton />
-            <PopoverBody px={4}>
+            <PopoverBody px={4} color='black'>
               <Heading size='sm' mb={4}>
                 Edit Link
               </Heading>
