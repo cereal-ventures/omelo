@@ -14,7 +14,8 @@ import {
   Icon,
   Flex,
   Box,
-  Tooltip
+  Tooltip,
+  DrawerOverlay
 } from '@chakra-ui/core';
 import { addEvent } from '../services/data';
 
@@ -74,17 +75,17 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
         border='1px solid'
         borderColor={'gray.200'}
         position='relative'
-        mr={4}
+        mr={2}
       />
     </Tooltip>
   );
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
-      {/* <DrawerOverlay zIndex={1} /> */}
+      <DrawerOverlay zIndex={1} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <DrawerContent zIndex={2}>
-          <DrawerHeader mb={4}>
+          <DrawerHeader mb={2}>
             <Flex align='center'>
               {indicator}
 
@@ -117,13 +118,14 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                 <Icon
                   position='relative'
                   name='calendar'
-                  marginRight={6}
+                  marginRight={4}
                   top='-1px'
-                  size='19px'
+                  size='.85em'
                 />
                 <Input
                   color='black'
                   variant='flushed'
+                  fontSize='sm'
                   fontWeight='semibold'
                   borderColor='gray.100'
                   focusBorderColor='brand.secondary'

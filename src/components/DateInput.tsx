@@ -41,9 +41,16 @@ export default function DateInput({
   return (
     <FormControl mb={6} isInvalid={Boolean(errors?.date)}>
       <Flex alignItems='center' color='brand.secondary'>
-        <Icon position='relative' name='calendar' marginRight={6} />
+        <Icon
+          size='.85em'
+          position='relative'
+          top='-1px'
+          name='calendar'
+          marginRight={2}
+        />
         <Input
           color='black'
+          fontSize='sm'
           fontWeight='semibold'
           variant='flushed'
           borderColor='gray.100'

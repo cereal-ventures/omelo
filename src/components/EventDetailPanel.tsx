@@ -13,7 +13,8 @@ import {
   ButtonGroup,
   Tooltip,
   DrawerFooter,
-  Divider
+  Divider,
+  DrawerOverlay
 } from '@chakra-ui/core';
 import { updateEvent, removeEvent } from '../services/data';
 import Assets from './Assets';
@@ -188,6 +189,7 @@ export default function EventDetailPanel({
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
+      <DrawerOverlay zIndex={1} />
       <DrawerContent zIndex={2}>
         <DrawerHeader>
           <Flex align='center'>

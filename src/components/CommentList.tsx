@@ -78,10 +78,10 @@ export default function CommentList({
 }) {
   const { loading, comments } = useComments({ projectId, eventId });
   return (
-    <Box mt={8}>
+    <Box mt={6}>
       <Flex align='center' color='brand.secondary'>
-        <Icon mr={6} name='chat' size='16px' position='relative' left='1px' />
-        <Heading color='black' size='sm' as='h6' fontWeight='semibold'>
+        <Icon mr={2} name='chat' size='.85em' position='relative' top='1px' />
+        <Heading color='black' size='xs' as='h6' fontWeight='semibold'>
           Comments
         </Heading>
       </Flex>

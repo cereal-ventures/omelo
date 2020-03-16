@@ -88,13 +88,13 @@ function AddAssetForm({
 const linkHeading = (
   <Heading
     as='h4'
-    size='sm'
+    size='xs'
     fontWeight='semibold'
     display='flex'
     alignItems='center'
     color='brand.secondary'
   >
-    <Icon name='link' mr={6} />
+    <Icon size='.85em' name='link' mr={2} />
     <Box as='span' color='black'>
       Links
     </Box>
@@ -109,13 +109,13 @@ export default function AddLinkDropdown({
   [x: string]: any;
 }) {
   return isViewOnly ? (
-    <Box my={8}>{linkHeading}</Box>
+    <Box my={4}>{linkHeading}</Box>
   ) : (
     <Popover placement='bottom-start'>
       {({ onClose }) => (
         <>
           <PopoverTrigger>
-            <Flex my={8} justifyContent='space-between' alignItems='center'>
+            <Flex my={4} justifyContent='space-between' alignItems='center'>
               {linkHeading}
               <Button
                 size='xs'
