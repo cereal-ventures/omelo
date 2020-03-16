@@ -205,7 +205,13 @@ export default function EventDetailPanel({
             />
           )}
         </DrawerHeader>
-        <DrawerBody pl={8} pt={4} pb={24} position='relative' overflow='auto'>
+        <DrawerBody
+          pl={8}
+          pt={4}
+          pb={[40, 24]}
+          position='relative'
+          overflow='auto'
+        >
           {isViewOnly ? dateHeading : date ? dateInputEl : null}
           <Assets
             eventId={eventId}
