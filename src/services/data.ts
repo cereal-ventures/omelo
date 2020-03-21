@@ -403,6 +403,7 @@ export function getCommentsByEvent(
   return db
     .collection(`/projects/${projectId}/comments`)
     .where('eventId', '==', eventId || '')
+    .orderBy('date', 'desc')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         const data = doc.data();
