@@ -147,6 +147,7 @@ export default function Timeline({
               isViewOnly={['viewer', 'commenter'].includes(permission)}
               projectId={match?.params?.id}
               isOpen={Boolean(match)}
+              isOverdue={getIsOverdue(event.date) && !event.completed}
               {...event}
             />
           );
