@@ -143,7 +143,6 @@ export default function ActivityFeed({
   return (
     <Grid rowGap={8}>
       {activity.map(item => {
-        console.log(item);
         if (item.type === activityTypes.CREATE_EVENT) {
           const [name] = item.displayName.split(' ');
           return (
