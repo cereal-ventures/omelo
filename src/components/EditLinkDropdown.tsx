@@ -55,33 +55,36 @@ function UpdateAssetForm({
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl mb={8} isInvalid={Boolean(errors.assetName)}>
+      <FormControl mb={4} isInvalid={Boolean(errors.assetName)}>
         <Input
+          size='sm'
           ref={register({
             required: 'Please enter a name'
           })}
           name='assetName'
-          variant='flushed'
+          variant='outline'
           placeholder='Enter a name'
         />
       </FormControl>
-      <FormControl mb={8} isInvalid={Boolean(errors.assetUrl)}>
+      <FormControl mb={4} isInvalid={Boolean(errors.assetUrl)}>
         <Input
+          size='sm'
           ref={register({
             required: 'Please enter a valid url',
             pattern: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)/
           })}
           name='assetUrl'
-          variant='flushed'
+          variant='outline'
           placeholder='Enter a url'
         />
       </FormControl>
       <ButtonGroup display='flex' spacing={0} flexDirection='row-reverse'>
-        <Button type='submit' variantColor='teal' ml={4}>
+        <Button type='submit' variantColor='teal' ml={4} size='xs'>
           Update
         </Button>
-        <Link
-          as='button'
+        <Button
+          size='xs'
+          variant='link'
           color='system.alert'
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
@@ -92,7 +95,7 @@ function UpdateAssetForm({
           }}
         >
           Delete
-        </Link>
+        </Button>
       </ButtonGroup>
     </form>
   );
@@ -108,7 +111,7 @@ export default function EditLinkDropdown({
   [x: string]: any;
 }) {
   return (
-    <Popover placement='bottom'>
+    <Popover placement='bottom-end'>
       {({ onClose }) => (
         <>
           <PopoverTrigger>
@@ -116,7 +119,7 @@ export default function EditLinkDropdown({
               Edit
             </Link>
           </PopoverTrigger>
-          <PopoverContent fontSize='md' zIndex={4} width='275px' px={2} py={3}>
+          <PopoverContent fontSize='md' zIndex={4} width='275px' py={3}>
             <PopoverCloseButton />
             <PopoverBody px={4} color='black'>
               <Heading size='sm' mb={4}>
