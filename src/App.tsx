@@ -6,7 +6,7 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Page404 from './components/404';
 import { logo } from './components/icons';
-import { loadingScreen } from './components/loadingScreen';
+import { skeletonTimeline, loadingScreen } from './components/loadingScreen';
 import projectImg from './images/devices@2x.png';
 import mountains from './images/Mountain-illustration@2x.png';
 import confetti from './images/Confetti@2x.png';
@@ -138,12 +138,12 @@ function App() {
           <LoginPage loading={loading} />
         </Route>
         <Route path='/public/:id'>
-          <Suspense fallback={loadingScreen}>
+          <Suspense fallback={skeletonTimeline}>
             <PublicTimeline />
           </Suspense>
         </Route>
         <PrivateRoute path='/'>
-          <Suspense fallback={loadingScreen}>
+          <Suspense fallback={skeletonTimeline}>
             <Main user={user} />
           </Suspense>
         </PrivateRoute>

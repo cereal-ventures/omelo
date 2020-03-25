@@ -5,7 +5,7 @@ import Event from './Event';
 import { useEvents } from './hooks/useEvents';
 import EventDetailPanel from './EventDetailPanel';
 import { useProject } from './hooks/useProject';
-import { loadingScreen } from './loadingScreen';
+import { skeletonTimeline } from './loadingScreen';
 import { getIsOverdue } from '../utils';
 
 const HEIGHT_OFFSET = 200;
@@ -44,7 +44,7 @@ export default function PublicTimeline() {
   }, [handleResize]);
 
   if (loading) {
-    return loadingScreen;
+    return skeletonTimeline;
   }
 
   return (

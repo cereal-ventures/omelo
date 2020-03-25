@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { useEvents } from './hooks/useEvents';
 import { getProjectPermissions } from '../services/data';
-import { loadingScreen } from './loadingScreen';
+import { skeletonTimeline } from './loadingScreen';
 
 export const ProjectContext = React.createContext<{
   events: Array<any>;
@@ -33,7 +33,7 @@ export const ProjectProvider = ({
 
   return (
     <ProjectContext.Provider value={{ events, permission }}>
-      {isLoading ? loadingScreen : children}
+      {isLoading ? skeletonTimeline : children}
     </ProjectContext.Provider>
   );
 };

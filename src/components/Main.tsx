@@ -14,7 +14,7 @@ import Timeline from './Timeline';
 import ProjectsPanel from './ProjectsPanel';
 import ZeroState from './ZeroState';
 import { useProjects } from './hooks/useProjects';
-import { loadingScreen } from './loadingScreen';
+import { skeletonTimeline } from './loadingScreen';
 // Types
 import { User } from 'firebase';
 import { ProjectProvider } from './ProjectContext';
@@ -44,7 +44,7 @@ export default function Main({ user }: Props) {
 
         <Route exact path='/'>
           {loading ? (
-            loadingScreen
+            skeletonTimeline
           ) : hasProjects ? (
             <Redirect to={`/${projects[0].id}${history.location.search}`} />
           ) : (
