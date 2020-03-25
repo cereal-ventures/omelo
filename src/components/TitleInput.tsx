@@ -19,13 +19,14 @@ export default function TitleInput({
   });
 
   const hasErrors: boolean = Boolean(Object.keys(errors).length);
-  const onSubmit = ({ title }: { [x: string]: any }) => {
-    if (!hasErrors) {
+  const onSubmit = ({ title: updatedTitle }: { [x: string]: any }) => {
+    if (!hasErrors && updatedTitle !== title) {
       updateEvent({
+        type: 'UPDATE_TITLE',
         projectId,
         eventId,
         payload: {
-          title
+          title: updatedTitle
         }
       });
     }
@@ -36,7 +37,7 @@ export default function TitleInput({
         color='black'
         borderColor='gray.100'
         focusBorderColor='brand.secondary'
-        variant='flushed'
+        variant='unstyled'
         fontWeight='semibold'
         name='title'
         fontSize='inherit'
