@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { getCurrentUser } from '.';
+import { activityTypes } from '../constants';
 
 export type UserEmail = string | null | undefined;
 export type ProjectId = string | null | undefined;
@@ -210,13 +211,26 @@ export function addEvent({
   completed: boolean;
   isDisabled: boolean;
 }) {
+  const user = getCurrentUser();
   const batch = db.batch();
   const projectRef = db.doc(`/projects/${projectId}`);
+  const eventsRef = db.collection(`/projects/${projectId}/events`).doc();
+  const activityRef = db
+    .collection(`/projects/${projectId}/events/${eventsRef.id}/activity`)
+    .doc();
+
   batch.update(projectRef, {
     eventCount: FieldValue.increment(1)
   });
 
-  const eventsRef = db.collection(`/projects/${projectId}/events`).doc();
+  batch.set(activityRef, {
+    date: fromDate(new Date(Date.now())),
+    type: activityTypes.CREATE_EVENT,
+    displayName: user?.displayName,
+    photoURL: user?.photoURL,
+    title
+  });
+
   batch.set(eventsRef, {
     title,
     date: fromDate(new Date(date)),
@@ -229,16 +243,37 @@ export function addEvent({
 export function updateEvent({
   projectId,
   eventId,
-  payload
+  payload,
+  type
 }: {
   projectId: string;
   eventId: string;
+  type: string;
   payload: { [x: string]: any };
 }) {
-  if (payload.date) {
+  const user = getCurrentUser();
+  const batch = db.batch();
+  const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
+  const activityRef = db
+    .collection(`/projects/${projectId}/events/${eventId}/activity`)
+    .doc();
+
+  if (type === activityTypes.UPDATE_DATE) {
     payload.date = fromDate(new Date(payload.date));
+    payload.prevDate = payload.prevDate.toLocaleDateString('en-US');
   }
-  return db.doc(`/projects/${projectId}/events/${eventId}`).update(payload);
+
+  let data: { [x: string]: any } = {
+    type,
+    date: fromDate(new Date(Date.now())),
+    displayName: user?.displayName,
+    photoUrl: user?.photoURL,
+    ...payload
+  };
+
+  batch.update(eventRef, payload);
+  batch.set(activityRef, data);
+  return batch.commit();
 }
 
 export function removeEvent({
@@ -366,14 +401,15 @@ export function addComment({
 }) {
   const user = getCurrentUser();
   const batch = db.batch();
-  const commentRef = db.collection(`/projects/${projectId}/comments`).doc();
+  const activityRef = db
+    .collection(`/projects/${projectId}/events/${eventId}/activity`)
+    .doc();
   const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
   batch.set(
-    commentRef,
+    activityRef,
     {
       date: fromDate(new Date(Date.now())),
-      eventId,
-      projectId,
+      type: activityTypes.COMMENT,
       comment,
       resolved,
       photoURL: user?.photoURL,
@@ -390,7 +426,7 @@ export function addComment({
   return batch.commit();
 }
 
-export function getCommentsByEvent(
+export function getEventActivity(
   {
     projectId,
     eventId
@@ -401,8 +437,7 @@ export function getCommentsByEvent(
   cb: any
 ) {
   return db
-    .collection(`/projects/${projectId}/comments`)
-    .where('eventId', '==', eventId || '')
+    .collection(`/projects/${projectId}/events/${eventId}/activity`)
     .orderBy('date', 'desc')
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
@@ -430,7 +465,9 @@ export function removeComment({
   const batch = db.batch();
 
   const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
-  const commentRef = db.doc(`/projects/${projectId}/comments/${commentId}`);
+  const commentRef = db.doc(
+    `/projects/${projectId}/events/${eventId}/activity/${commentId}`
+  );
 
   batch.update(eventRef, {
     commentCount: FieldValue.increment(-1)

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getCommentsByEvent } from '../../services/data';
+import { getEventActivity } from '../../services/data';
 
-export const useComments = ({
+export const useActivity = ({
   eventId,
   projectId
 }: {
@@ -10,18 +10,18 @@ export const useComments = ({
 }) => {
   const [state, setState] = useState<{
     loading: boolean;
-    comments: Array<any>;
+    activity: Array<any>;
   }>(() => {
-    return { loading: true, comments: [] };
+    return { loading: true, activity: [] };
   });
 
   useEffect(() => {
     // listen for auth state changes
     if (!eventId) return;
-    const unsubscribe = getCommentsByEvent(
+    const unsubscribe = getEventActivity(
       { eventId, projectId },
-      (comments: any[]) => {
-        setState({ loading: false, comments });
+      (activity: any[]) => {
+        setState({ loading: false, activity });
       }
     );
     // unsubscribe to the listener when unmounting
