@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import {
@@ -11,12 +11,16 @@ import {
   Button,
   FormControl,
   Heading,
-  Icon,
   Flex,
   Box,
   Tooltip,
-  DrawerOverlay
+  DrawerOverlay,
+  Badge,
+  Stack,
+  Icon,
+  Divider
 } from '@chakra-ui/core';
+import DatePicker from './DatePicker';
 import { addEvent } from '../services/data';
 
 interface Props {
@@ -25,9 +29,9 @@ interface Props {
 }
 
 export default function AddEventPanel({ isOpen, projectId }: Props) {
+  const [date, setDate] = useState(new Date(Date.now()));
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
-      date: new Date(Date.now()).toISOString().substr(0, 10),
       title: ''
     }
   });
@@ -37,24 +41,19 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
     history.push(`/${projectId}`);
   };
   const hasErrors = Boolean(Object.keys(errors).length);
-  const onSubmit = ({
-    title,
-    date,
-    completed = false
-  }: {
-    [x: string]: any;
-  }) => {
+  const onSubmit = ({ title, completed = false }: { [x: string]: any }) => {
     if (!hasErrors) {
       addEvent({
         projectId,
         title,
-        date: new Date(date).toLocaleDateString('en-US', {
+        date: date.toLocaleDateString('en-US', {
           timeZone: 'UTC'
         }),
         completed,
         isDisabled: false
       });
       onClose();
+      setDate(new Date(Date.now()));
     }
   };
 
@@ -66,17 +65,17 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       aria-label='Not yet completed'
       label='Not yet completed'
     >
-      <Box
+      <Badge
+        fontSize='10px'
+        variantColor='purple'
+        py={1}
+        px={4}
         flexShrink={0}
-        width='32px'
-        height='32px'
-        backgroundColor={'white'}
-        borderRadius='full'
-        border='1px solid'
-        borderColor={'gray.200'}
         position='relative'
         mr={2}
-      />
+      >
+        New
+      </Badge>
     </Tooltip>
   );
 
@@ -84,11 +83,9 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay zIndex={1} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DrawerContent zIndex={2}>
+        <DrawerContent zIndex={2} maxWidth='375px' width='85vw'>
           <DrawerHeader mb={2}>
-            <Flex align='center'>
-              {indicator}
-
+            <Flex align='center' justify='space-between'>
               <Heading fontWeight='semibold' size='md' flexGrow={1}>
                 <FormControl isInvalid={Boolean(errors.title)}>
                   <Input
@@ -96,9 +93,9 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                     fontSize='inherit'
                     borderColor='gray.100'
                     focusBorderColor='brand.secondary'
-                    variant='flushed'
+                    variant='unstyled'
                     name='title'
-                    placeholder='Enter Title'
+                    placeholder='Add a title ...'
                     ref={(ref: any) =>
                       register(ref, {
                         required: 'Please set a title'
@@ -110,51 +107,57 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                   </FormErrorMessage>
                 </FormControl>
               </Heading>
+              {indicator}
             </Flex>
           </DrawerHeader>
-          <DrawerBody pl={8}>
-            <FormControl mb={6} isInvalid={Boolean(errors.date)}>
-              <Flex alignItems='center' color='brand.secondary'>
-                <Icon
-                  position='relative'
-                  name='calendar'
-                  marginRight={4}
-                  top='-1px'
-                  size='.85em'
+          <DrawerBody>
+            <FormControl mb={6} isInvalid={!date}>
+              <Box
+                border='1px solid'
+                borderColor='gray.100'
+                borderRadius={4}
+                p={2}
+              >
+                <Flex as='header' align='center' p={2} color='brand.secondary'>
+                  <Icon name='calendar' size='.85em' />
+                  <Heading
+                    color='black'
+                    as='h4'
+                    size='xs'
+                    fontSize='12px'
+                    ml={2}
+                    display='flex'
+                    justifyContent='space-between'
+                    width='100%'
+                  >
+                    Set Date:
+                    <Box as='span'>{date.toLocaleDateString('en-US')}</Box>
+                  </Heading>
+                </Flex>
+                <Divider />
+                <DatePicker
+                  date={date}
+                  onChange={(date: Date) => setDate(date)}
                 />
-                <Input
-                  color='black'
-                  variant='flushed'
-                  fontSize='sm'
-                  fontWeight='semibold'
-                  borderColor='gray.100'
-                  focusBorderColor='brand.secondary'
-                  name='date'
-                  type='date'
-                  ref={(ref: any) =>
-                    register(ref, {
-                      required: 'Please set a valid date'
-                    })
-                  }
-                />
-              </Flex>
+              </Box>
               <FormErrorMessage>
-                {errors.date && 'Please add a date'}
+                {!date && 'Please add a date'}
               </FormErrorMessage>
             </FormControl>
-            <Flex align='center' mt={12}>
+            <Stack align='center' mt={4}>
               <Button
-                borderRadius='full'
+                size='sm'
+                width='100%'
                 px={6}
                 type='submit'
-                variantColor='teal'
+                variantColor='purple'
               >
                 Save
               </Button>
-              <Button variant='link' ml={3} onClick={onClose}>
+              <Button size='sm' variant='link' mt={2} onClick={onClose}>
                 Cancel
               </Button>
-            </Flex>
+            </Stack>
           </DrawerBody>
         </DrawerContent>
       </form>
