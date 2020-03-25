@@ -48,7 +48,7 @@ function Month({ year, month, firstDayOfWeek, nextMonth, prevMonth }) {
   return (
     <Box>
       <Flex justifyContent='space-between' align='center'>
-        <Heading ml={2} size='xs' textAlign='center' my='16px'>
+        <Heading ml={2} fontSize='12px' textTransform='uppercase' my='16px'>
           {monthLabel}
         </Heading>
         <Flex align='center' justify='space-between'>
@@ -156,10 +156,10 @@ function Day({ dayLabel, date }) {
       type='button'
       ref={dayRef}
       color={isSelected ? '#fff' : 'black'}
-      background={isSelected ? '#394AB6' : '#F7FAFC'}
+      background={isSelected ? '#394AB6' : '#ffff'}
       _focus={{ boxShadow: 'none' }}
       _hover={{
-        backgroundColor: isSelected ? '#394AB6' : '#F7FAFC'
+        backgroundColor: isSelected ? '#394AB6' : '#fff'
       }}
       _active={{}}
     >
@@ -230,8 +230,6 @@ function Datepicker({ onChange, date }) {
       <Grid
         gridTemplateColumns={`repeat(${activeMonths.length}, 1fr)`}
         gap={8}
-        backgroundColor='gray.50'
-        p={2}
         borderRadius={4}
       >
         {activeMonths.map(month => (

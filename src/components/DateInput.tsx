@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  FormControl,
-  Flex,
-  Icon,
-  Input,
-  FormErrorMessage
-} from '@chakra-ui/core';
-import { useForm } from 'react-hook-form';
+import { FormControl } from '@chakra-ui/core';
 import { updateEvent } from '../services/data';
+import DatePopover from './DatePopover';
+import { activityTypes } from '../constants';
 
 export default function DateInput({
   eventId,
@@ -16,58 +11,25 @@ export default function DateInput({
 }: {
   projectId: string;
   eventId: string;
-  date: string;
+  date: Date;
 }) {
-  const { register, handleSubmit, errors } = useForm({
-    defaultValues: {
-      date: new Date(date).toISOString().substr(0, 10)
-    }
-  });
-
-  const hasErrors: boolean = Boolean(Object.keys(errors).length);
-  const onSubmit = ({ date }: { [x: string]: any }) => {
-    if (!hasErrors) {
-      updateEvent({
-        projectId,
-        eventId,
-        payload: {
-          date: new Date(date).toLocaleDateString('en-US', {
-            timeZone: 'UTC'
-          })
-        }
-      });
-    }
+  const onSubmit = ({ date: updatedDate }: { [x: string]: any }) => {
+    const newDate = new Date(updatedDate).toLocaleDateString('en-US', {
+      timeZone: 'UTC'
+    });
+    updateEvent({
+      type: activityTypes.UPDATE_DATE,
+      projectId,
+      eventId,
+      payload: {
+        date: newDate,
+        prevDate: date
+      }
+    });
   };
   return (
-    <FormControl mb={6} isInvalid={Boolean(errors?.date)}>
-      <Flex alignItems='center' color='brand.secondary'>
-        <Icon
-          size='.85em'
-          position='relative'
-          top='-1px'
-          name='calendar'
-          marginRight={2}
-        />
-        <Input
-          color='black'
-          fontSize='sm'
-          fontWeight='semibold'
-          variant='flushed'
-          borderColor='gray.100'
-          focusBorderColor='brand.secondary'
-          name='date'
-          type='date'
-          onBlur={handleSubmit(onSubmit)}
-          ref={(ref: any) =>
-            register(ref, {
-              required: 'Please set a date for your event'
-            })
-          }
-        />
-      </Flex>
-      <FormErrorMessage>
-        {errors?.date && 'Please add a date to your event'}
-      </FormErrorMessage>
+    <FormControl>
+      <DatePopover date={date} onChange={date => onSubmit({ date })} />
     </FormControl>
   );
 }
