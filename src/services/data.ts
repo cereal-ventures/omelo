@@ -259,16 +259,24 @@ export function updateEvent({
     .doc();
 
   if (type === activityTypes.UPDATE_DATE) {
-    payload.date = fromDate(new Date(payload.date));
-    payload.prevDate = payload.prevDate.toLocaleDateString('en-US');
+    const date = new Date(payload.date);
+    payload.date = fromDate(date);
+    payload.newDate = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+    payload.prevDate = payload.prevDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
   }
 
   let data: { [x: string]: any } = {
+    ...payload,
     type,
     date: fromDate(new Date(Date.now())),
     displayName: user?.displayName,
-    photoUrl: user?.photoURL,
-    ...payload
+    photoUrl: user?.photoURL
   };
 
   batch.update(eventRef, payload);
