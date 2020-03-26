@@ -27,7 +27,7 @@ import Composer from './Composer';
 
 interface Props {
   isViewOnly: boolean;
-  isOverdue: boolean;
+  isOverdue?: boolean;
   projectId: string;
   id: string;
   title: string;
@@ -136,8 +136,7 @@ export default function EventDetailPanel({
   date,
   isOpen,
   completed,
-  assetCount,
-  isOverdue
+  assetCount
 }: Props) {
   const history = useHistory();
 
@@ -163,13 +162,12 @@ export default function EventDetailPanel({
   );
 
   const eventTitleEl = (
-    <Heading fontWeight='semibold' size='md' flexGrow={1}>
-      {isViewOnly ? (
-        title
-      ) : title ? (
-        <TitleInput title={title} projectId={projectId} eventId={eventId} />
-      ) : null}
-    </Heading>
+    <TitleInput
+      isViewOnly={isViewOnly}
+      title={title}
+      projectId={projectId}
+      eventId={eventId}
+    />
   );
 
   const indicator = (

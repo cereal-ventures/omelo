@@ -1,17 +1,20 @@
-import React from 'react';
-import { FormControl, Input, FormErrorMessage } from '@chakra-ui/core';
+import React, { useState } from 'react';
+import { FormControl, Input, FormErrorMessage, Heading } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
 import { updateEvent } from '../services/data';
 
 export default function TitleInput({
+  isViewOnly,
   projectId,
   eventId,
   title
 }: {
+  isViewOnly: boolean;
   projectId: string;
   eventId: string;
   title: string;
 }) {
+  const [isEditing, setIsEditing] = useState(false);
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       title
@@ -30,28 +33,41 @@ export default function TitleInput({
         }
       });
     }
+
+    setIsEditing(false);
   };
+  const input = (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormControl isInvalid={Boolean(errors.title)}>
+        <Input
+          color='black'
+          variant='unstyled'
+          fontWeight='semibold'
+          name='title'
+          fontSize='inherit'
+          placeholder='Enter Title'
+          ref={(ref: any) => {
+            register(ref, {
+              required: 'Please set a title for your event'
+            });
+            if (ref) ref.focus();
+          }}
+        />
+        <FormErrorMessage>
+          {errors?.title && 'Please add a title'}
+        </FormErrorMessage>
+      </FormControl>
+    </form>
+  );
   return (
-    <FormControl isInvalid={Boolean(errors.title)}>
-      <Input
-        color='black'
-        borderColor='gray.100'
-        focusBorderColor='brand.secondary'
-        variant='unstyled'
-        fontWeight='semibold'
-        name='title'
-        fontSize='inherit'
-        placeholder='Enter Title'
-        onBlur={handleSubmit(onSubmit)}
-        ref={(ref: any) =>
-          register(ref, {
-            required: 'Please set a title for your event'
-          })
-        }
-      />
-      <FormErrorMessage>
-        {errors?.title && 'Please add a title'}
-      </FormErrorMessage>
-    </FormControl>
+    <Heading
+      cursor='pointer'
+      as='h2'
+      size='lg'
+      fontWeight='semibold'
+      onClick={() => setIsEditing(!isViewOnly)}
+    >
+      {isEditing ? input : title}
+    </Heading>
   );
 }
