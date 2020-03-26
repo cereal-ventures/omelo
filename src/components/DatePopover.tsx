@@ -33,7 +33,7 @@ export default function DatePopover({
             </Button>
           </PopoverTrigger>
           <PopoverContent zIndex={4}>
-            <PopoverBody p={0}>
+            <PopoverBody p={2}>
               <DatePicker date={localDate} onChange={setLocalDate} />
             </PopoverBody>
             <PopoverFooter>

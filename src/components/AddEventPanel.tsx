@@ -16,11 +16,9 @@ import {
   Tooltip,
   DrawerOverlay,
   Badge,
-  Stack,
-  Icon,
-  Divider
+  Stack
 } from '@chakra-ui/core';
-import DatePicker from './DatePicker';
+import DatePopover from './DatePopover';
 import { addEvent } from '../services/data';
 
 interface Props {
@@ -118,24 +116,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                 borderRadius={4}
                 p={2}
               >
-                <Flex as='header' align='center' p={2} color='brand.secondary'>
-                  <Icon name='calendar' size='.85em' />
-                  <Heading
-                    color='black'
-                    as='h4'
-                    size='xs'
-                    fontSize='12px'
-                    ml={2}
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
-                  >
-                    Set Date:
-                    <Box as='span'>{date.toLocaleDateString('en-US')}</Box>
-                  </Heading>
-                </Flex>
-                <Divider />
-                <DatePicker
+                <DatePopover
                   date={date}
                   onChange={(date: Date) => setDate(date)}
                 />
