@@ -120,13 +120,6 @@ function Update({ displayName, photoUrl, children }: { [x: string]: any }) {
   );
 }
 
-function shortenDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric'
-  });
-}
-
 export default function ActivityFeed({
   isViewOnly,
   eventId,
@@ -151,11 +144,28 @@ export default function ActivityFeed({
               displayName={item.displayName}
               photoUrl={item.photoUrl}
             >
-              <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
+              <Heading as='h6' size='xs' fontSize='12px'>
                 <Box as='strong' color='brand.secondary'>
                   {name}
                 </Box>{' '}
                 created <strong>{item.title}</strong>
+              </Heading>
+            </Update>
+          );
+        }
+        if (item.type === activityTypes.UPDATE_TITLE) {
+          const [name] = item.displayName.split(' ');
+          return (
+            <Update
+              key={item.id}
+              displayName={item.displayName}
+              photoUrl={item.photoUrl}
+            >
+              <Heading as='h6' size='xs' fontSize='12px'>
+                <Box as='strong' color='brand.secondary'>
+                  {name}
+                </Box>{' '}
+                updated the event title to <strong>{item.title}</strong>
               </Heading>
             </Update>
           );
@@ -172,20 +182,18 @@ export default function ActivityFeed({
           );
         if (item.type === activityTypes.UPDATE_DATE) {
           const [name] = item.displayName.split(' ');
-          const prevDate = shortenDate(item.prevDate);
-          const date = shortenDate(item.date);
           return (
             <Update
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoUrl}
             >
-              <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
+              <Heading as='h6' size='xs' fontSize='12px'>
                 <Box as='strong' color='brand.secondary'>
                   {name}
                 </Box>{' '}
-                changed the <strong>date</strong> from{' '}
-                <strong>{prevDate}</strong> to <strong>{date}</strong>
+                updated the date <strong>{item.prevDate}</strong> to{' '}
+                <strong>{item.newDate}</strong>
               </Heading>
             </Update>
           );
