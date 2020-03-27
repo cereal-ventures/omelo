@@ -5,14 +5,18 @@ import {
   FormControl,
   Heading,
   FormErrorMessage,
-  Button
+  Button,
+  Stack,
+  Divider,
+  Text
 } from '@chakra-ui/core';
 import FloatingLabelInput from './FloatLabelInput';
 import PrimaryButton from './PrimaryButton';
 import { createUser } from '../services';
 import { updateUser, addProject } from '../services/data';
+import GoogleAuthButton from './GoogleAuthButton';
 
-export default function SignupForm({ loading }: { loading: boolean }) {
+function EmailPasswordForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { handleSubmit, register, errors, setError } = useForm();
   const history = useHistory();
@@ -55,17 +59,11 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         }
       )}
     >
-      <Heading as='h2' size='lg' fontWeight='light' textAlign='center'>
-        Let's get you powered up
-      </Heading>
-      <Heading as='h6' size='sm' fontWeight='light' textAlign='center' my='2'>
-        Unlimited project timelines, for $9/month
-      </Heading>
       <FloatingLabelInput
         name='signUpName'
         type='text'
         label='Name:'
-        my={8}
+        mb={8}
         error={errors?.signUpName}
         ref={register({ required: 'Name is required' })}
       />
@@ -98,11 +96,43 @@ export default function SignupForm({ loading }: { loading: boolean }) {
       </FormControl>
       <FormControl textAlign='center' my={4}>
         <PrimaryButton type='submit' isLoading={isLoading}>
-          Sign Up
+          Create account
         </PrimaryButton>
       </FormControl>
+    </form>
+  );
+}
+
+export default function SignupForm() {
+  const history = useHistory();
+  return (
+    <>
+      <Heading as='h2' size='lg' fontWeight='light' textAlign='center'>
+        Let's get you powered up
+      </Heading>
+      <Heading as='h6' size='sm' fontWeight='light' textAlign='center' my='2'>
+        Unlimited project timelines, for $9/month
+      </Heading>
+      <FormControl mt={8}>
+        <GoogleAuthButton label='Sign up with Google' />
+      </FormControl>
+      <Stack position='relative' mt={8} mb={4}>
+        <Text
+          p={1}
+          backgroundColor='white'
+          position='absolute'
+          left='50%'
+          top='50%'
+          transform='translate(-50%,-50%)'
+          zIndex={1}
+          fontSize='xs'
+        >
+          Or
+        </Text>
+        <Divider />
+      </Stack>
+      <EmailPasswordForm />
       <Button
-        isDisabled={isLoading}
         variant='link'
         color='brand.secondary'
         textAlign='center'
@@ -110,8 +140,8 @@ export default function SignupForm({ loading }: { loading: boolean }) {
         width='100%'
         onClick={() => history.push(`/login${history.location.search}`)}
       >
-        Already have an account?
+        Login
       </Button>
-    </form>
+    </>
   );
 }

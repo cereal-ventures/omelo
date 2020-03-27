@@ -2,6 +2,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { firebaseConfig } from '../config';
 
+const provider = new firebase.auth.GoogleAuthProvider();
+
 firebase.initializeApp(firebaseConfig);
 
 export function getAuthState(cb: any) {
@@ -35,4 +37,8 @@ export function signIn(
   errorHandler: any = () => {}
 ) {
   return firebase.auth().signInWithEmailAndPassword(email, password);
+}
+
+export function googleSignIn() {
+  return firebase.auth().signInWithPopup(provider);
 }
