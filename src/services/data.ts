@@ -272,11 +272,11 @@ export function updateEvent({
   }
 
   let data: { [x: string]: any } = {
-    ...payload,
     type,
     date: fromDate(new Date(Date.now())),
     displayName: user?.displayName,
-    photoUrl: user?.photoURL
+    photoURL: user?.photoURL,
+    ...payload
   };
 
   batch.update(eventRef, payload);

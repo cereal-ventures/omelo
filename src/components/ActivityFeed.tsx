@@ -72,7 +72,8 @@ function Comment({
   item,
   projectId,
   eventId,
-  isViewOnly
+  isViewOnly,
+  photoUrl
 }: {
   [x: string]: any;
 }) {
@@ -94,7 +95,7 @@ function Comment({
         />
       )}
       <Flex>
-        <Avatar size='xs' name={item.displayName} />
+        <Avatar size='xs' name={item.displayName} src={photoUrl} />
         <Box ml={2}>
           <Heading size='xs' as='h5' fontWeight='semibold'>
             {item.displayName}
@@ -174,6 +175,7 @@ export default function ActivityFeed({
           return (
             <Comment
               key={item.id}
+              photoUrl={item.photoURL}
               isViewOnly={isViewOnly}
               item={item}
               eventId={eventId}
@@ -205,7 +207,7 @@ export default function ActivityFeed({
             <Update
               key={item.id}
               displayName={item.displayName}
-              photoUrl={item.photoUrl}
+              photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
                 <Box as='strong' color='brand.secondary'>
@@ -223,7 +225,7 @@ export default function ActivityFeed({
             <Update
               key={item.id}
               displayName={item.displayName}
-              photoUrl={item.photoUrl}
+              photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
                 <Box as='strong' color='brand.secondary'>

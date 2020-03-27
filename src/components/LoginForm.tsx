@@ -6,7 +6,6 @@ import {
   Heading,
   Button,
   Divider,
-  Box,
   Text,
   Stack
 } from '@chakra-ui/core';
