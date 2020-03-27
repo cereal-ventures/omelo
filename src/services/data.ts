@@ -141,7 +141,9 @@ export async function addUserToProject({
   projectId: string;
   permission: ProjectPermission;
 }) {
+  const user = getCurrentUser();
   return db.collection('/invites').add({
+    sender: user?.displayName,
     email,
     projectName,
     projectId,
