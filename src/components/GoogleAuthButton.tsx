@@ -17,7 +17,8 @@ export default function GoogleAuthButton({
       variant='outline'
       position='relative'
       width='100%'
-      onClick={() => {
+      onClick={e => {
+        e.preventDefault();
         googleSignIn().then(async ({ user }) => {
           const creationTime = user?.metadata.creationTime;
           if (creationTime) {
