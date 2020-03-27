@@ -27,24 +27,28 @@ import FloatLabelInput from './FloatLabelInput';
 function ProjectTeammates({ users = [] }: { users?: Array<any> }) {
   return (
     <Flex mr={4} display={{ xs: 'none', md: 'flex' }}>
-      {users.map((user: any, i: number) => (
-        <Tooltip
-          key={i}
-          hasArrow={true}
-          aria-label={user.displayName || user.email}
-          label={user.displayName || user.email}
-        >
-          <Box>
-            <Avatar
-              src={user.photoUrl}
-              display='block'
-              size='sm'
-              mr={-2}
-              name={user.displayName}
-            />
-          </Box>
-        </Tooltip>
-      ))}
+      {users.map((user: any, i: number) => {
+        const avatarOptions = user.photoUrl ? { backgroundColor: '#fff' } : {};
+        return (
+          <Tooltip
+            key={i}
+            hasArrow={true}
+            aria-label={user.displayName || user.email}
+            label={user.displayName || user.email}
+          >
+            <Box>
+              <Avatar
+                src={user.photoUrl}
+                display='block'
+                size='sm'
+                mr={-2}
+                name={user.displayName}
+                {...avatarOptions}
+              />
+            </Box>
+          </Tooltip>
+        );
+      })}
     </Flex>
   );
 }
