@@ -94,11 +94,11 @@ function SignUpPanel({ quote, author }: { quote: string; author: string }) {
   );
 }
 
-function SignupPage({ loading }: { loading: boolean }) {
+function SignupPage() {
   return (
     <Layout>
       <Box mx='auto' alignSelf='center' width='320px'>
-        <SignupForm loading={loading} />
+        <SignupForm />
       </Box>
       <SignUpPanel
         quote={`"Omelo has enabled me to push code and not deadlines"`}
@@ -108,11 +108,11 @@ function SignupPage({ loading }: { loading: boolean }) {
   );
 }
 
-function LoginPage({ loading }: { loading: boolean }) {
+function LoginPage() {
   return (
     <Layout>
       <Box mx='auto' alignSelf='center' width='320px'>
-        <LoginForm loading={loading} />
+        <LoginForm />
       </Box>
       <SignUpPanel
         quote={`"I got 99 problems but scope creep ain't one"`}
@@ -123,7 +123,7 @@ function LoginPage({ loading }: { loading: boolean }) {
 }
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   return (
     <BrowserRouter>
@@ -132,10 +132,10 @@ function App() {
           <Page404 />
         </Route>
         <Route exact path='/signup'>
-          <SignupPage loading={loading} />
+          <SignupPage />
         </Route>
         <Route exact path='/login'>
-          <LoginPage loading={loading} />
+          <LoginPage />
         </Route>
         <Route path='/public/:id'>
           <Suspense fallback={skeletonTimeline}>
