@@ -49,9 +49,8 @@ exports.sendProjectInvite = functions.firestore
           'a project'} : <a href="${url}" target="_blank">Accept invite</a>`,
         templateId: 'd-b697cb305e224eacac7e88a2c364950c',
         dynamic_template_data: {
-          subject: `You have been invited to join ${invite?.projectName ||
-            'a project'} on Omelo.com`,
           sender: invite?.sender,
+          projectName: invite?.projectName,
           url
         }
       };
