@@ -51,7 +51,7 @@ function AddAssetForm({
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
       <PopoverBody px={4} pt={4}>
         <Flex align='center' justify='space-between' mb={6}>
           <Heading size='sm' flex={1} width='100%'>

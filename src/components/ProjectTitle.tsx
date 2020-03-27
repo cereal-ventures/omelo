@@ -51,7 +51,7 @@ export default function ProjectTitle({
             {projectName}
           </Heading>
         ) : (
-          <form onBlur={submit} onSubmit={submit}>
+          <form onBlur={submit} onSubmit={submit} autoComplete='off'>
             <Input
               ref={(el: any) => {
                 register(el);

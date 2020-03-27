@@ -37,7 +37,7 @@ export default function TitleInput({
     setIsEditing(false);
   };
   const input = (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
       <FormControl isInvalid={Boolean(errors.title)}>
         <Input
           color='black'

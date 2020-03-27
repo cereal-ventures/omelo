@@ -54,7 +54,7 @@ function UpdateAssetForm({
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
       <FormControl mb={4} isInvalid={Boolean(errors.assetName)}>
         <Input
           size='sm'

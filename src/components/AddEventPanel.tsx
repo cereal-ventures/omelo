@@ -80,7 +80,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay zIndex={1} />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <DrawerContent zIndex={2} maxWidth='375px' width='85vw'>
           <DrawerHeader mb={2}>
             <Flex align='center' justify='space-between'>

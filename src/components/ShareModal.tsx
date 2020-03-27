@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
 import {
   useDisclosure,
   Button,
@@ -82,7 +81,11 @@ function InviteUserForm({
       <Heading fontSize='12px' textTransform='uppercase' mb={4}>
         Add Teammate
       </Heading>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        style={{ width: '100%' }}
+        onSubmit={handleSubmit(onSubmit)}
+        autoComplete='off'
+      >
         <Flex align='center' flexDirection={{ xs: 'column', md: 'row' }}>
           <Flex width='100%' position='relative'>
             <FloatLabelInput

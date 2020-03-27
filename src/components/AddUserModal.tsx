@@ -75,7 +75,7 @@ export default function AddUserModal({
             </Text>
           </ModalHeader>
           <ModalBody>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
               <Flex mt={8}>
                 <FloatLabelInput
                   flexGrow={1}
