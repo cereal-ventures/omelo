@@ -142,7 +142,7 @@ export default function ActivityFeed({
             <Update
               key={item.id}
               displayName={item.displayName}
-              photoUrl={item.photoUrl}
+              photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
                 <Box as='strong' color='brand.secondary'>
@@ -159,7 +159,7 @@ export default function ActivityFeed({
             <Update
               key={item.id}
               displayName={item.displayName}
-              photoUrl={item.photoUrl}
+              photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
                 <Box as='strong' color='brand.secondary'>
@@ -186,7 +186,7 @@ export default function ActivityFeed({
             <Update
               key={item.id}
               displayName={item.displayName}
-              photoUrl={item.photoUrl}
+              photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
                 <Box as='strong' color='brand.secondary'>
