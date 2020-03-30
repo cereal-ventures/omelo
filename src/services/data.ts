@@ -123,7 +123,7 @@ export async function acceptProjectInvite(inviteId: string) {
     });
     const permissionRef = db.doc(`permissions/${user?.uid}`);
     batch.update(permissionRef, {
-      [projectRef.id]: 'owner'
+      [projectRef.id]: inviteData?.permission
     });
     batch.delete(inviteRef);
     return batch.commit();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   useDisclosure,
@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/core';
 import { updateProject, addUserToProject } from '../services/data';
 import FloatLabelInput from './FloatLabelInput';
+import { ProjectContext } from './ProjectContext';
 
 function ProjectTeammates({ users = [] }: { users?: Array<any> }) {
   return (
@@ -64,6 +65,7 @@ function InviteUserForm({
   onClose: () => void;
 }) {
   const { register, errors, handleSubmit } = useForm();
+  const { permission } = useContext(ProjectContext);
 
   const hasErrors = Object.keys(errors).length;
   const onSubmit = ({ email, permission }: any) => {
@@ -117,7 +119,9 @@ function InviteUserForm({
             >
               <option value='viewer'>View Only</option>
               <option value='commenter'>Can Comment</option>
-              <option value='editor'>Can Edit</option>
+              {['owner', 'editor'].includes(permission) && (
+                <option value='editor'>Can Edit</option>
+              )}
             </Select>
           </Flex>
           <Button
