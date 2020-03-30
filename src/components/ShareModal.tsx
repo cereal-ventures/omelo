@@ -113,6 +113,7 @@ function InviteUserForm({
               name='permission'
               variant='unstyled'
               ref={register}
+              zIndex={4}
             >
               <option value='viewer'>View Only</option>
               <option value='commenter'>Can Comment</option>
