@@ -21,7 +21,12 @@ import {
   Tooltip
 } from '@chakra-ui/core';
 
-import { addProject, removeProject, updateProject } from '../services/data';
+import {
+  addProject,
+  removeProject,
+  updateProject,
+  leaveProject
+} from '../services/data';
 import UserDropdown from './UserDropdown';
 
 import { logo } from './icons';
@@ -77,60 +82,65 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
         </Flex>
 
         <Box mt={8}>
-          {projects.map(({ name, id, isPublic, eventCount, owner }: any) => {
-            const countLabel = `${eventCount || 0} ${
-              eventCount === 1 ? 'Event' : 'Events'
-            }`;
-            const isActive = id === projectId;
-            return (
-              <Flex
-                key={id}
-                mb={4}
-                alignItems='center'
-                justifyContent='space-between'
-              >
-                <Link
-                  color='brand.secondary'
-                  as='button'
-                  display='flex'
+          {projects.map(
+            ({ name, id, isPublic, eventCount, owner, userProfiles }: any) => {
+              const countLabel = `${eventCount || 0} ${
+                eventCount === 1 ? 'Event' : 'Events'
+              }`;
+
+              const profile = userProfiles.find(
+                ({ uid }: any) => uid === user?.uid
+              );
+
+              const isActive = id === projectId;
+              return (
+                <Flex
+                  key={id}
+                  mb={4}
                   alignItems='center'
-                  fontSize='sm'
-                  minHeight='auto'
-                  onClick={() => history.push(`/${id}`)}
+                  justifyContent='space-between'
                 >
-                  <Tooltip
-                    hasArrow
-                    placement='top'
-                    aria-label={countLabel}
-                    label={countLabel}
+                  <Link
+                    color='brand.secondary'
+                    as='button'
+                    display='flex'
+                    alignItems='center'
+                    fontSize='sm'
+                    minHeight='auto'
+                    onClick={() => history.push(`/${id}`)}
                   >
-                    <Box
-                      display='inline-flex'
-                      alignItems='center'
-                      justifyContent='center'
-                      width='24px'
-                      height='24px'
-                      borderRadius='50%'
-                      backgroundColor='brand.secondary'
-                      color='white'
-                      opacity={isActive ? 1 : 0.4}
-                      marginRight={2}
+                    <Tooltip
+                      hasArrow
+                      placement='top'
+                      aria-label={countLabel}
+                      label={countLabel}
                     >
                       <Box
-                        as='span'
-                        position='relative'
-                        top='-1px'
-                        fontSize='10px'
-                        fontWeight='bold'
+                        display='inline-flex'
+                        alignItems='center'
+                        justifyContent='center'
+                        width='24px'
+                        height='24px'
+                        borderRadius='50%'
+                        backgroundColor='brand.secondary'
+                        color='white'
+                        opacity={isActive ? 1 : 0.4}
+                        marginRight={2}
                       >
-                        {eventCount || 0}
+                        <Box
+                          as='span'
+                          position='relative'
+                          top='-1px'
+                          fontSize='10px'
+                          fontWeight='bold'
+                        >
+                          {eventCount || 0}
+                        </Box>
                       </Box>
-                    </Box>
-                  </Tooltip>
-                  {name}
-                </Link>
+                    </Tooltip>
+                    {name}
+                  </Link>
 
-                {owner === user?.uid && (
                   <Popover>
                     <PopoverTrigger>
                       <Button
@@ -143,6 +153,7 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                         &#8230;
                       </Button>
                     </PopoverTrigger>
+
                     <PopoverContent zIndex={4} width='200px'>
                       <PopoverArrow />
                       <PopoverHeader>
@@ -150,55 +161,82 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                           Project Settings
                         </Heading>
                       </PopoverHeader>
-                      <PopoverBody>
-                        <Flex align='center' justify='space-between'>
-                          <FormLabel
-                            p={0}
-                            fontWeight='normal'
-                            textAlign='right'
-                            htmlFor='set-visibility'
-                          >
-                            {isPublic ? 'Shared' : 'Private'}
-                          </FormLabel>
-                          <Switch
-                            id='set-visibility'
-                            defaultIsChecked={isPublic}
-                            value={isPublic}
-                            color='purple'
-                            onChange={() => {
-                              updateProject({
-                                projectId: id,
-                                payload: { isPublic: !isPublic }
-                              });
+                      {owner === user?.uid ? (
+                        <>
+                          <PopoverBody>
+                            <Flex align='center' justify='space-between'>
+                              <FormLabel
+                                p={0}
+                                fontWeight='normal'
+                                textAlign='right'
+                                htmlFor='set-visibility'
+                              >
+                                {isPublic ? 'Shared' : 'Private'}
+                              </FormLabel>
+                              <Switch
+                                id='set-visibility'
+                                defaultIsChecked={isPublic}
+                                value={isPublic}
+                                color='purple'
+                                onChange={() => {
+                                  updateProject({
+                                    projectId: id,
+                                    payload: { isPublic: !isPublic }
+                                  });
+                                }}
+                              />
+                            </Flex>
+                          </PopoverBody>
+                          <PopoverFooter>
+                            <Link
+                              as='button'
+                              color='red.400'
+                              onClick={() => {
+                                if (
+                                  window.confirm(
+                                    'Are you sure you want to delete this project?'
+                                  )
+                                ) {
+                                  removeProject(id)?.then(() => {
+                                    history.push('/');
+                                  });
+                                }
+                              }}
+                            >
+                              Delete Project
+                            </Link>
+                          </PopoverFooter>
+                        </>
+                      ) : (
+                        <PopoverFooter>
+                          <Button
+                            variant='link'
+                            color='red.400'
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  'Are you sure you want to leave this project?'
+                                )
+                              ) {
+                                leaveProject({
+                                  projectId: id,
+                                  ...profile
+                                }).then(() => {
+                                  history.push('/');
+                                });
+                              }
                             }}
-                          />
-                        </Flex>
-                      </PopoverBody>
-                      <PopoverFooter>
-                        <Link
-                          as='button'
-                          color='red.400'
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                'Are you sure you want to delete this project?'
-                              )
-                            ) {
-                              removeProject(id)?.then(() => {
-                                history.push('/');
-                              });
-                            }
-                          }}
-                        >
-                          Delete Project
-                        </Link>
-                      </PopoverFooter>
+                          >
+                            Leave Project
+                          </Button>
+                        </PopoverFooter>
+                      )}
                     </PopoverContent>
                   </Popover>
-                )}
-              </Flex>
-            );
-          })}
+                </Flex>
+              );
+            }
+          )}
         </Box>
       </Box>
       {logoEl}

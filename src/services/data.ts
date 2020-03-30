@@ -130,6 +130,23 @@ export async function acceptProjectInvite(inviteId: string) {
   }
 }
 
+type ProjectProfile = {
+  projectId: string | null;
+  uid: string | null;
+  email: string | null;
+  displayName: string | null;
+  photoUrl: string | null;
+  permission: string;
+};
+
+export function leaveProject({ projectId, ...profile }: ProjectProfile) {
+  const user = getCurrentUser();
+  return db.doc(`/projects/${projectId}`).update({
+    userProfiles: firebase.firestore.FieldValue.arrayRemove(profile),
+    users: firebase.firestore.FieldValue.arrayRemove(user?.email)
+  });
+}
+
 export async function addUserToProject({
   email,
   projectName,
