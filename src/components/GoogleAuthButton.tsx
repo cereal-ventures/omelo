@@ -21,21 +21,28 @@ export default function GoogleAuthButton({
       onClick={e => {
         e.preventDefault();
         setIsLoading(true);
-        googleSignIn().then(async ({ user }) => {
-          const creationTime = user?.metadata.creationTime;
-          if (creationTime) {
-            const diff = Math.abs(
-              new Date(Date.now()).getTime() - new Date(creationTime).getTime()
-            );
-            if (diff < 5000) {
-              await updateUser().then(() =>
-                addProject({ name: 'My First Project' })
-              );
-            }
-          }
-          history.push(`/${history.location.search}`);
-          setIsLoading(false);
-        });
+        googleSignIn()
+          .then(
+            async ({ user }) => {
+              const creationTime = user?.metadata.creationTime;
+              if (creationTime) {
+                const diff = Math.abs(
+                  new Date(Date.now()).getTime() -
+                    new Date(creationTime).getTime()
+                );
+                if (diff < 5000) {
+                  await updateUser().then(() =>
+                    addProject({ name: 'My First Project' })
+                  );
+                }
+              }
+              history.push(`/${history.location.search}`);
+            },
+            e => Promise.reject(e)
+          )
+          .catch(() => {
+            setIsLoading(false);
+          });
       }}
     >
       <Box
