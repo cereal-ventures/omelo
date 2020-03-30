@@ -20,7 +20,6 @@ function PrivateRoute({ children, ...rest }: any) {
     <Route
       {...rest}
       render={({ location }) => {
-        console.log(location?.search);
         if (loading) {
           return loadingScreen;
         }
