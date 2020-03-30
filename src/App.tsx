@@ -20,6 +20,7 @@ function PrivateRoute({ children, ...rest }: any) {
     <Route
       {...rest}
       render={({ location }) => {
+        console.log(location?.search);
         if (loading) {
           return loadingScreen;
         }
@@ -28,7 +29,8 @@ function PrivateRoute({ children, ...rest }: any) {
         ) : (
           <Redirect
             to={{
-              pathname: `/login${location.search}`,
+              pathname: `/login`,
+              search: location?.search,
               state: { from: location }
             }}
           />
