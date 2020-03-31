@@ -34,6 +34,7 @@ export default function Timeline({
   const { events, permission } = useContext(ProjectContext);
   const [height, setHeight] = useState<string | number>('100vh');
   const { isOpen, onClose, onOpen } = useDisclosure(false);
+
   const lastCompletedIndex = events
     .map(({ completed }) => completed)
     .lastIndexOf(true);
@@ -103,6 +104,7 @@ export default function Timeline({
             height={height}
           />
           <rect
+            style={{ transition: 'height .2s ease-in-out' }}
             rx='10'
             y={190}
             fill='#9CBD3B'
