@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 import {
   Box,
   Flex,
@@ -12,7 +13,8 @@ import {
   PopoverHeader,
   PopoverFooter,
   Link,
-  Grid
+  Grid,
+  PopoverArrow
 } from '@chakra-ui/core';
 import { useActivity } from './hooks/useActivity';
 import { removeComment } from '../services/data';
@@ -42,6 +44,7 @@ function ContextMenu({
         </Button>
       </PopoverTrigger>
       <PopoverContent zIndex={4} width='200px'>
+        <PopoverArrow />
         <PopoverHeader>
           <Heading as='h6' size='sm' fontWeight='semibold'>
             Comment:
@@ -78,43 +81,51 @@ function Comment({
   [x: string]: any;
 }) {
   return (
-    <Box
-      key={item.id}
-      backgroundColor='white'
-      p={4}
-      border='1px solid'
-      borderColor='neutral.1'
-      borderRadius='4px'
-      position='relative'
-    >
-      {!isViewOnly && (
-        <ContextMenu
-          projectId={projectId}
-          eventId={eventId}
-          commentId={item.id}
-        />
-      )}
-      <Flex>
-        <Avatar size='xs' name={item.displayName} src={photoUrl} />
-        <Box ml={2}>
-          <Heading size='xs' as='h5' fontWeight='semibold'>
+    <Flex key={item.id}>
+      <Box
+        border='1px solid'
+        borderColor='gray.100'
+        backgroundColor='gray.50'
+        p={2}
+        pr={4}
+        borderRadius={4}
+        position='relative'
+        width='100%'
+      >
+        <Flex align='center' mb={2}>
+          <Avatar size='xs' name={item.displayName} src={photoUrl} mr={2} />
+          <Heading as='h6' size='xs' fontSize='12px' mr={1}>
             {item.displayName}
           </Heading>
-          <Text mt={2} fontSize='12px' fontWeight='semibold' color='#A0A4A8'>
-            {item.date}
-          </Text>
-          <Text mt={2} fontSize='12px' fontWeight='semibold'>
-            {item.comment}
-          </Text>
-        </Box>
-      </Flex>
-    </Box>
+          <Heading as='h6' size='xs' fontSize='12px' color='#A0A4A8'>
+            {formatDistanceToNow(new Date(item.date), { addSuffix: true })}
+          </Heading>
+        </Flex>
+        {!isViewOnly && (
+          <ContextMenu
+            projectId={projectId}
+            eventId={eventId}
+            commentId={item.id}
+          />
+        )}
+
+        <Text fontSize='12px' fontWeight='semibold' ml={8}>
+          {item.comment}
+        </Text>
+      </Box>
+    </Flex>
   );
 }
 
 function Update({ displayName, photoUrl, children }: { [x: string]: any }) {
   return (
-    <Flex pl={4} align='center'>
+    <Flex
+      align='center'
+      border='1px solid'
+      borderColor='gray.50'
+      p={2}
+      borderRadius={4}
+    >
       <Avatar size='xs' name={displayName} src={photoUrl} mr={2} />
       {children}
     </Flex>
@@ -135,10 +146,9 @@ export default function ActivityFeed({
     return null;
   }
   return (
-    <Grid rowGap={8}>
+    <Grid rowGap={4}>
       {activity.map(item => {
         if (item.type === activityTypes.CREATE_EVENT) {
-          const [name] = item.displayName.split(' ');
           return (
             <Update
               key={item.id}
@@ -146,16 +156,12 @@ export default function ActivityFeed({
               photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
-                <Box as='strong' color='brand.secondary'>
-                  {name}
-                </Box>{' '}
-                created <strong>{item.title}</strong>
+                {item.displayName} created <strong>{item.title}</strong>
               </Heading>
             </Update>
           );
         }
         if (item.type === activityTypes.UPDATE_TITLE) {
-          const [name] = item.displayName.split(' ');
           return (
             <Update
               key={item.id}
@@ -163,10 +169,7 @@ export default function ActivityFeed({
               photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
-                <Box as='strong' color='brand.secondary'>
-                  {name}
-                </Box>{' '}
-                updated the event title to <strong>{item.title}</strong>
+                {item.displayName} edited the title
               </Heading>
             </Update>
           );
@@ -183,7 +186,6 @@ export default function ActivityFeed({
             />
           );
         if (item.type === activityTypes.UPDATE_DATE) {
-          const [name] = item.displayName.split(' ');
           return (
             <Update
               key={item.id}
@@ -191,10 +193,8 @@ export default function ActivityFeed({
               photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px'>
-                <Box as='strong' color='brand.secondary'>
-                  {name}
-                </Box>{' '}
-                updated the date <strong>{item.prevDate}</strong> to{' '}
+                {item.displayName} updated the date{' '}
+                <strong>{item.prevDate}</strong> to{' '}
                 <strong>{item.newDate}</strong>
               </Heading>
             </Update>
@@ -202,7 +202,6 @@ export default function ActivityFeed({
         }
 
         if (item.type === activityTypes.EVENT_RESET) {
-          const [name] = item.displayName.split(' ');
           return (
             <Update
               key={item.id}
@@ -210,10 +209,7 @@ export default function ActivityFeed({
               photoUrl={item.photoURL}
             >
               <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
-                <Box as='strong' color='brand.secondary'>
-                  {name}
-                </Box>{' '}
-                completed <strong>{item.title}</strong>
+                {item.displayName} reopened <strong>{item.title}</strong>
               </Heading>
             </Update>
           );
