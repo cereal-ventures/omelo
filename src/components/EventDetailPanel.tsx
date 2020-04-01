@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { formatDistanceToNow, isAfter } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
