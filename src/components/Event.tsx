@@ -55,7 +55,7 @@ export default function Event({
       onClick={handleClick}
       style={{ cursor: 'pointer' }}
     >
-      <svg x='-8' y={2} overflow='visible'>
+      <svg x='-8' y={2} overflow='visible' style={{ cursor: 'pointer' }}>
         <text
           style={{
             fontSize: '12px',
@@ -76,7 +76,7 @@ export default function Event({
         placement='left'
         hasArrow
       >
-        <svg overflow='visible'>
+        <svg overflow='visible' style={{ cursor: 'pointer' }}>
           <circle fill={fillMap[statusKey].border} r={7} cx={10} />
           <circle fill={fillMap[statusKey].fill} r={5} cx={10} />
           <svg overflow='visible' x='28' y={2}>
@@ -101,7 +101,7 @@ export default function Event({
             commentCount === 1 ? 'comment' : 'comments'
           }`}
         >
-          <svg y={18} x={32} overflow='visible'>
+          <svg y={18} x={32} overflow='visible' style={{ cursor: 'pointer' }}>
             <rect
               width='260%'
               rx={16}
@@ -132,7 +132,12 @@ export default function Event({
             assetCount === 1 ? 'attachment' : 'attachments'
           }`}
         >
-          <svg y={18} x={hasComments ? 96 : 32} overflow='visible'>
+          <svg
+            y={18}
+            x={hasComments ? 96 : 32}
+            overflow='visible'
+            style={{ cursor: 'pointer' }}
+          >
             <rect
               width='260%'
               rx={16}
