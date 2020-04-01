@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { formatDistanceToNow, isAfter } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
@@ -11,10 +12,10 @@ import {
   Box,
   Flex,
   ButtonGroup,
-  Tooltip,
   DrawerFooter,
   Divider,
   DrawerOverlay,
+  Tooltip,
   Badge
 } from '@chakra-ui/core';
 import { activityTypes } from '../constants';
@@ -53,8 +54,8 @@ function StatusButtons({
   const handleChange = () => {
     updateEvent({
       type: completed
-        ? activityTypes.EVENT_COMPLETE
-        : activityTypes.EVENT_RESET,
+        ? activityTypes.EVENT_RESET
+        : activityTypes.EVENT_COMPLETE,
       projectId,
       eventId,
       payload: {
@@ -170,6 +171,12 @@ export default function EventDetailPanel({
     />
   );
 
+  const dateText = date
+    ? formatDistanceToNow(new Date(date), { addSuffix: true })
+    : '';
+
+  const reformattedDateText = dateText.includes('hour') ? 'Today' : dateText;
+
   const indicator = (
     <Tooltip
       hasArrow
@@ -185,7 +192,7 @@ export default function EventDetailPanel({
         background={completed ? 'rgba(156, 189,59,.1)' : 'rgba(242, 201,76,.1)'}
         color={completed ? '#5e7519' : '#906d00'}
       >
-        {completed ? 'Completed' : 'Incomplete'}
+        {completed ? 'Completed' : reformattedDateText}
       </Badge>
     </Tooltip>
   );
@@ -199,9 +206,9 @@ export default function EventDetailPanel({
             {eventTitleEl}
             {indicator}
           </Flex>
-          <Box mb={4}>
+          <Flex mb={4} align='center'>
             {isViewOnly ? dateHeading : date ? dateInputEl : null}
-          </Box>
+          </Flex>
           {!isViewOnly && (
             <StatusButtons
               title={title}
