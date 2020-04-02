@@ -206,7 +206,35 @@ export default function ShareModal({
             </Box>
           </ModalHeader>
           <Divider />
-          <ModalBody px={8}>
+          <ModalBody py={4} px={8}>
+            <InviteUserForm
+              projectId={projectId}
+              projectName={projectName}
+              users={users}
+              onClose={onClose}
+            />
+          </ModalBody>
+          <Divider />
+          <ModalBody py={4} px={8}>
+            <Heading fontSize='12px' textTransform='uppercase' mb={4}>
+              Team
+            </Heading>
+            {users.map(user => {
+              return (
+                <Flex
+                  align='center'
+                  justify='space-between'
+                  key={user.uid}
+                  mt={2}
+                >
+                  <Text>{user.displayName}</Text>
+                  <Text>{user.permission}</Text>
+                </Flex>
+              );
+            })}
+          </ModalBody>
+          <Divider />
+          <ModalFooter px={8} pb={12} display='block'>
             <Heading fontSize='12px' textTransform='uppercase'>
               Public Link
             </Heading>
@@ -245,34 +273,6 @@ export default function ShareModal({
                 )}
               </Button>
             </Flex>
-          </ModalBody>
-          <Divider />
-          <ModalBody py={4} px={8}>
-            <Heading fontSize='12px' textTransform='uppercase' mb={4}>
-              Team
-            </Heading>
-            {users.map(user => {
-              return (
-                <Flex
-                  align='center'
-                  justify='space-between'
-                  key={user.uid}
-                  mt={2}
-                >
-                  <Text>{user.displayName}</Text>
-                  <Text>{user.permission}</Text>
-                </Flex>
-              );
-            })}
-          </ModalBody>
-          <Divider />
-          <ModalFooter px={8} pb={8}>
-            <InviteUserForm
-              projectId={projectId}
-              projectName={projectName}
-              users={users}
-              onClose={onClose}
-            />
           </ModalFooter>
         </ModalContent>
       </Modal>
