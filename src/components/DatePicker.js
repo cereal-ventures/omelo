@@ -79,7 +79,13 @@ function Month({ year, month, firstDayOfWeek, nextMonth, prevMonth }) {
         justifyContent='center'
       >
         {weekdayLabels.map(dayLabel => (
-          <FormLabel p={0} fontSize='xs' textAlign='center' key={dayLabel}>
+          <FormLabel
+            p={0}
+            fontSize='xs'
+            textAlign='center'
+            fontWeight='bold'
+            key={dayLabel}
+          >
             {dayLabel}
           </FormLabel>
         ))}
