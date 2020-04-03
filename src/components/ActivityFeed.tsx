@@ -1,5 +1,5 @@
-import React from "react";
-import { formatDistanceToNow } from "date-fns";
+import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 import {
   Box,
   Flex,
@@ -15,10 +15,10 @@ import {
   Link,
   Grid,
   PopoverArrow
-} from "@chakra-ui/core";
-import { useActivity } from "./hooks/useActivity";
-import { removeComment } from "../services/data";
-import { activityTypes } from "../constants";
+} from '@chakra-ui/core';
+import { useActivity } from './hooks/useActivity';
+import { removeComment } from '../services/data';
+import { activityTypes } from '../constants';
 
 function ContextMenu({
   projectId,
@@ -33,31 +33,31 @@ function ContextMenu({
     <Popover>
       <PopoverTrigger>
         <Button
-          position="absolute"
-          right="16px"
-          top="8px"
-          height="auto"
-          minWidth="auto"
-          variant="unstyled"
+          position='absolute'
+          right='16px'
+          top='8px'
+          height='auto'
+          minWidth='auto'
+          variant='unstyled'
         >
           &#8942;
         </Button>
       </PopoverTrigger>
-      <PopoverContent zIndex={4} width="200px">
+      <PopoverContent zIndex={4} width='200px'>
         <PopoverArrow />
         <PopoverHeader>
-          <Heading as="h6" size="sm" fontWeight="semibold">
+          <Heading as='h6' size='sm' fontWeight='semibold'>
             Comment:
           </Heading>
         </PopoverHeader>
 
         <PopoverFooter>
           <Link
-            as="button"
-            color="red.400"
+            as='button'
+            color='red.400'
             onClick={() => {
               if (
-                window.confirm("Are you sure you want to delete this comment?")
+                window.confirm('Are you sure you want to delete this comment?')
               ) {
                 removeComment({ eventId, projectId, commentId });
               }
@@ -82,22 +82,28 @@ function Comment({
 }) {
   return (
     <Flex key={item.id}>
-      <Avatar size="xs" name={item.displayName} src={photoUrl} mr={2} mt={1} />
+      <Avatar size='xs' name={item.displayName} src={photoUrl} mr={2} mt={1} />
       <Box
-        border="1px solid"
-        borderColor="gray.100"
-        backgroundColor="gray.50"
+        border='1px solid'
+        borderColor='gray.100'
+        backgroundColor='gray.50'
         p={2}
         pr={4}
         borderRadius={4}
-        position="relative"
-        width="100%"
+        position='relative'
+        width='100%'
       >
-        <Flex align="center" mb={2}>
-          <Heading as="h6" size="xs" fontSize="12px" mr={1}>
+        <Flex align='center' mb={2}>
+          <Heading as='h6' size='xs' fontSize='12px' mr={1}>
             {item.displayName}
           </Heading>
-          <Heading as="h6" size="xs" fontSize="12px" color="#A0A4A8">
+          <Heading
+            as='h6'
+            size='xs'
+            fontSize='12px'
+            color='#A0A4A8'
+            fontWeight='semibold'
+          >
             {formatDistanceToNow(new Date(item.date), { addSuffix: true })}
           </Heading>
         </Flex>
@@ -109,7 +115,7 @@ function Comment({
           />
         )}
 
-        <Text fontSize="12px" fontWeight="semibold">
+        <Text fontSize='12px' fontWeight='semibold'>
           {item.comment}
         </Text>
       </Box>
@@ -117,26 +123,44 @@ function Comment({
   );
 }
 
-function Update({ displayName, photoUrl, children }: { [x: string]: any }) {
+function Update({
+  displayName,
+  photoUrl,
+  children,
+  date
+}: {
+  [x: string]: any;
+}) {
   return (
     <Flex>
-      <Avatar size="xs" name={displayName} src={photoUrl} mr={2} mt={1} />
-      <Box
-        border="1px solid"
-        borderColor="gray.50"
+      <Avatar size='xs' name={displayName} src={photoUrl} mr={2} mt={1} />
+      <Flex
+        align='center'
+        border='1px solid'
+        borderColor='gray.50'
         p={2}
         borderRadius={4}
-        width="100%"
+        width='100%'
       >
         {children}
-      </Box>
+        <Heading
+          as='h6'
+          size='xs'
+          fontSize='12px'
+          color='#A0A4A8'
+          fontWeight='semibold'
+          ml={1}
+        >
+          {formatDistanceToNow(new Date(date), { addSuffix: true })}
+        </Heading>
+      </Flex>
     </Flex>
   );
 }
 
 function Callout({ children }: { children: React.ReactText }) {
   return (
-    <Box as="span" color="#A5BFC9">
+    <Box as='span' color='#A0A4A8' fontWeight='semibold'>
       {children}
     </Box>
   );
@@ -164,8 +188,9 @@ export default function ActivityFeed({
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoURL}
+              date={item.date}
             >
-              <Heading as="h6" size="xs" fontSize="12px">
+              <Heading as='h6' size='xs' fontSize='12px'>
                 {item.displayName} <Callout>created</Callout> {item.title}
               </Heading>
             </Update>
@@ -177,8 +202,9 @@ export default function ActivityFeed({
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoURL}
+              date={item.date}
             >
-              <Heading as="h6" size="xs" fontSize="12px">
+              <Heading as='h6' size='xs' fontSize='12px'>
                 {item.displayName} <Callout>edited the title</Callout>
               </Heading>
             </Update>
@@ -201,9 +227,10 @@ export default function ActivityFeed({
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoURL}
+              date={item.date}
             >
-              <Heading as="h6" size="xs" fontSize="12px">
-                {item.displayName} <Callout>updated</Callout> {item.prevDate} to{" "}
+              <Heading as='h6' size='xs' fontSize='12px'>
+                {item.displayName} <Callout>updated</Callout> {item.prevDate} to{' '}
                 {item.newDate}
               </Heading>
             </Update>
@@ -216,8 +243,9 @@ export default function ActivityFeed({
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoURL}
+              date={item.date}
             >
-              <Heading as="h6" size="xs" fontSize="12px" whiteSpace="nowrap">
+              <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
                 {item.displayName} <Callout>reopened</Callout> {item.title}
               </Heading>
             </Update>
@@ -230,8 +258,9 @@ export default function ActivityFeed({
               key={item.id}
               displayName={item.displayName}
               photoUrl={item.photoURL}
+              date={item.date}
             >
-              <Heading as="h6" size="xs" fontSize="12px" whiteSpace="nowrap">
+              <Heading as='h6' size='xs' fontSize='12px' whiteSpace='nowrap'>
                 {item.displayName} <Callout>completed this event</Callout>
               </Heading>
             </Update>
