@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
+import {
+  formatDistanceToNow,
+  isToday,
+  isPast,
+  isTomorrow,
+  isYesterday
+} from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
@@ -129,7 +135,48 @@ function Footer({
   );
 }
 
+function getDateProps(date: Date, completed: boolean) {
+  if (completed) {
+    return {
+      backgroundColor: 'rgba(156, 189,59,.1)',
+      color: '#5e7519',
+      children: 'Completed'
+    };
+  }
+
+  if (isTomorrow(date)) {
+    return {
+      backgroundColor: 'rgba(242, 201,76,.1)',
+      color: '#906d00',
+      children: 'Tomorrow'
+    };
+  }
+
+  if (isToday(date)) {
+    return {
+      backgroundColor: 'rgba(242, 201,76,.1)',
+      color: '#906d00',
+      children: 'Today'
+    };
+  }
+
+  if (isPast(date)) {
+    return {
+      backgroundColor: 'rgba(241,73,101,.1)',
+      color: '#F14965',
+      children: formatDistanceToNow(date, { addSuffix: true })
+    };
+  }
+
+  return {
+    backgroundColor: 'rgba(112,115,134,.05)',
+    color: '#707386',
+    children: formatDistanceToNow(date, { addSuffix: true })
+  };
+}
+
 export default function EventDetailPanel({
+  isOverdue,
   isViewOnly = false,
   projectId,
   id: eventId,
@@ -171,30 +218,16 @@ export default function EventDetailPanel({
     />
   );
 
-  const dateText = date
-    ? formatDistanceToNow(new Date(date), { addSuffix: true })
-    : '';
-
-  const reformattedDateText = dateText.includes('hour') ? 'Today' : dateText;
-
   const indicator = (
-    <Tooltip
-      hasArrow
-      zIndex={3}
-      placement='left'
-      aria-label={completed ? 'Event has been completed' : 'Not yet completed'}
-      label={completed ? 'Event has been completed' : 'Not yet completed'}
-    >
-      <Badge
-        py={1}
-        px={4}
-        fontSize='10px'
-        background={completed ? 'rgba(156, 189,59,.1)' : 'rgba(242, 201,76,.1)'}
-        color={completed ? '#5e7519' : '#906d00'}
-      >
-        {completed ? 'Completed' : reformattedDateText}
-      </Badge>
-    </Tooltip>
+    <Badge
+      py={1}
+      px={2}
+      ml={2}
+      position='relative'
+      top='1px'
+      fontSize='10px'
+      {...(date && getDateProps(new Date(date), completed))}
+    />
   );
 
   return (
@@ -204,10 +237,10 @@ export default function EventDetailPanel({
         <DrawerHeader>
           <Flex mb={2} justify='space-between' align='center'>
             {eventTitleEl}
-            {indicator}
           </Flex>
           <Flex mb={4} align='center'>
             {isViewOnly ? dateHeading : date ? dateInputEl : null}
+            {indicator}
           </Flex>
           {!isViewOnly && (
             <StatusButtons
