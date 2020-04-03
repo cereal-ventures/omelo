@@ -141,15 +141,17 @@ function Update({
         p={2}
         borderRadius={4}
         width='100%'
+        flexWrap='wrap'
       >
-        {children}
+        <Box as='span' mr={1}>
+          {children}
+        </Box>
         <Heading
           as='h6'
           size='xs'
           fontSize='12px'
           color='#A0A4A8'
           fontWeight='semibold'
-          ml={1}
         >
           {formatDistanceToNow(new Date(date), { addSuffix: true })}
         </Heading>
