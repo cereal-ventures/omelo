@@ -32,7 +32,12 @@ export default function DatePopover({
             >
               <Icon name='calendar' size='.85em' mr={2} />
               <Box as='span' color='black' fontWeight='semibold' fontSize='sm'>
-                Date: {date.toLocaleDateString('en-US')}
+                {date.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  weekday: 'long',
+                  month: 'short'
+                  // year: 'numeric',
+                })}
               </Box>
             </Button>
           </PopoverTrigger>
