@@ -25,7 +25,11 @@ export default function DatePopover({
       {({ onClose }) => (
         <>
           <PopoverTrigger>
-            <Button variant='link' variantColor='purple'>
+            <Button
+              variant='link'
+              variantColor='purple'
+              _focus={{ outline: 'none' }}
+            >
               <Icon name='calendar' size='.85em' mr={2} />
               <Box as='span' color='black' fontWeight='semibold' fontSize='sm'>
                 Date: {date.toLocaleDateString('en-US')}
