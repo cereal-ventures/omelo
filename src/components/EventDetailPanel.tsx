@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  formatDistanceToNow,
-  isToday,
-  isPast,
-  isTomorrow,
-  isYesterday
-} from 'date-fns';
+import { formatDistanceToNow, isToday, isPast, isTomorrow } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
@@ -21,7 +15,6 @@ import {
   DrawerFooter,
   Divider,
   DrawerOverlay,
-  Tooltip,
   Badge
 } from '@chakra-ui/core';
 import { activityTypes } from '../constants';
@@ -176,7 +169,6 @@ function getDateProps(date: Date, completed: boolean) {
 }
 
 export default function EventDetailPanel({
-  isOverdue,
   isViewOnly = false,
   projectId,
   id: eventId,
