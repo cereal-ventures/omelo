@@ -12,8 +12,6 @@ import {
   FormControl,
   Heading,
   Flex,
-  Box,
-  Tooltip,
   DrawerOverlay,
   Badge,
   Stack
@@ -56,32 +54,25 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
   };
 
   const indicator = (
-    <Tooltip
-      hasArrow
-      placement='left'
-      zIndex={3}
-      aria-label='Not yet completed'
-      label='Not yet completed'
+    <Badge
+      fontSize='10px'
+      variantColor='purple'
+      flexShrink={0}
+      position='relative'
+      top='1px'
+      py={1}
+      px={2}
+      ml={2}
     >
-      <Badge
-        fontSize='10px'
-        variantColor='purple'
-        py={1}
-        px={4}
-        flexShrink={0}
-        position='relative'
-        mr={2}
-      >
-        New
-      </Badge>
-    </Tooltip>
+      New
+    </Badge>
   );
 
   return (
     <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay zIndex={1} />
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <DrawerContent zIndex={2} maxWidth='375px' width='85vw'>
+        <DrawerContent zIndex={2} maxWidth='375px' width='85vw' pt={12}>
           <DrawerHeader mb={2}>
             <Flex align='center' justify='space-between'>
               <Heading fontWeight='semibold' size='md' flexGrow={1}>
@@ -105,37 +96,38 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                   </FormErrorMessage>
                 </FormControl>
               </Heading>
-              {indicator}
             </Flex>
           </DrawerHeader>
           <DrawerBody>
             <FormControl mb={6} isInvalid={!date}>
-              <Box
+              <Flex
                 border='1px solid'
                 borderColor='gray.100'
                 borderRadius={4}
                 p={2}
+                align='center'
               >
                 <DatePopover
                   date={date}
                   onChange={(date: Date) => setDate(date)}
                 />
-              </Box>
+                {indicator}
+              </Flex>
               <FormErrorMessage>
                 {!date && 'Please add a date'}
               </FormErrorMessage>
             </FormControl>
-            <Stack align='center' mt={4}>
+            <Stack mt={4}>
               <Button
                 size='sm'
-                width='100%'
                 px={6}
                 type='submit'
                 variantColor='purple'
+                width='100%'
               >
                 Save
               </Button>
-              <Button size='sm' variant='link' mt={2} onClick={onClose}>
+              <Button size='sm' variant='link' onClick={onClose}>
                 Cancel
               </Button>
             </Stack>
