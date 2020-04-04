@@ -208,8 +208,10 @@ export default function ShareModal({
                 color='brand.secondary'
                 href={url}
                 target='blank'
+                fontSize='md'
+                overflow='hidden'
               >
-                {url}
+                {`${window.location.host}/public/${projectId}`}
               </Link>
               <Button
                 size='sm'
