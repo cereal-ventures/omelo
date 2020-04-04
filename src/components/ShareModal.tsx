@@ -189,7 +189,8 @@ export default function ShareModal({
                 Share Timeline
               </Heading>
               <Text fontSize='md' fontWeight='light'>
-                Anyone with this link can view your timeline
+                Share a view only link of your timeline or add teammates to
+                collaborate.
               </Text>
             </Box>
           </ModalHeader>
