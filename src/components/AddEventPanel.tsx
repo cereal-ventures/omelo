@@ -106,6 +106,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
                 borderRadius={4}
                 p={2}
                 align='center'
+                justify='space-between'
               >
                 <DatePopover
                   date={date}
