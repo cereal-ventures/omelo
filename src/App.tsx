@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Grid, Box, Image, Heading, Flex, Text } from '@chakra-ui/core';
 import { useAuth } from './components/hooks/useAuth';
 import LoginForm from './components/LoginForm';
@@ -10,6 +10,7 @@ import { skeletonTimeline, loadingScreen } from './components/loadingScreen';
 import projectImg from './images/devices@2x.png';
 import mountains from './images/Mountain-illustration@2x.png';
 import confetti from './images/Confetti@2x.png';
+import history from './services/history';
 
 const Main = React.lazy(() => import('./components/Main'));
 const PublicTimeline = React.lazy(() => import('./components/PublicTimeline'));
@@ -127,7 +128,7 @@ function App() {
   const { user } = useAuth();
 
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <Switch>
         <Route exact path='/404'>
           <Page404 />
@@ -149,7 +150,7 @@ function App() {
           </Suspense>
         </PrivateRoute>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 
