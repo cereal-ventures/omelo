@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/analytics';
 import { getCurrentUser } from '.';
 import { activityTypes } from '../constants';
 
@@ -10,6 +11,7 @@ export type ProjectKey = { name?: string; isPublic?: boolean };
 export type Asset = 'link'; // | 'video' | 'image' | 'pdf';
 
 const db = firebase.firestore();
+const { logEvent } = firebase.analytics();
 const { fromDate } = firebase.firestore.Timestamp;
 const { FieldValue } = firebase.firestore;
 
@@ -70,7 +72,9 @@ export function addProject({ name = 'My First Project' }: { name?: string }) {
     { merge: true }
   );
 
-  return batch.commit();
+  return batch.commit().then(() => {
+    logEvent('add_project', { projectId: projectRef.id, name });
+  });
 }
 
 export async function getProjectPermissions(projectId: string) {
@@ -126,7 +130,9 @@ export async function acceptProjectInvite(inviteId: string) {
       [projectRef.id]: inviteData?.permission
     });
     batch.delete(inviteRef);
-    return batch.commit();
+    return batch.commit().then(() => {
+      logEvent('invite_accepted', { projectName: inviteData?.projectName });
+    });
   }
 }
 
@@ -141,10 +147,17 @@ type ProjectProfile = {
 
 export function leaveProject({ projectId, ...profile }: ProjectProfile) {
   const user = getCurrentUser();
-  return db.doc(`/projects/${projectId}`).update({
-    userProfiles: firebase.firestore.FieldValue.arrayRemove(profile),
-    users: firebase.firestore.FieldValue.arrayRemove(user?.email)
-  });
+  return db
+    .doc(`/projects/${projectId}`)
+    .update({
+      userProfiles: firebase.firestore.FieldValue.arrayRemove(profile),
+      users: firebase.firestore.FieldValue.arrayRemove(user?.email)
+    })
+    .then(() => {
+      logEvent('leave_project', {
+        projectId
+      });
+    });
 }
 
 export async function addUserToProject({
@@ -159,13 +172,18 @@ export async function addUserToProject({
   permission: ProjectPermission;
 }) {
   const user = getCurrentUser();
-  return db.collection('/invites').add({
-    sender: user?.displayName,
-    email,
-    projectName,
-    projectId,
-    permission
-  });
+  return db
+    .collection('/invites')
+    .add({
+      sender: user?.displayName,
+      email,
+      projectName,
+      projectId,
+      permission
+    })
+    .then(() => {
+      logEvent('timeline_share', { projectName, permission });
+    });
 }
 
 export function updateProject({
@@ -193,7 +211,9 @@ export function removeProject(projectId: string | undefined) {
       },
       { merge: true }
     );
-    return batch.commit();
+    return batch.commit().then(() => {
+      logEvent('remove_project');
+    });
   }
 }
 
@@ -256,7 +276,9 @@ export function addEvent({
     completed,
     isDisabled
   });
-  return batch.commit();
+  return batch.commit().then(() => {
+    logEvent('add_event', { eventId: eventsRef.id, title, date });
+  });
 }
 
 export function updateEvent({
@@ -300,7 +322,9 @@ export function updateEvent({
 
   batch.update(eventRef, payload);
   batch.set(activityRef, data);
-  return batch.commit();
+  return batch.commit().then(() => {
+    logEvent('update_event', { type });
+  });
 }
 
 export function removeEvent({
@@ -317,7 +341,9 @@ export function removeEvent({
   });
   const eventRef = db.doc(`/projects/${projectId}/events/${eventId}`);
   batch.delete(eventRef);
-  return batch.commit();
+  return batch.commit().then(() => {
+    logEvent('remove_event');
+  });
 }
 
 export function addAsset({
@@ -450,7 +476,9 @@ export function addComment({
     commentCount: FieldValue.increment(1)
   });
 
-  return batch.commit();
+  return batch.commit().then(() => {
+    logEvent('comment', { date: new Date(Date.now()).toString() });
+  });
 }
 
 export function getEventActivity(
