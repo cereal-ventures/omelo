@@ -9,7 +9,8 @@ import {
   Button,
   Link,
   Text,
-  PopoverHeader
+  PopoverHeader,
+  Avatar
 } from '@chakra-ui/core';
 
 import { signOut } from '../services';
@@ -26,6 +27,7 @@ export default function UserDropdown({ user }: { user: User | null }) {
           display='inline-flex'
           height='auto'
         >
+          <Avatar size='xs' src={user?.photoURL || ''} mr={2} />
           <Text
             as='span'
             display='inline-block'
