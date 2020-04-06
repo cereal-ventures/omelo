@@ -21,7 +21,8 @@ import {
   ModalHeader,
   Icon,
   Input,
-  Grid
+  Grid,
+  useToast
 } from '@chakra-ui/core';
 import { updateProject, addUserToProject } from '../services/data';
 import { ProjectContext } from './ProjectContext';
@@ -68,6 +69,7 @@ function InviteUserForm({
 }) {
   const { register, errors, handleSubmit } = useForm();
   const { permission } = useContext(ProjectContext);
+  const toast = useToast();
 
   const hasErrors = Object.keys(errors).length;
   const onSubmit = ({ email, permission }: any) => {
@@ -77,7 +79,18 @@ function InviteUserForm({
         projectId,
         projectName,
         permission
-      }).then(onClose);
+      })
+        .then(onClose)
+        .then(() => {
+          toast({
+            position: 'top-right',
+            title: 'Shared 🎉',
+            description: 'You successfully shared your Timeline',
+            status: 'success',
+            duration: 3000,
+            isClosable: true
+          });
+        });
     }
   };
   return (
