@@ -1,6 +1,5 @@
 import React from 'react';
 import { User } from 'firebase';
-
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import {
   Box,
@@ -18,7 +17,9 @@ import {
   Switch,
   FormLabel,
   PopoverFooter,
-  Tooltip
+  Tooltip,
+  Stack,
+  Icon
 } from '@chakra-ui/core';
 
 import {
@@ -28,7 +29,6 @@ import {
   leaveProject
 } from '../services/data';
 import UserDropdown from './UserDropdown';
-
 import { logo } from './icons';
 
 interface Props {
@@ -37,9 +37,16 @@ interface Props {
 }
 
 const logoEl = (
-  <Flex width='100%' justifyContent='center' alignItems='center' p={4}>
-    {logo}
-  </Flex>
+  <Stack width='100%' justifyContent='center' alignItems='center' px={4}>
+    <Box>{logo}</Box>
+    <Link
+      target='_blank'
+      href='https://airtable.com/shrvicOqiizxRFfpk'
+      color='brand.secondary'
+    >
+      <Icon name='chat' /> Send us feedback
+    </Link>
+  </Stack>
 );
 
 export default function ProjectsPanel({ user, projects = [] }: Props) {
@@ -99,13 +106,14 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                   mb={4}
                   alignItems='center'
                   justifyContent='space-between'
+                  opacity={isActive ? 1 : 0.75}
                 >
-                  <Link
+                  <Button
                     color='brand.secondary'
-                    as='button'
+                    variant='link'
                     display='flex'
                     alignItems='center'
-                    fontSize='sm'
+                    size='sm'
                     minHeight='auto'
                     onClick={() => history.push(`/${id}`)}
                   >
@@ -124,7 +132,6 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                         borderRadius='50%'
                         backgroundColor='brand.secondary'
                         color='white'
-                        opacity={isActive ? 1 : 0.4}
                         marginRight={2}
                       >
                         <Box
@@ -139,18 +146,14 @@ export default function ProjectsPanel({ user, projects = [] }: Props) {
                       </Box>
                     </Tooltip>
                     {name}
-                  </Link>
+                  </Button>
 
                   <Popover>
                     <PopoverTrigger>
-                      <Button
-                        position='relative'
-                        top='-4px'
-                        height='auto'
-                        minWidth='auto'
-                        variant='unstyled'
-                      >
-                        &#8230;
+                      <Button size='xs' position='relative' variant='outline'>
+                        <Box as='span' position='relative' top='-2px'>
+                          &#8230;
+                        </Box>
                       </Button>
                     </PopoverTrigger>
 
