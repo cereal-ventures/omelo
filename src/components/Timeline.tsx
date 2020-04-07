@@ -87,12 +87,14 @@ export default function Timeline({
         height='100vh'
         overflow='auto'
       >
-        <ProjectTitle
-          users={users}
-          setIsPanelOpen={setIsPanelOpen}
-          projectId={projectId}
-          projectName={projectName}
-        />
+        {projectName && (
+          <ProjectTitle
+            users={users}
+            setIsPanelOpen={setIsPanelOpen}
+            projectId={projectId}
+            projectName={projectName}
+          />
+        )}
         <svg overflow='visible' width={20} height={height}>
           <rect
             style={{ cursor: 'pointer' }}
