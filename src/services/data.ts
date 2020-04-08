@@ -497,8 +497,7 @@ export function getEventActivity(
     .onSnapshot(snapshot => {
       const data = snapshot.docs.map(doc => {
         const data = doc.data();
-        const date = data.date.toDate();
-        data.date = new Date(date).toLocaleDateString('en-US');
+        data.date = data.date.toDate();
         return {
           id: doc.id,
           ...data
