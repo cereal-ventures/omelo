@@ -41,9 +41,9 @@ function EmailPasswordForm() {
             createUser(email, password)
               .then(
                 ({ user }) => user?.updateProfile({ displayName: name }),
-                e => Promise.reject(e)
+                (e) => Promise.reject(e)
               )
-              .then(updateUser)
+              .then(() => updateUser())
               .then(() => addProject({ name: 'My First Project' }))
               .then(() => history.push(`/${history.location.search}`))
               .catch(({ message }) => {
