@@ -1,6 +1,28 @@
 import * as functions from 'firebase-functions';
 
-exports.sendWelcomeEmail = functions.auth.user().onCreate(user => {
+exports.updateAirtableUsers = functions.auth.user().onCreate((user) => {
+  const Airtable = require('airtable');
+  const base = new Airtable({ apiKey: functions.config().airtable.key }).base(
+    'appVE5D8hYcQPWxLc'
+  );
+
+  const data = {
+    id: user.uid,
+    email: user.email,
+    emailVerified: `${user.emailVerified}`,
+    displayName: user.displayName,
+    photoUrl: user.photoURL
+  };
+
+  base('Imported table').create(data, (err: Error) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+});
+
+exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   const sgMail = require('@sendgrid/mail');
   sgMail.setApiKey(functions.config().sendgrid.key);
   const msg = {
@@ -14,12 +36,12 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate(user => {
       url: 'https://beta.omelo.com'
     }
   };
-  sgMail.send(msg);
+  return sgMail.send(msg);
 });
 
 exports.sendProjectInvite = functions.firestore
   .document('invites/{inviteId}')
-  .onCreate(async doc => {
+  .onCreate(async (doc) => {
     if (doc.exists) {
       const sgMail = require('@sendgrid/mail');
       sgMail.setApiKey(functions.config().sendgrid.key);
@@ -34,12 +56,15 @@ exports.sendProjectInvite = functions.firestore
       const msg = {
         to: invite?.email,
         from: 'hello@omelo.com',
-        subject: `You have been invited to join ${invite?.projectName ||
-          'a project'} on Omelo.com`,
-        text: `You have been invited to ${invite?.projectName ||
-          'a project'} : ${url}`,
-        html: `You have been invited to ${invite?.projectName ||
-          'a project'} : <a href="${url}" target="_blank">Accept invite</a>`,
+        subject: `You have been invited to join ${
+          invite?.projectName || 'a project'
+        } on Omelo.com`,
+        text: `You have been invited to ${
+          invite?.projectName || 'a project'
+        } : ${url}`,
+        html: `You have been invited to ${
+          invite?.projectName || 'a project'
+        } : <a href="${url}" target="_blank">Accept invite</a>`,
         templateId: 'd-b697cb305e224eacac7e88a2c364950c',
         dynamic_template_data: {
           sender: invite?.sender,
@@ -48,6 +73,6 @@ exports.sendProjectInvite = functions.firestore
         }
       };
 
-      sgMail.send(msg);
+      return sgMail.send(msg);
     }
   });
