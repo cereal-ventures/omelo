@@ -47,7 +47,7 @@ export default function ProjectTitle({
         >
           &#9776;
         </Button>
-        <Heading size='md' onClick={() => setIsEditing(true)}>
+        <Heading size='md' fontWeight='bold' onClick={() => setIsEditing(true)}>
           {!isEditing ? (
             projectName
           ) : (

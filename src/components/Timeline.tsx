@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useHistory, Route } from 'react-router-dom';
-import { Grid, useDisclosure } from '@chakra-ui/core';
+import { Grid, useDisclosure, Box } from '@chakra-ui/core';
 import Event from './Event';
 import AddButton from './AddButton';
 import AddEventPanel from './AddEventPanel';
@@ -95,30 +95,36 @@ export default function Timeline({
             projectName={projectName}
           />
         )}
-        <svg overflow='visible' width={20} height={height}>
-          <rect
-            style={{ cursor: 'pointer' }}
-            className='timeline'
-            onClick={() => history.push(`/${projectId}/add-event`)}
-            fill='#F5F6FC'
-            width='100%'
-            rx='10'
-            height={height}
-          />
-          <rect
-            style={{ transition: 'height .2s ease-in-out' }}
-            rx='10'
-            y={190}
-            fill='#9CBD3B'
-            width='100%'
-            height={fillHeight}
-          />
+        <Box
+          style={{ cursor: 'pointer' }}
+          className='timeline'
+          position='absolute'
+          onClick={() => history.push(`/${projectId}/add-event`)}
+          backgroundColor='#F5F6FC'
+          width='20px'
+          borderRadius='10px'
+          height={height}
+        />
+        <Box
+          style={{ transition: 'height .2s ease-in-out' }}
+          position='absolute'
+          borderRadius='10px'
+          top={HEIGHT_OFFSET}
+          backgroundColor='#9CBD3B'
+          width='20px'
+          height={fillHeight}
+        />
+        <Grid
+          gridTemplateRows='repeat(auto-fit, minmax(min-content, 100px))'
+          position='relative'
+          width='100%'
+          top={HEIGHT_OFFSET}
+        >
           {events.map(
             ({ date, title, id, completed, commentCount, assetCount }, i) => {
               return (
                 <Event
                   key={id}
-                  y={HEIGHT_OFFSET + 100 * i}
                   date={date}
                   title={title}
                   completed={completed}
@@ -130,7 +136,7 @@ export default function Timeline({
               );
             }
           )}
-        </svg>
+        </Grid>
         <AddButton onClick={() => history.push(`/${projectId}/add-event`)} />
       </Grid>
       <Route path='/:id/add-event'>
