@@ -98,9 +98,7 @@ export default function Event({
           {title}
         </Text>
       </Grid>
-      <Grid
-        gridTemplateColumns='repeat(auto-fill, minmax(42px, 1fr))'
-        gap={2}
+      <Flex
         alignItems='center'
         left='120px'
         width='100%'
@@ -154,6 +152,7 @@ export default function Event({
               borderRadius='100px'
               borderColor='#E2EDF1'
               cursor='pointer'
+              ml={2}
             >
               <svg
                 x={8}
@@ -189,7 +188,7 @@ export default function Event({
             </Flex>
           </Tooltip>
         )}
-      </Grid>
+      </Flex>
     </Box>
   );
 }
