@@ -56,6 +56,7 @@ export default function Event({
       mr='auto'
       top='2px'
       px='16px'
+      overflow='hidden'
     >
       <Grid
         gridTemplateColumns='86px 18px auto'
