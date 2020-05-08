@@ -52,14 +52,14 @@ export default function Event({
       className='event-wrapper'
       style={{ cursor: 'pointer' }}
       position='relative'
-      ml='calc(50% - 116px)'
+      ml='calc(50% - 118px)'
+      mr='auto'
       top='2px'
       px='16px'
     >
       <Grid
-        gridTemplateColumns='84px 18px auto'
+        gridTemplateColumns='86px 18px auto'
         gap='8px'
-        width='100%'
         onClick={handleClick}
       >
         <Text
@@ -104,6 +104,7 @@ export default function Event({
         left='120px'
         width='100%'
         position='relative'
+        onClick={handleClick}
       >
         {hasComments && (
           <Tooltip

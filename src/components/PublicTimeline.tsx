@@ -86,7 +86,7 @@ export default function PublicTimeline() {
           height={fillHeight}
         />
         <Grid
-          gridTemplateRows='repeat(auto-fit, minmax(min-content, 100px))'
+          gridAutoRows='100px'
           position='relative'
           width='100%'
           top={HEIGHT_OFFSET}

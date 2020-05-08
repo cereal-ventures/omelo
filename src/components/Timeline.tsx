@@ -115,10 +115,10 @@ export default function Timeline({
           height={fillHeight}
         />
         <Grid
-          gridTemplateRows='repeat(auto-fit, minmax(min-content, 100px))'
           position='relative'
-          width='100%'
           top={HEIGHT_OFFSET}
+          gridAutoRows='100px'
+          width='100%'
         >
           {events.map(
             ({ date, title, id, completed, commentCount, assetCount }, i) => {
