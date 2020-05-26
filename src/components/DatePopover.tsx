@@ -20,6 +20,7 @@ export default function DatePopover({
   onChange: (date: Date) => void;
 }) {
   const [localDate, setLocalDate] = useState(date);
+
   return (
     <Popover usePortal>
       {({ onClose }) => (
@@ -32,7 +33,7 @@ export default function DatePopover({
             >
               <Icon name='calendar' size='.85em' mr={2} />
               <Box as='span' color='black' fontWeight='semibold' fontSize='sm'>
-                {date.toLocaleDateString('en-US', {
+                {date.toLocaleDateString(navigator.languages[0] || 'en-US', {
                   day: 'numeric',
                   weekday: 'long',
                   month: 'short'
