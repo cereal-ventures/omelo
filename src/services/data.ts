@@ -246,7 +246,7 @@ export function addEvent({
 }: {
   projectId: string;
   title: string;
-  date: string;
+  date: Date;
   completed: boolean;
   isDisabled: boolean;
 }) {
@@ -272,7 +272,7 @@ export function addEvent({
 
   batch.set(eventsRef, {
     title,
-    date: fromDate(new Date(date)),
+    date: fromDate(date),
     completed,
     isDisabled
   });
