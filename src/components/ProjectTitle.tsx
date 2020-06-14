@@ -36,6 +36,7 @@ export default function ProjectTitle({
       width={{ xs: '100%', md: 'calc(100% - 275px)' }}
       top='0px'
       p={8}
+      zIndex={2}
     >
       <Flex alignItems='center'>
         <Button
