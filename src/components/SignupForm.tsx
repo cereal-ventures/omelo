@@ -111,7 +111,7 @@ export default function SignupForm() {
         Let's get you powered up
       </Heading>
       <Heading as='h6' size='sm' fontWeight='light' textAlign='center' my='2'>
-        Unlimited project timelines, for $9/month
+        Join our beta program today
       </Heading>
       <FormControl mt={8}>
         <GoogleAuthButton label='Sign up with Google' />
