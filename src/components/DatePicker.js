@@ -35,8 +35,8 @@ const DatepickerContext = createContext({
 
 function Month({ year, month, firstDayOfWeek, nextMonth, prevMonth }) {
   const { days, weekdayLabels, monthLabel } = useMonth({
-    monthLabelFormat: date =>
-      date.toLocaleDateString('en-US', {
+    monthLabelFormat: (date) =>
+      date.toLocaleDateString(navigator.languages[0] || 'en-US', {
         month: 'short',
         year: 'numeric'
       }),
@@ -78,7 +78,7 @@ function Month({ year, month, firstDayOfWeek, nextMonth, prevMonth }) {
         textTransform='uppercase'
         justifyContent='center'
       >
-        {weekdayLabels.map(dayLabel => (
+        {weekdayLabels.map((dayLabel) => (
           <FormLabel
             p={0}
             fontSize='xs'
@@ -238,7 +238,7 @@ function Datepicker({ onChange, date }) {
         gap={8}
         borderRadius={4}
       >
-        {activeMonths.map(month => (
+        {activeMonths.map((month) => (
           <Month
             nextMonth={goToNextMonths}
             prevMonth={goToPreviousMonths}

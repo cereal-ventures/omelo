@@ -42,9 +42,7 @@ export default function AddEventPanel({ isOpen, projectId }: Props) {
       addEvent({
         projectId,
         title,
-        date: date.toLocaleDateString('en-US', {
-          timeZone: 'UTC'
-        }),
+        date,
         completed,
         isDisabled: false
       });

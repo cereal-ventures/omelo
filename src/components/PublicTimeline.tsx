@@ -67,28 +67,36 @@ export default function PublicTimeline() {
           <Heading size='sm'>{project.name}</Heading>
         </Box>
 
-        <svg overflow='visible' width={20} height={height}>
-          <rect
-            className='timeline'
-            fill='#F5F6FC'
-            width='100%'
-            rx='10'
-            height={height}
-          />
-          <rect
-            rx='10'
-            y={190}
-            fill='#9CBD3B'
-            width='100%'
-            height={fillHeight}
-          />
+        <Box
+          style={{ cursor: 'pointer' }}
+          className='timeline'
+          position='absolute'
+          backgroundColor='#F5F6FC'
+          width='20px'
+          borderRadius='10px'
+          height={height}
+        />
+        <Box
+          style={{ transition: 'height .2s ease-in-out' }}
+          position='absolute'
+          borderRadius='10px'
+          top={HEIGHT_OFFSET}
+          backgroundColor='#9CBD3B'
+          width='20px'
+          height={fillHeight}
+        />
+        <Grid
+          gridAutoRows='100px'
+          position='relative'
+          width='100%'
+          top={HEIGHT_OFFSET}
+        >
           {events.map(
             ({ date, title, id, completed, assetCount, commentCount }, i) => {
               return (
                 <Event
                   key={id}
                   completed={completed}
-                  y={HEIGHT_OFFSET + 100 * i}
                   date={date}
                   title={title}
                   assetCount={assetCount}
@@ -101,7 +109,7 @@ export default function PublicTimeline() {
               );
             }
           )}
-        </svg>
+        </Grid>
       </Grid>
       <Route path='/public/:id/event/:event'>
         {({ match }) => {

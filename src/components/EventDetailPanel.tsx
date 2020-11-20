@@ -192,7 +192,7 @@ export default function EventDetailPanel({
     <Heading fontWeight='semibold' as='h4' size='sm' color='brand.secondary'>
       <Icon position='relative' name='calendar' marginRight={2} top='-1px' />
       <Box as='span' color='black'>
-        {new Date(date).toLocaleDateString('en-US')}
+        {new Date(date).toLocaleDateString(navigator.languages[0] || 'en-US')}
       </Box>
     </Heading>
   );

@@ -14,9 +14,12 @@ export default function DateInput({
   date: Date;
 }) {
   const onSubmit = ({ date: updatedDate }: { [x: string]: any }) => {
-    const newDate = new Date(updatedDate).toLocaleDateString('en-US', {
-      timeZone: 'UTC'
-    });
+    const newDate = new Date(updatedDate).toLocaleDateString(
+      navigator.languages[0] || 'en-US',
+      {
+        timeZone: 'UTC'
+      }
+    );
     updateEvent({
       type: activityTypes.UPDATE_DATE,
       projectId,
@@ -29,7 +32,7 @@ export default function DateInput({
   };
   return (
     <FormControl>
-      <DatePopover date={date} onChange={date => onSubmit({ date })} />
+      <DatePopover date={date} onChange={(date) => onSubmit({ date })} />
     </FormControl>
   );
 }

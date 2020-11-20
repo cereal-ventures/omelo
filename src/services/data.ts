@@ -17,7 +17,7 @@ const { FieldValue } = firebase.firestore;
 
 export function getProjectById(projectId: string, cb: any) {
   return db.doc(`/projects/${projectId}`).onSnapshot(
-    snapshot => {
+    (snapshot) => {
       const data = {
         id: snapshot.id,
         ...snapshot.data()
@@ -34,8 +34,8 @@ export function getProjects(userEmail: UserEmail, cb: any) {
   return db
     .collection('projects')
     .where('users', 'array-contains', userEmail)
-    .onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => {
+    .onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data()
@@ -82,7 +82,7 @@ export async function getProjectPermissions(projectId: string) {
   return db
     .doc(`/permissions/${user?.uid}`)
     .get()
-    .then(snap => {
+    .then((snap) => {
       const userPermission = snap.data() || {};
       return userPermission[projectId];
     });
@@ -222,8 +222,8 @@ export function getEventsById(id: string, cb: any) {
     .collection(`/projects/${id}/events`)
     .orderBy('date')
     .onSnapshot(
-      snapshot => {
-        const data = snapshot.docs.map(doc => {
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => {
           const { date, ...rest } = doc.data();
           return {
             id: doc.id,
@@ -233,7 +233,7 @@ export function getEventsById(id: string, cb: any) {
         });
         cb(data);
       },
-      e => console.log(e)
+      (e) => console.log(e)
     );
 }
 
@@ -246,7 +246,7 @@ export function addEvent({
 }: {
   projectId: string;
   title: string;
-  date: string;
+  date: Date;
   completed: boolean;
   isDisabled: boolean;
 }) {
@@ -272,7 +272,7 @@ export function addEvent({
 
   batch.set(eventsRef, {
     title,
-    date: fromDate(new Date(date)),
+    date: fromDate(date),
     completed,
     isDisabled
   });
@@ -302,14 +302,20 @@ export function updateEvent({
   if (type === activityTypes.UPDATE_DATE) {
     const date = new Date(payload.date);
     payload.date = fromDate(date);
-    payload.newDate = date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
-    });
-    payload.prevDate = payload.prevDate.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
-    });
+    payload.newDate = date.toLocaleDateString(
+      navigator.languages[0] || 'en-US',
+      {
+        month: 'short',
+        day: 'numeric'
+      }
+    );
+    payload.prevDate = payload.prevDate.toLocaleDateString(
+      navigator.languages[0] || 'en-US',
+      {
+        month: 'short',
+        day: 'numeric'
+      }
+    );
   }
 
   let data: { [x: string]: any } = {
@@ -430,8 +436,8 @@ export function getAssetsByEvent(
   return db
     .collection(`/projects/${projectId}/assets`)
     .where('eventId', '==', eventId || '')
-    .onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => {
+    .onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data()
@@ -494,8 +500,8 @@ export function getEventActivity(
   return db
     .collection(`/projects/${projectId}/events/${eventId}/activity`)
     .orderBy('date', 'desc')
-    .onSnapshot(snapshot => {
-      const data = snapshot.docs.map(doc => {
+    .onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => {
         const data = doc.data();
         data.date = data.date.toDate();
         return {
