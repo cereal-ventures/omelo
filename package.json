@@ -18,7 +18,7 @@
     "@types/uuid": "^3.4.9",
     "date-fns": "^2.16.1",
     "emotion-theming": "^10.0.27",
-    "firebase": "^7.24.0",
+    "firebase": "^10.9.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-hook-form": "^4.10.2",
